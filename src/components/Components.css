@@ -1,0 +1,34 @@
+.eit-day-picker-container {
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 5px;
+  margin-top: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  background: var(--eit-color-bg, #fff);
+  padding: 10px;
+}
+
+.eit-day-picker {
+  border: 1px solid var(--eit-color-border);
+}
+.eit-day-picker-day:hover:not(.eit-day-picker-today, .eit-day-picker-disabled, .eit-day-picker-selected) {
+  border-radius: 10px;
+  background-color: var(--eit-color-bg-soft);
+}
+
+.eit-day-picker-today:not(.eit-day-picker-selected) {
+  border-radius: 10px;
+  background-color: lch(from var(--eit-color-secondary) l c h / 0.15);
+}
+
+.eit-day-picker-selected {
+  color: var(--eit-color-white);
+  border-radius: 10px;
+  background-color: var(--eit-color-secondary);
+}
+
+.eit-day-picker-disabled {
+  opacity: 0.4;
+}

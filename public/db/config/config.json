@@ -1,0 +1,44 @@
+{
+	"config": {
+		"darkTheme": false
+	},
+	"menu": {
+		"main": [
+			{
+				"id": 110,
+				"name": "Home",
+				"icon": "faHouse",
+				"url": "/",
+				"requiresPermissions": false,
+				"module": "Home",
+				"submenu": []
+			}
+		],
+		"admin": [
+			{
+				"id": 210,
+				"name": "Usuarios",
+				"icon": "fa-solid fa-circle-user",
+				"url": "",
+				"requiresPermissions": true,
+				"module": "Users",
+				"submenu": [
+					{
+						"id": 211,
+						"name": "Lista de usuarios",
+						"url": "/users",
+						"requiresPermissions": true,
+						"module": "Users"
+					},
+					{
+						"id": 212,
+						"name": "Roles de usuario",
+						"url": "/roles",
+						"requiresPermissions": true,
+						"module": "Roles"
+					}
+				]
+			}
+		]
+	}
+}
