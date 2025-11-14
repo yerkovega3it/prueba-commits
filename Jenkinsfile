@@ -65,7 +65,7 @@ pipeline {
                         env.AWS_REGION  = 'us-east-1'
                         env.BUCKET_NAME = 'dev-amsa-sigadash-frontend.3itapp.com'
                         env.CLOUDFRONT_DISTRIBUTION_ID = 'E1ITZKC1KOCBQB'
-                        env.VITE_API_URL = 'https://amsa-sgh-api.3itapp.com/api'
+                        env.VITE_API_URL = 'https://dev-amsa-sigadash-backend.3itapp.com/api'
                         env.VITE_ENVIROMENT = 'Desarrollo'
                         env.DEPLOY_ALLOWED = 'true'
                     } else if (env.IS_RELEASE_BRANCH == 'true') {
