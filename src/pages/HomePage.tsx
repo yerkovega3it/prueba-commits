@@ -75,16 +75,16 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="w-full min-h-screen p-2 sm:p-4 bg-bg-soft text-text-default overflow-y-auto overflow-x-hidden">
-        <div className="flex flex-col gap-2 sm:gap-4 lg:h-[calc(100vh-2rem)]">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-2 sm:py-4 bg-bg-soft text-text-default">
+        <div className="flex flex-col gap-2 sm:gap-4 max-w-[1920px] mx-auto pb-4">
           {/* Header */}
-          <div className="border border-border p-2 sm:p-3 lg:p-4 rounded-xl shadow-md bg-white shrink-0">
+          <div className="border border-border p-3 sm:p-4 lg:p-5 rounded-xl shadow-md bg-white shrink-0">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
               <div>
                 <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-primary">
-                  CENTRO DE MANDO OPERATIVO MINERO
+                  Centro de Mando Operativo Minero
                 </h1>
-                <p className="text-xs sm:text-sm text-text mt-1">
+                <p className="text-xs sm:text-sm md:text-base text-text mt-1 font-medium">
                   Estado de Faena (Flujo)
                 </p>
               </div>
@@ -107,23 +107,25 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-
           {/* Top Section */}
-          <div className="grid grid-cols-1 md:grid-cols-7 gap-2 sm:gap-4 min-h-0 lg:flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-7 gap-3 sm:gap-4">
             {/* Personas en Faena */}
-            <div className="md:col-span-2 border border-border p-2 sm:p-3 lg:p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
-              <h2 className="text-sm sm:text-base font-semibold mb-1 sm:mb-2 flex items-center gap-1 sm:gap-2 text-text-default shrink-0">
-                <FontAwesomeIcon icon={faUserClock} className="text-blue" />{" "}
+            <div className="lg:col-span-2 border border-border p-3 sm:p-4 lg:p-6 rounded-xl bg-white transition-shadow duration-300 flex flex-col justify-between">
+              <h2 className="text-sm sm:text-base lg:text-xl font-semibold mb-2 flex items-center gap-2 text-text-default shrink-0">
+                <FontAwesomeIcon
+                  icon={faUserClock}
+                  className="text-blue text-sm sm:text-base lg:text-lg"
+                />{" "}
                 Personas en Faena (Tiempo Real)
               </h2>
-              <div className="text-center mt-2 sm:mt-3 shrink-0">
-                <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue mb-1 sm:mb-2">
+              <div className="text-center shrink-0">
+                <p className="text-3xl sm:text-4xl lg:text-6xl font-bold text-blue mb-1">
                   <AnimatedCounter value={peopleOnSite} />
                 </p>
-                <p className="text-xs sm:text-sm text-text-soft mb-1">
+                <p className="text-xs text-text-soft mb-1">
                   Capacidad Máx: {maxCapacity.toLocaleString()}
                 </p>
-                <div className="mt-1 sm:mt-2 mb-2 sm:mb-3">
+                <div className="mt-1 mb-2">
                   <div className="flex items-center justify-center gap-1 sm:gap-2">
                     <div className="bg-bg-mute h-1.5 sm:h-2 rounded-full flex-1 overflow-hidden">
                       <div
@@ -131,105 +133,120 @@ export default function HomePage() {
                         style={{ width: `${occupancyPercentage}%` }}
                       />
                     </div>
-                    <span className="text-base sm:text-lg font-bold text-blue">
+                    <span className="text-sm sm:text-base lg:text-lg font-bold text-blue">
                       {occupancyPercentage}%
                     </span>
                   </div>
                   <p className="text-xs text-text mt-1">Ocupación</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 sm:gap-3 shrink-0">
-                <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft text-center">
+              <div className="grid grid-cols-2 gap-2 shrink-0">
+                <div className="border border-border p-2 rounded-lg bg-bg-soft flex items-center gap-1.5 justify-center">
                   <FontAwesomeIcon
                     icon={faArrowRightToBracket}
-                    className="text-green text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
+                    className="text-green text-xl sm:text-2xl lg:text-4xl"
                   />
-                  <p className="text-2xl sm:text-3xl font-bold text-green">
-                    <AnimatedCounter value={entryPerHour} />
-                  </p>
-                  <p className="text-xs text-text mt-1">/ Hr Entrada</p>
+                  <div className="text-left">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green leading-none">
+                      <AnimatedCounter value={entryPerHour} />
+                    </p>
+                    <p className="text-xs text-text mt-1">/ Hr Entrada</p>
+                  </div>
                 </div>
-                <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft text-center">
+                <div className="border border-border p-2 rounded-lg bg-bg-soft flex items-center gap-1.5 justify-center">
                   <FontAwesomeIcon
                     icon={faArrowRightFromBracket}
-                    className="text-red text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
+                    className="text-red text-xl sm:text-2xl lg:text-4xl"
                   />
-                  <p className="text-2xl sm:text-3xl font-bold text-red">
-                    <AnimatedCounter value={exitPerHour} />
-                  </p>
-                  <p className="text-xs text-text mt-1">/ Hr Salida</p>
+                  <div className="text-left">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-red leading-none">
+                      <AnimatedCounter value={exitPerHour} />
+                    </p>
+                    <p className="text-xs text-text mt-1">/ Hr Salida</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Alertas */}
-            <div className="md:col-span-3 border-2 border-red p-2 sm:p-3 lg:p-6 rounded-xl shadow-lg shadow-red/30 bg-white hover:shadow-xl hover:shadow-red/40 transition-shadow duration-300 space-y-1 sm:space-y-2 flex flex-col justify-between">
-              <h2 className="text-sm sm:text-base font-semibold text-red flex items-center gap-1 sm:gap-2 shrink-0">
+            <div className="lg:col-span-3 border-2 border-red p-3 sm:p-4 lg:p-6 rounded-xl shadow-lg shadow-red/30 bg-white hover:shadow-xl hover:shadow-red/40 transition-shadow duration-300 flex flex-col gap-2">
+              <h2 className="text-sm sm:text-base lg:text-xl font-semibold text-red flex items-center gap-2 shrink-0">
                 <FontAwesomeIcon
                   icon={faTriangleExclamation}
-                  className="animate-pulse"
+                  className="animate-pulse text-sm sm:text-base lg:text-lg"
                 />
                 Alerta Operativa Crítica
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 shrink-0">
-                <div className="border border-red/50 p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-red/20 transition-shadow text-center">
-                  <FontAwesomeIcon
-                    icon={faCalendarDay}
-                    className="text-red text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
-                  />
-                  <p className="text-2xl sm:text-3xl font-bold text-text-default">
-                    <AnimatedCounter value={3} />
-                  </p>
-                  <p className="text-xs text-text mt-1 line-clamp-2">
-                    Jornadas No Retiradas
-                  </p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="border border-red/50 p-2 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-red/20 transition-shadow flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 sm:w-10 lg:w-12 shrink-0">
+                    <FontAwesomeIcon
+                      icon={faCalendarDay}
+                      className="text-red text-xl sm:text-2xl lg:text-3xl"
+                    />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-text-default leading-none">
+                      <AnimatedCounter value={3} />
+                    </p>
+                    <p className="text-xs text-text mt-1">
+                      Jornadas No Retiradas
+                    </p>
+                  </div>
                 </div>
-                <div className="border border-orange/50 p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-orange/20 transition-shadow text-center">
-                  <FontAwesomeIcon
-                    icon={faClipboardCheck}
-                    className="text-orange text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
-                  />
-                  <p className="text-2xl sm:text-3xl font-bold text-text-default">
-                    <AnimatedCounter value={30} />
-                  </p>
-                  <p className="text-xs text-text mt-1 line-clamp-2">
-                    Exámenes Vencidos
-                  </p>
+                <div className="border border-orange/50 p-2 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-orange/20 transition-shadow flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 sm:w-10 lg:w-12 shrink-0">
+                    <FontAwesomeIcon
+                      icon={faClipboardCheck}
+                      className="text-orange text-xl sm:text-2xl lg:text-3xl"
+                    />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-text-default leading-none">
+                      <AnimatedCounter value={30} />
+                    </p>
+                    <p className="text-xs text-text mt-1">Exámenes Vencidos</p>
+                  </div>
                 </div>
-                <div className="border border-orange/50 p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-orange/20 transition-shadow text-center">
-                  <FontAwesomeIcon
-                    icon={faIdCard}
-                    className="text-orange text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
-                  />
-                  <p className="text-2xl sm:text-3xl font-bold text-text-default">
-                    <AnimatedCounter value={7} />
-                  </p>
-                  <p className="text-xs text-text mt-1 line-clamp-2">
-                    Licencias Vencidas
-                  </p>
+                <div className="border border-orange/50 p-2 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-orange/20 transition-shadow flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 sm:w-10 lg:w-12 shrink-0">
+                    <FontAwesomeIcon
+                      icon={faIdCard}
+                      className="text-orange text-xl sm:text-2xl lg:text-3xl"
+                    />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-text-default leading-none">
+                      <AnimatedCounter value={7} />
+                    </p>
+                    <p className="text-xs text-text mt-1">Licencias Vencidas</p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="border border-yellow/50 p-2 sm:p-3 md:p-4 rounded-lg text-center bg-bg-soft hover:shadow-md hover:shadow-yellow/20 transition-shadow shrink-0">
-                <FontAwesomeIcon
-                  icon={faCarSide}
-                  className="text-yellow text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2"
-                />
-                <p className="text-2xl sm:text-3xl font-bold text-text-default">
-                  <AnimatedCounter value={5} />
-                </p>
-                <p className="text-xs sm:text-sm text-text mt-1 line-clamp-2">
-                  Vehículos No Acreditados
-                </p>
+                <div className="border border-yellow/50 p-2 rounded-lg bg-bg-soft hover:shadow-md hover:shadow-yellow/20 transition-shadow flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 sm:w-10 lg:w-12 shrink-0">
+                    <FontAwesomeIcon
+                      icon={faCarSide}
+                      className="text-yellow text-xl sm:text-2xl lg:text-3xl"
+                    />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-text-default leading-none">
+                      <AnimatedCounter value={5} />
+                    </p>
+                    <p className="text-xs sm:text-sm text-text mt-1">
+                      Vehículos No Acreditados
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Control de Acceso */}
-            <div className="md:col-span-2 border border-border p-2 sm:p-3 lg:p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 space-y-1 sm:space-y-2 flex flex-col justify-between">
-              <h2 className="text-sm sm:text-base font-semibold text-text-default shrink-0">
+            <div className="lg:col-span-2 border border-border p-3 sm:p-4 lg:p-6 rounded-xl bg-white transition-shadow duration-300 flex flex-col gap-3">
+              <h2 className="text-base sm:text-lg lg:text-xl font-semibold text-text-default">
                 Control de Acceso
               </h2>
-              <div className="border border-border p-2 sm:p-3 md:p-4 rounded-lg bg-bg-soft hover:shadow-md transition-shadow text-center shrink-0">
+              <div className="border border-border p-3 md:p-4 rounded-lg bg-bg-soft transition-shadow text-center">
                 <p className="text-3xl sm:text-4xl font-bold text-primary">
                   <AnimatedCounter value={45} />
                 </p>
@@ -241,7 +258,7 @@ export default function HomePage() {
                   Pases Aprobados (Hoy)
                 </span>
               </div>
-              <div className="border border-border p-2 sm:p-3 md:p-4 rounded-lg bg-bg-soft hover:shadow-md transition-shadow text-center shrink-0">
+              <div className="border border-border p-3 md:p-4 rounded-lg bg-bg-soft transition-shadow text-center">
                 <p className="text-3xl sm:text-4xl font-bold text-primary">
                   <AnimatedCounter value={9} />
                 </p>
@@ -255,51 +272,49 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 min-h-0 lg:flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
             {/* Matriz de Riesgo */}
-            <div className="border border-border p-2 sm:p-3 lg:p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden justify-between">
-              <h2 className="text-sm sm:text-base font-semibold text-text-default mb-1 sm:mb-2">
+            <div className="border border-border p-2 sm:p-3 lg:p-4 rounded-xl bg-white transition-shadow duration-300 flex flex-col overflow-hidden gap-2">
+              <h2 className="text-sm sm:text-base lg:text-xl font-semibold text-text-default">
                 Matriz de Riesgo de Cumplimiento
               </h2>
 
-              <div className="grid grid-cols-2 gap-2 sm:gap-4 shrink-0">
-                <div className="border border-border p-2 sm:p-3 md:p-4 rounded-lg flex flex-col items-center justify-center text-center">
-                  <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-red">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                <div className="border border-border p-2 sm:p-3 rounded-lg flex flex-col items-center justify-center text-center">
+                  <p className="text-3xl sm:text-4xl lg:text-6xl font-bold text-red">
                     <AnimatedCounter value={37} />
                   </p>
-                  <p className="text-xs sm:text-sm text-text-soft">
+                  <p className="text-xs text-text-soft mt-1">
                     Personal Inhabilitado
                   </p>
                 </div>
 
-                <div className="border border-border p-2 sm:p-3 md:p-4 rounded-lg flex flex-col items-center justify-center text-center">
+                <div className="border border-border p-2 sm:p-3 rounded-lg flex flex-col items-center justify-center text-center">
                   <FontAwesomeIcon
                     icon={faShieldAlt}
-                    className="text-2xl sm:text-3xl text-text-soft mb-1 sm:mb-2"
+                    className="text-xl sm:text-2xl text-text-soft mb-1"
                   />
-                  <p className="text-xs sm:text-sm text-text mb-1">
-                    Nivel de Riesgo
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold text-yellow mb-2 sm:mb-3">
+                  <p className="text-xs text-text mb-1">Nivel de Riesgo</p>
+                  <p className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow mb-1 sm:mb-2">
                     Medio
                   </p>
                   <p className="text-xs text-text-soft mb-1">
                     Próxima sugerencia predictiva
                   </p>
-                  <p className="text-xs sm:text-sm font-semibold text-green">
+                  <p className="text-xs font-semibold text-green">
                     Renovar 12 licencias en 7 días
                   </p>
                 </div>
               </div>
 
-              <div className="bg-bg-soft p-2 sm:p-3 rounded-lg shrink-0">
-                <p className="text-xs sm:text-sm text-text-default">
+              <div className="bg-bg-soft p-2 sm:p-3 rounded-lg">
+                <p className="text-xs text-text-default">
                   Exámenes Vencidos (30 días):{" "}
                   <span className="font-semibold">
                     <AnimatedCounter value={30} />
                   </span>
                 </p>
-                <div className="bg-bg-mute h-2 sm:h-3 rounded-full w-full mt-1 sm:mt-2 overflow-hidden">
+                <div className="bg-bg-mute h-1.5 sm:h-2 rounded-full w-full mt-1 overflow-hidden">
                   <div
                     className="bg-linear-to-r from-red to-red-light h-full rounded-full"
                     style={{ width: "75%" }}
@@ -307,14 +322,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-bg-soft p-2 sm:p-3 rounded-lg shrink-0">
-                <p className="text-xs sm:text-sm text-text-default">
+              <div className="bg-bg-soft p-2 sm:p-3 rounded-lg">
+                <p className="text-xs text-text-default">
                   Licencias Operativas Vencidas:{" "}
                   <span className="font-semibold">
                     <AnimatedCounter value={7} />
                   </span>
                 </p>
-                <div className="bg-bg-mute h-2 sm:h-3 rounded-full w-full mt-1 sm:mt-2 overflow-hidden">
+                <div className="bg-bg-mute h-1.5 sm:h-2 rounded-full w-full mt-1 overflow-hidden">
                   <div
                     className="bg-linear-to-r from-orange to-yellow h-full rounded-full"
                     style={{ width: "35%" }}
@@ -324,12 +339,12 @@ export default function HomePage() {
             </div>
 
             {/* Índice de Performance */}
-            <div className="border border-border p-2 sm:p-3 lg:p-6 rounded-xl shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
-              <h2 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-text-default shrink-0">
+            <div className="border border-border p-2 sm:p-3 lg:p-4 rounded-xl bg-white transition-shadow duration-300 flex flex-col gap-2">
+              <h2 className="text-sm sm:text-base lg:text-xl font-semibold text-text-default">
                 Índice de Performance de Seguridad (ISP)
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 shrink-0">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
                 {/* Progress Circle */}
                 <div className="flex flex-col items-center justify-center bg-bg-soft p-3 sm:p-4 md:p-6 rounded-lg">
                   <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44">
@@ -371,7 +386,7 @@ export default function HomePage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue">
+                      <p className="text-xl sm:text-2xl lg:text-4xl font-bold text-blue">
                         {ispPercentage}%
                       </p>
                       <p className="text-xs text-text-soft mt-1">
@@ -381,8 +396,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md transition-shadow">
+                <div className="space-y-2">
+                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft transition-shadow">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1 sm:gap-2">
                         <span
@@ -393,12 +408,12 @@ export default function HomePage() {
                           A1. Alertas de Máximo Riesgo
                         </p>
                       </div>
-                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-text-default shrink-0">
+                      <span className="text-base sm:text-lg lg:text-2xl font-bold text-text-default shrink-0">
                         <AnimatedCounter value={7} />
                       </span>
                     </div>
                   </div>
-                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md transition-shadow">
+                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft transition-shadow">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1 sm:gap-2">
                         <span
@@ -409,12 +424,12 @@ export default function HomePage() {
                           A2. Inhabilitación Documental
                         </p>
                       </div>
-                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-text-default shrink-0">
+                      <span className="text-base sm:text-lg lg:text-2xl font-bold text-text-default shrink-0">
                         <AnimatedCounter value={37} />
                       </span>
                     </div>
                   </div>
-                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft hover:shadow-md transition-shadow">
+                  <div className="border border-border p-2 sm:p-3 rounded-lg bg-bg-soft transition-shadow">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1 sm:gap-2">
                         <span
@@ -425,7 +440,7 @@ export default function HomePage() {
                           A3. Vehículos No Acreditados
                         </p>
                       </div>
-                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-text-default shrink-0">
+                      <span className="text-base sm:text-lg lg:text-2xl font-bold text-text-default shrink-0">
                         <AnimatedCounter value={5} />
                       </span>
                     </div>
