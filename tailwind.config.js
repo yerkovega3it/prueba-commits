@@ -7,32 +7,62 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary colors
-        primary: 'var(--color-primary, #3b82f6)',
+        // Primary colors - NEON
+        primary: 'var(--color-primary, #00ffff)',
         
-        // Blue shades
-        blue: 'var(--color-blue, #3b82f6)',
-        'blue-light': 'var(--color-blue-light, #60a5fa)',
+        // Blue shades - NEON CYAN
+        blue: 'var(--color-blue, #00ffff)',
+        'blue-light': 'var(--color-blue-light, #66ffff)',
         
-        // Text colors
-        text: 'var(--color-text, #6b7280)',
-        'text-default': 'var(--color-text-default, #1f2937)',
-        'text-soft': 'var(--color-text-soft, #9ca3af)',
+        // Text colors - HIGH CONTRAST
+        text: 'var(--color-text, #ffffff)',
+        'text-default': 'var(--color-text-default, #ffffff)',
+        'text-soft': 'var(--color-text-soft, #aaaaaa)',
         
-        // Background colors
-        'bg-soft': 'var(--color-bg-soft, #f9fafb)',
-        'bg-mute': 'var(--color-bg-mute, #e5e7eb)',
+        // Background colors - PURE BLACK
+        'bg-soft': 'var(--color-bg-soft, #000000)',
+        'bg-mute': 'var(--color-bg-mute, #0a0a0a)',
         
-        // Border colors
-        border: 'var(--color-border, #d1d5db)',
-        'border-default': 'var(--color-border-default, #d1d5db)',
+        // Border colors - NEON
+        border: 'var(--color-border, #00ffff)',
+        'border-default': 'var(--color-border-default, #00ffff)',
         
-        // Status colors
-        green: 'var(--color-green, #10b981)',
-        red: 'var(--color-red, #ef4444)',
-        'red-light': 'var(--color-red-light, #f87171)',
-        orange: 'var(--color-orange, #f97316)',
-        yellow: 'var(--color-yellow, #eab308)',
+        // Status colors - NEON
+        green: 'var(--color-green, #00ff88)',
+        red: 'var(--color-red, #ff0055)',
+        'red-light': 'var(--color-red-light, #ff3377)',
+        orange: 'var(--color-orange, #ff9900)',
+        yellow: 'var(--color-yellow, #ffff00)',
+        
+        // Additional neon colors
+        'neon-cyan': '#00ffff',
+        'neon-magenta': '#ff00ff',
+        'neon-green': '#00ff88',
+        'neon-pink': '#ff0055',
+        'neon-yellow': '#ffff00',
+        'neon-orange': '#ff9900',
+      },
+      animation: {
+        'neon-pulse': 'neon-pulse 1.5s ease-in-out infinite',
+        'neon-glow': 'neon-glow 2s ease-in-out infinite',
+      },
+      keyframes: {
+        'neon-pulse': {
+          '0%, 100%': {
+            filter: 'drop-shadow(0 0 5px currentColor) drop-shadow(0 0 15px currentColor)',
+          },
+          '50%': {
+            filter: 'drop-shadow(0 0 10px currentColor) drop-shadow(0 0 30px currentColor)',
+          },
+        },
+        'neon-glow': {
+          '0%, 100%': {
+            boxShadow: '0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor',
+          },
+          '50%': {
+            boxShadow: '0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor',
+          },
+        },
       },
     },
   },
