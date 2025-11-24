@@ -14,8 +14,7 @@ function SecurityPerformance() {
       <h2 className="text-sm sm:text-base lg:text-xl font-semibold text-neon-cyan">
         Índice de Performance de Seguridad (ISP)
       </h2>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 items-center">
         {/* Progress Circle */}
         <div className="flex flex-col items-center justify-center p-3 sm:p-4 md:p-6">
           <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44">
@@ -62,7 +61,7 @@ function SecurityPerformance() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 pr-4">
           <div
             className="border-2 border-neon-pink p-2 sm:p-3 rounded-lg bg-gray-900 transition-shadow"
             style={{
