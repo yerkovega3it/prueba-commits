@@ -1,24 +1,23 @@
-import { useState, useMemo, useRef } from "react"
-import { Footer, FaIcon } from '@/components'
-import { icons } from '@/components/icons'
-import { useStoreTheme, useStoreAuth } from '@/stores'
-import { loginAction } from '@/actions'
-import { useShallow } from 'zustand/react/shallow'
-import { useNavigate } from "react-router-dom"
-import { 
+import { useState, useMemo, useRef } from "react";
+import { Footer, FaIcon } from "@/components";
+import { icons } from "@/components/icons";
+import { useStoreTheme, useStoreAuth } from "@/stores";
+import { useShallow } from "zustand/react/shallow";
+import { useNavigate } from "react-router-dom";
+import {
   utils,
   //Components
   Button,
   Alert,
-  Input
-} from 'uikit-3it-react'
+  Input,
+} from "uikit-3it-react";
 
 interface LoginFormState {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 export default function LoginPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   //Store auth
   const {
     darkTheme,
@@ -26,7 +25,7 @@ export default function LoginPage() {
     setLoginError,
     loginSubmitting,
     messageAlert,
-    setMessageAlert
+    setMessageAlert,
     //login
   } = useStoreAuth(
     useShallow((state) => ({
@@ -35,89 +34,84 @@ export default function LoginPage() {
       setLoginError: state.setLoginError,
       loginSubmitting: state.loginSubmitting,
       messageAlert: state.messageAlert,
-      setMessageAlert: state.setMessageAlert
+      setMessageAlert: state.setMessageAlert,
     }))
-  )
+  );
   //Store theme
-  const logotipoState = useStoreTheme(state => state.logotipo)
+  const logotipoState = useStoreTheme((state) => state.logotipo);
 
   const { logotipo } = utils.createLogos(
     { config: { darkTheme } },
     { logotipo: logotipoState }
-  )
+  );
 
   //States
-  const rememberEmail = localStorage.getItem('rememberEmail') || ''
-  const [form, setForm] = useState<LoginFormState>({ email: rememberEmail, password: '' })
-  const [showPassword, setShowPassword] = useState(false)
-  const [remindMe, setRemindMe] = useState<boolean>(rememberEmail !== '')
+  const rememberEmail = localStorage.getItem("rememberEmail") || "";
+  const [form, setForm] = useState<LoginFormState>({
+    email: rememberEmail,
+    password: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [remindMe, setRemindMe] = useState<boolean>(rememberEmail !== "");
 
-  const formRef = useRef<HTMLFormElement>(null)
+  const formRef = useRef<HTMLFormElement>(null);
 
   //Memos
-  const controlLoginAlert = useMemo(() => (loginError ? "show" : "hide"), [loginError])
+  const controlLoginAlert = useMemo(
+    () => (loginError ? "show" : "hide"),
+    [loginError]
+  );
   const controlIsValidForm = useMemo(
     () => Object.entries(form).every(([, value]) => value),
     [form]
-  )
+  );
   const handleEmailValue = (value: string) => {
-    setForm(prev => ({ ...prev, email: value.trim() }))
-  }
+    setForm((prev) => ({ ...prev, email: value.trim() }));
+  };
 
   const handlePasswordValue = (value: string) => {
-    setForm(prev => ({ ...prev, password: value.trim() }))
-  }
+    setForm((prev) => ({ ...prev, password: value.trim() }));
+  };
 
   const handleRecovery = () => {
-    console.log('recovery')
-	}
+    console.log("recovery");
+  };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (controlIsValidForm) {
-      const success = await loginAction({ email: form.email, password: form.password })
-      if (success) { navigate('/') }
-      setForm(prev => ({ ...prev, password: '' }))
+      navigate("/");
+      setForm((prev) => ({ ...prev, password: "" }));
       //Remember
-      if (remindMe) localStorage.setItem('rememberEmail', form.email)
-      else localStorage.removeItem('rememberEmail')
-    }
-    else {
-      setLoginError(true)
+      if (remindMe) localStorage.setItem("rememberEmail", form.email);
+      else localStorage.removeItem("rememberEmail");
+    } else {
+      setLoginError(true);
       setMessageAlert({
-        message: "Ingresa el <strong>usuario y contraseña</strong> para acceder.",
+        message:
+          "Ingresa el <strong>usuario y contraseña</strong> para acceder.",
         variant: "error",
         icon: icons.info,
-        iconClass: ""
-      })
+        iconClass: "",
+      });
     }
-  }
+  };
 
   return (
     <>
-      <section 
-        id="login" 
-        className="public-page"
-      >
-        <div
-          data-eit-mb="3"
-          data-eit-text-align='center'
-        >
-        {logotipo && (
-          <img 
-            src={logotipo}
-            className="public-page__logo"
-            alt="Logotipo corporativo"
-          />
-        )}
-          <h2 
-            data-eit-font-size="x7"
-            data-eit-color="text"
-            data-eit-my="0"
-          >
+      <section id="login" className="public-page">
+        <div data-eit-mb="3" data-eit-text-align="center">
+          {logotipo && (
+            <img
+              src={logotipo}
+              className="public-page__logo"
+              alt="Logotipo corporativo"
+            />
+          )}
+          <h2 data-eit-font-size="x7" data-eit-color="text" data-eit-my="0">
             Hola, <strong>inicia sesión</strong>
           </h2>
-          <h6 
+          <h6
             data-eit-font-size="x3"
             data-eit-font-weight="500"
             data-eit-font="primary"
@@ -134,7 +128,7 @@ export default function LoginPage() {
             icon={messageAlert.icon}
             message={messageAlert.message}
           />
-         <div data-eit-my="3">
+          <div data-eit-my="3">
             <Input
               type="text"
               floatLabel="Correo electrónico"
@@ -145,7 +139,7 @@ export default function LoginPage() {
             />
           </div>
 
-         <div data-eit-my="3">
+          <div data-eit-my="3">
             <Input
               type={showPassword ? "text" : "password"}
               floatLabel="Contraseña"
@@ -154,32 +148,28 @@ export default function LoginPage() {
               value={form.password}
               onValueChange={handlePasswordValue}
               rightSlot={
-                <a 
+                <a
                   onClick={() => setShowPassword(!showPassword)}
                   href="javascript:"
                   data-eit-color="text-soft"
                   data-eit-link
                 >
-                {showPassword && (
-                  <FaIcon name="eye"/>
-                )}
-                {!showPassword && (
-                  <FaIcon name="eyeSlash"/>
-                )}
-                </a> 
+                  {showPassword && <FaIcon name="eye" />}
+                  {!showPassword && <FaIcon name="eyeSlash" />}
+                </a>
               }
             />
           </div>
 
-          <div 
+          <div
             data-eit-mb="3"
             data-eit-display="flex"
             data-eit-justify="between"
             data-eit-align="center"
           >
             <label className="eit-checkbox">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 className="eit-checkbox__input"
                 checked={remindMe}
                 onChange={(e) => setRemindMe(e.currentTarget.checked)}
@@ -187,7 +177,7 @@ export default function LoginPage() {
               <span className="eit-checkbox__checkmark"></span>
               Recordarme
             </label>
-            <a 
+            <a
               href="javascript:"
               data-eit-font-size="x2"
               data-eit-color="secondary"
@@ -207,8 +197,8 @@ export default function LoginPage() {
             isDisabled={loginSubmitting}
             loading={loginSubmitting}
             onEmitEvent={handleLogin}
-          />  
-          <div 
+          />
+          <div
             data-eit-border="all"
             data-eit-border-color="default"
             data-eit-border-radius="x3"
@@ -218,16 +208,14 @@ export default function LoginPage() {
             data-eit-text-align="center"
             data-eit-mt="3"
           >
-            <p 
-              data-eit-color="text-soft"
-              data-eit-m="0"
-            >
-              <strong>Admin →</strong> user: <code>adminTest@3it.cl</code> pass: <code>admin2025</code>
+            <p data-eit-color="text-soft" data-eit-m="0">
+              <strong>Admin →</strong> user: <code>adminTest@3it.cl</code> pass:{" "}
+              <code>admin2025</code>
             </p>
           </div>
         </form>
       </section>
       <Footer />
     </>
-  )
+  );
 }
