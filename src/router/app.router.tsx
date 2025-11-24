@@ -19,7 +19,9 @@ import {
   ExamplesPage,
   ExamplesListPage,
   ExamplesFormPage,
+  LoginPage,
 } from "@/pages";
+import HomeIndexPage from "@/pages/index/HomeIndexPage";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <HomePage />,
+        element: <LoginPage />,
         handle: { breadcrumb: "Login" },
       },
     ],
@@ -115,6 +117,11 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/Home/Index/:jwtToken",
+    element: <HomeIndexPage />,
+    errorElement: <Navigate to="/" />,
   },
   { path: "*", element: <Navigate to="/" /> },
 ]);
