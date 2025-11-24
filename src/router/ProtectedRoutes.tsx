@@ -1,26 +1,19 @@
-import { Navigate } from 'react-router-dom'
-import { useStoreAuth } from '@/stores'
-import type { PropsWithChildren } from 'react'
-import { LayoutPrivateLoader } from '@/layouts'
+import { Navigate, useLocation } from "react-router-dom";
+import type { PropsWithChildren } from "react";
 
-export function AuthenticatedRoutes({children}: PropsWithChildren) {
-  const authStatus = useStoreAuth(state => state.authStatus)
- 
-  if(authStatus === 'checking') return <LayoutPrivateLoader />
-  if(authStatus === 'not-authenticated') return <Navigate to="/login" replace />
+export function AuthenticatedRoutes({ children }: PropsWithChildren) {
+  const { state } = useLocation();
 
-  return (
-    <>{children}</>
-  )
+  if (!state?.token) return <Navigate to="/login" replace />;
+
+  return <>{children}</>;
 }
 
-export function NotAuthenticatedRoutes({children}: PropsWithChildren) {
-  const authStatus = useStoreAuth(state => state.authStatus)
- 
-  if(authStatus === 'checking') return null
-  if(authStatus === 'authenticated') return <Navigate to="/" replace />
+export function NotAuthenticatedRoutes({ children }: PropsWithChildren) {
+  const { state } = useLocation();
 
-  return (
-    <>{children}</>
-  )
+  // If already authenticated (has token), redirect to home
+  if (state?.token) return <Navigate to="/" replace />;
+
+  return <>{children}</>;
 }

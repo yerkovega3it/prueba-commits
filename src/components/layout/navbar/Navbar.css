@@ -1,9 +1,0 @@
-.eit-navbar {
-  grid-area: eit-navbar;
-  padding: 15px 25px 0 25px;
-}
-
-.eit-navbar .btn-link.active {
-  color: lch(from var(--eit-color-primary) calc(l - 5) c h);
-  background-color: lch(from var(--eit-color-primary) l c h / 0.1);
-}

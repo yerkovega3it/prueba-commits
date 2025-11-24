@@ -1,45 +1,48 @@
-import { create } from 'zustand'
-import { devtools, subscribeWithSelector } from 'zustand/middleware'
+import { create } from "zustand";
+import { devtools, subscribeWithSelector } from "zustand/middleware";
 //Interface
-import type { AuthState } from '@/interfaces'
+import type { AuthState } from "@/interfaces";
 //Factories
-import { 
-  initialUserConfig, 
-  initialAlert, 
-  initialUserMenuSidebar 
-} from '@/factories'
+import {
+  initialUserConfig,
+  initialAlert,
+  initialUserMenuSidebar,
+} from "@/factories";
 
 export const useStoreAuth = create<AuthState>()(
-  devtools(subscribeWithSelector((set) => ({
-    authStatus: "checking",
-    user: null,
-    token: null,
-    
-    //Permissions
-    permissions: [],
+  devtools(
+    subscribeWithSelector((set) => ({
+      authStatus: "checking",
+      token: null,
 
-    //Configuration
-    config: JSON.parse(localStorage.getItem('config') || 'null') || { ...initialUserConfig },
- 
-    //Menu
-    menu: JSON.parse(localStorage.getItem('menu') || 'null') || { ...initialUserMenuSidebar },
-    sidebar: { toggleMobile: false, toggleCollapse: false },
+      //Permissions
+      permissions: [],
 
-    //Login
-    loginError: false,
-    loginSubmitting: false,
-    setLoginError: (value: boolean) => set({ loginError: value }),
-    setLoginSubmitting: (value: boolean) => set({ loginSubmitting: value }),
+      //Configuration
+      config: JSON.parse(localStorage.getItem("config") || "null") || {
+        ...initialUserConfig,
+      },
 
-    //Messages
-    messageAlert: { ...initialAlert },
-    setMessageAlert: (alert) => set(() => ({ messageAlert: alert })),
-    successMessage: null,
-    errorMessage: null,
+      //Menu
+      menu: JSON.parse(localStorage.getItem("menu") || "null") || {
+        ...initialUserMenuSidebar,
+      },
+      sidebar: { toggleMobile: false, toggleCollapse: false },
 
-    //Loading
-    loadingUser: false,
+      //Login
+      loginError: false,
+      loginSubmitting: false,
+      setLoginError: (value: boolean) => set({ loginError: value }),
+      setLoginSubmitting: (value: boolean) => set({ loginSubmitting: value }),
 
-    //Errors
-    errorBack: null,
-}))))
+      //Messages
+      messageAlert: { ...initialAlert },
+      setMessageAlert: (alert) => set(() => ({ messageAlert: alert })),
+      successMessage: null,
+      errorMessage: null,
+
+      //Errors
+      errorBack: null,
+    }))
+  )
+);
