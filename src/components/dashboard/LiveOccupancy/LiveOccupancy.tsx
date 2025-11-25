@@ -5,6 +5,7 @@ import {
   faArrowRightToBracket,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import CardTitle from "../shared/CardHeader";
 
 function LiveOccupancy() {
   const {
@@ -16,13 +17,11 @@ function LiveOccupancy() {
   } = useDashboardData();
   return (
     <div className="col-span-1 lg:col-span-2 p-6 rounded-xl bg-card flex flex-col gap-4 justify-around">
-      <h2 className="text-base font-semibold flex items-center gap-2">
-        <FontAwesomeIcon
-          icon={faClock}
-          className="text-sm sm:text-base lg:text-lg text-info"
-        />
-        Estado en faena
-      </h2>
+      <CardTitle
+        icon={faClock}
+        title="Estado en faena"
+        iconClassName="text-info"
+      />
       <div>
         <p className="text-6xl font-bold mb-1 text-center">{peopleOnSite}</p>
         <p className="text-lg text-white my-2 text-center">

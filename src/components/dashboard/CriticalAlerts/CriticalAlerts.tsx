@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDay,
   faCarSide,
@@ -8,6 +7,7 @@ import {
 import { faIdCard } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 import AlertCard from "./AlertCard";
+import CardTitle from "../shared/CardHeader";
 
 function CriticalAlerts() {
   const [withDataMode, setWithDataMode] = useState<boolean>(true);
@@ -23,13 +23,11 @@ function CriticalAlerts() {
       } p-6 rounded-xl bg-card flex flex-col gap-2`}
     >
       <div className="min-[1024px]:max-[1200px]:flex-col flex justify-between items-start md:items-center gap-2 sm:mb-2 md:mb-4 lg:mb-6">
-        <h2 className="text-base font-semibold flex items-center gap-2 shrink-0">
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-            className="text-sm sm:text-base lg:text-lg"
-          />
-          Alerta Operativa Crítica
-        </h2>
+        <CardTitle
+          icon={faTriangleExclamation}
+          iconClassName="text-white"
+          title="Alerta Operativa Crítica"
+        />
         <div>
           <label className="flex items-center gap-2 cursor-pointer">
             <div className="relative">

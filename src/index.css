@@ -6,6 +6,8 @@
   --color-info: #00778b;
   --color-approved: #64ccc9;
   --color-approved-light: #64ccc966;
+  --color-warning: #eaaa00;
+  --color-warning-light: #eaaa0066;
   --color-critical: #d22630;
   --color-critical-light: #d2263066;
   --font-family-sans: "Avenir", ui-sans-serif, system-ui, sans-serif;
