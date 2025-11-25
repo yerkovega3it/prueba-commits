@@ -1,10 +1,10 @@
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import LiveOccupancy from "@/components/dashboard/LiveOccupancy";
-import CriticalAlerts from "@/components/dashboard/CriticalAlerts";
-import ControlAccess from "@/components/dashboard/ControlAccess";
-import ComplianceRisk from "@/components/dashboard/ComplianceRisk";
-import SecurityPerformance from "@/components/dashboard/SecurityPerformance";
+import LiveOccupancy from "@/components/dashboard/LiveOccupancy/LiveOccupancy";
+import CriticalAlerts from "@/components/dashboard/CriticalAlerts/CriticalAlerts";
+import ControlAccess from "@/components/dashboard/ControlAccess/ControlAccess";
+import ComplianceRisk from "@/components/dashboard/ComplianceRisk/ComplianceRisk";
+import SecurityPerformance from "@/components/dashboard/SecurityPerformance/SecurityPerformance";
 
 export default function HomePage() {
   return (
