@@ -41,7 +41,7 @@ function ComplianceRisk() {
           <p className="text-lg sm:text-xl lg:text-2xl font-bold text-neon-yellow mb-1 sm:mb-2">
             Medio
           </p>
-          <p className="text-xs text-gray-400 mb-1">
+          <p className="text-xs text-white mb-1">
             Próxima sugerencia predictiva
           </p>
           <p className="text-xs font-semibold text-neon-green">

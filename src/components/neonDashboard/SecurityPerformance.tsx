@@ -56,7 +56,7 @@ function SecurityPerformance() {
               <p className="text-xl sm:text-2xl lg:text-4xl font-bold text-neon-cyan">
                 {ispPercentage}%
               </p>
-              <p className="text-xs text-gray-400 mt-1">Meta: {ispGoal}%</p>
+              <p className="text-xs text-white mt-1">Meta: {ispGoal}%</p>
             </div>
           </div>
         </div>

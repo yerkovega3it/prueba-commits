@@ -33,7 +33,7 @@ function LiveOccupancy() {
         <p className="text-3xl sm:text-4xl lg:text-6xl font-bold text-neon-cyan mb-1">
           <AnimatedCounter value={peopleOnSite} />
         </p>
-        <p className="text-xs text-gray-400 mb-1">
+        <p className="text-xs text-white mb-1">
           Capacidad Máx: {maxCapacity.toLocaleString()}
         </p>
         <div className="mt-1 mb-2">
@@ -53,7 +53,7 @@ function LiveOccupancy() {
               {occupancyPercentage}%
             </span>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Ocupación</p>
+          <p className="text-xs text-white mt-1">Ocupación</p>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 shrink-0">
@@ -71,7 +71,7 @@ function LiveOccupancy() {
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-neon-green leading-none">
               <AnimatedCounter value={entryPerHour} />
             </p>
-            <p className="text-xs text-gray-400 mt-1">/ Hr Entrada</p>
+            <p className="text-xs text-white mt-1">/ Hr Entrada</p>
           </div>
         </div>
         <div
@@ -88,7 +88,7 @@ function LiveOccupancy() {
             <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-neon-pink leading-none">
               <AnimatedCounter value={exitPerHour} />
             </p>
-            <p className="text-xs text-gray-400 mt-1">/ Hr Salida</p>
+            <p className="text-xs text-white mt-1">/ Hr Salida</p>
           </div>
         </div>
       </div>

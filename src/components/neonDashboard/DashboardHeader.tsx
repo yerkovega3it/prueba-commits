@@ -27,7 +27,7 @@ function DashboardHeader() {
               second: "2-digit",
             })}
           </p>
-          <p className="text-xs sm:text-sm text-gray-400 mt-1">
+          <p className="text-xs sm:text-sm text-white mt-1">
             {currentDateTime.toLocaleDateString("es-CL", {
               weekday: "long",
               year: "numeric",

@@ -18,7 +18,7 @@ function CriticalAlerts() {
 
   return (
     <div
-      className={`col-span-1 lg:col-span-3 min-h-[390px] border ${
+      className={`col-span-1 lg:col-span-3 min-h-[350px] border ${
         withDataMode ? "border-critical" : "border-approved"
       } p-6 rounded-xl bg-card flex flex-col gap-2`}
     >
