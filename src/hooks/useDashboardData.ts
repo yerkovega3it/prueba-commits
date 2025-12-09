@@ -30,18 +30,17 @@ export function useLaborStatus() {
       peopleOutOfShift: 0,
       peopleDidNotShowUpForFlight: 0,
       peopleEnteredToday: 0,
+      peopleOutOfShiftAndNotRegisteredExit: 0,
     };
   }
 
   return {
     peopleOnSite: data.laborStatus.peopleOnSite,
-    maxCapacity: data.laborStatus.maxCapacityPeopleOnSite,
-    occupancyPercentage: data.laborStatus.peopleOnSitePercentage,
     peopleRepeatedSameDiningHallConsumption:
       data.laborStatus.peopleRepeatedSameDiningHallConsumption,
-    peopleOutOfShift: data.laborStatus.peopleOutOfShift,
     peopleDidNotShowUpForFlight: data.laborStatus.peopleDidNotShowUpForFlight,
-    peopleEnteredToday: data.laborStatus.peopleEnteredToday,
+    peopleOutOfShiftAndNotRegisteredExit:
+      data.laborStatus.peopleOutOfShiftAndNotRegisteredExit,
   };
 }
 
@@ -94,6 +93,8 @@ export function useCriticalOperationalAlert() {
       vehiclesWithExpiredAccreditation: 0,
       peopleNotRegisteredExit: 0,
       visitorsApprovedNotCheckedOut: 0,
+      isCriticalOperationalAlertActive: false,
+      peopleOutOfShiftNotCheckedOutWithDailyConsumption: 0,
     }
   );
 }

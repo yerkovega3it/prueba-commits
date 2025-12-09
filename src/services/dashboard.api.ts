@@ -1,9 +1,11 @@
 //import { http } from "@/services/http";
 import type { Dashboard } from "@/interfaces/dashboard/dashboard.interface";
+import { http } from "./http";
 
 export async function dashboardMetricsApi(): Promise<Dashboard> {
-  // const { data } = await http.get<Dashboard>("/dashboard/get");
+  const { data } = await http.get<Dashboard>("/dashboard/get");
   // console.log("Fetched dashboard data:", data);
+  return data;
 
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -12,12 +14,9 @@ export async function dashboardMetricsApi(): Promise<Dashboard> {
         lastUpdateSecondsAgo: 21600,
         laborStatus: {
           peopleOnSite: 985,
-          peopleOnSitePercentage: 82,
-          maxCapacityPeopleOnSite: 1200,
           peopleRepeatedSameDiningHallConsumption: 12,
-          peopleOutOfShift: 5,
           peopleDidNotShowUpForFlight: 3,
-          peopleEnteredToday: 120,
+          peopleOutOfShiftAndNotRegisteredExit: 7,
         },
         monthlyApprovedPasses: {
           month01: 15,
@@ -54,8 +53,9 @@ export async function dashboardMetricsApi(): Promise<Dashboard> {
           peopleFinishedShiftNotCheckedOut: 4,
           peopleWithExpiredExams: 7,
           vehiclesWithExpiredAccreditation: 3,
-          peopleNotRegisteredExit: 2,
           visitorsApprovedNotCheckedOut: 1,
+          isCriticalOperationalAlertActive: true,
+          peopleOutOfShiftNotCheckedOutWithDailyConsumption: 6,
         },
       });
     }, 500); // Simulate network delay

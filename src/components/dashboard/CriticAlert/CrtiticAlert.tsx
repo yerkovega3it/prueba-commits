@@ -7,23 +7,17 @@ function CrtiticAlert() {
     peopleFinishedShiftNotCheckedOut,
     peopleWithExpiredExams,
     vehiclesWithExpiredAccreditation,
-    peopleNotRegisteredExit,
     visitorsApprovedNotCheckedOut,
+    isCriticalOperationalAlertActive,
+    peopleOutOfShiftNotCheckedOutWithDailyConsumption,
   } = useCriticalOperationalAlert();
 
-  const noAlerts =
-    peopleFinishedShiftNotCheckedOut === 0 &&
-    peopleWithExpiredExams === 0 &&
-    vehiclesWithExpiredAccreditation === 0 &&
-    peopleNotRegisteredExit === 0 &&
-    visitorsApprovedNotCheckedOut === 0;
-
-  //const noAlerts = true;
+  const inactiveAlerts = !isCriticalOperationalAlertActive;
 
   return (
     <div
-      className={`lg:row-span-2 w-full max-w-full sm:max-w-sm mx-auto rounded-xl sm:rounded-2xl p-3 sm:p-4 relative ${
-        noAlerts
+      className={`lg:row-span-2 w-full max-w-full sm:max-w-sm mx-auto rounded-3xl sm:rounded-2xl p-3 sm:p-4 relative flex flex-col ${
+        inactiveAlerts
           ? "border-3 shadow-[0_20px_50px_-10px_rgba(8,247,51,0.8)] border-success"
           : "border-5 shadow-[0_20px_120px_-10px_rgba(255,0,94,0.5)] border-critic-light"
       }`}
@@ -31,20 +25,22 @@ function CrtiticAlert() {
       <CardTitle
         title={"ALERTA OPERATIVA CRÍTICA"}
         icon={faExclamationTriangle}
-        titleClassName={`text-xl  my-2 ${
-          noAlerts ? "text-success" : "text-critic"
+        titleClassName={`text-xl ${
+          inactiveAlerts ? "text-success" : "text-critic"
         }`}
         iconClassName={"text-alert mb-1.5"}
       />
-      {noAlerts ? (
-        <div className="mt-4 sm:mt-6 flex justify-center items-center text-xs sm:text-sm max-w-xs mx-auto text-center bg-success-light/20 p-6 sm:p-8 min-h-[300px] sm:min-h-[500px]">
-          <span className="text-success">
-            No hay alertas registradas en este momento.
-          </span>
+      {inactiveAlerts ? (
+        <div className="flex-1 flex items-center justify-center bg-success-light/20 p-6 sm:p-8">
+          <div className="text-xs sm:text-sm max-w-xs text-center">
+            <span className="text-success">
+              No hay alertas registradas en este momento.
+            </span>
+          </div>
         </div>
       ) : (
-        <>
-          <div className="bg-critic-light rounded-lg sm:rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 flex items-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+        <div className="mt-4 sm:mt-6 flex flex-col justify-between gap-4">
+          <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[16px] py-[14px]">
             <span className="text-white text-2xl sm:text-3xl font-bold shrink-0">
               {peopleFinishedShiftNotCheckedOut}
             </span>
@@ -52,8 +48,7 @@ function CrtiticAlert() {
               Personas que terminaron su jornada y no se han retirado
             </p>
           </div>
-
-          <div className="bg-critic-light rounded-lg sm:rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 flex items-center gap-3 sm:gap-4">
+          <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[16px] py-[14px]">
             <span className="text-white text-2xl sm:text-3xl font-bold shrink-0">
               {peopleWithExpiredExams}
             </span>
@@ -61,8 +56,7 @@ function CrtiticAlert() {
               Personas con exámenes vencidos
             </p>
           </div>
-
-          <div className="bg-critic-light rounded-lg sm:rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 flex items-center gap-3 sm:gap-4">
+          <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[16px] py-[14px]">
             <span className="text-white text-2xl sm:text-3xl font-bold shrink-0">
               {vehiclesWithExpiredAccreditation}
             </span>
@@ -70,17 +64,16 @@ function CrtiticAlert() {
               Vehículos con acreditación vencida
             </p>
           </div>
-
-          <div className="bg-critic-light rounded-lg sm:rounded-xl p-3 sm:p-4 mb-2 sm:mb-3 flex items-center gap-3 sm:gap-4">
+          <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[16px] py-[14px]">
             <span className="text-white text-2xl sm:text-3xl font-bold shrink-0">
-              {peopleNotRegisteredExit}
+              {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
             </span>
             <p className="text-white text-xs sm:text-sm leading-tight">
-              Personas que no han marcado su salida
+              Personas fuera de turno que no han registrado retiro y tienen
+              consumo diario
             </p>
           </div>
-
-          <div className="bg-critic-light rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
+          <div className="bg-critic-light rounded-lg p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
             <span className="text-white text-2xl sm:text-3xl font-bold shrink-0">
               {visitorsApprovedNotCheckedOut}
             </span>
@@ -88,7 +81,7 @@ function CrtiticAlert() {
               Personas con pase de visita aprobado que aún no registran retiro
             </p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

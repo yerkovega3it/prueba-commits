@@ -9,21 +9,12 @@ export interface Dashboard {
   criticalOperationalAlert: CriticalOperationalAlert;
 }
 
-export interface ComplianceRisk {
-  disabledPersonnel: number;
-  expiredExamsIn30Days: number;
-  expiredExamsPercentage: number;
-  expiredOperationalLicenses: number;
-  expiredOperationalLicensesPercentage: number;
-  riskLevel: string;
-  predictiveSuggestion: string;
-}
-
 export interface CriticalOperationalAlert {
+  isCriticalOperationalAlertActive: boolean;
   peopleFinishedShiftNotCheckedOut: number;
   peopleWithExpiredExams: number;
   vehiclesWithExpiredAccreditation: number;
-  peopleNotRegisteredExit: number;
+  peopleOutOfShiftNotCheckedOutWithDailyConsumption: number;
   visitorsApprovedNotCheckedOut: number;
 }
 
@@ -36,12 +27,9 @@ export interface SAboutToExpire {
 
 export interface LaborStatus {
   peopleOnSite: number;
-  peopleOnSitePercentage: number;
-  maxCapacityPeopleOnSite: number;
   peopleRepeatedSameDiningHallConsumption: number;
-  peopleOutOfShift: number;
+  peopleOutOfShiftAndNotRegisteredExit: number;
   peopleDidNotShowUpForFlight: number;
-  peopleEnteredToday: number;
 }
 
 export interface VisitorPass {

@@ -21,18 +21,18 @@ function DashboardHeader() {
   };
 
   return (
-    <div className="px-4 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-card shadow-[0_0_5px_rgba(0,0,0,0.3)] shadow-approved">
+    <div className="px-4 sm:px-6 py-[12px] rounded-3xl sm:rounded-2xl bg-card">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-2">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-approved leading-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-[32px] font-normal text-approved leading-tight">
             Centro de Mando SIGA - {miningCompanyName}
           </h1>
-          <p className="text-sm sm:text-base lg:text-lg mt-1 font-medium">
-            Estado de faena - Actualización últimas {transformSecondsToHours()}
+          <p className="text-sm sm:text-base lg:text-lg mt-1 font-normal">
+            Estado de faena - Actualización cada {transformSecondsToHours()}
           </p>
         </div>
         <div className="text-left sm:text-right w-full sm:w-auto">
-          <p className="text-2xl sm:text-3xl font-bold">
+          <p className="text-2xl sm:text-3xl font-normal">
             {currentDateTime.toLocaleTimeString("es-CL", {
               hour: "2-digit",
               minute: "2-digit",
