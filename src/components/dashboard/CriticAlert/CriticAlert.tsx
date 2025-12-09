@@ -16,9 +16,9 @@ function CrtiticAlert() {
   const inactiveAlerts = !isCriticalOperationalAlertActive;
 
   return (
-    <div className="absolute right-12 flex flex-col gap-10">
+    <div className="flex flex-col gap-4 lg:gap-10 w-full">
       <div
-        className={`w-full max-w-full sm:max-w-sm mx-auto rounded-3xl sm:rounded-2xl p-3 sm:p-4 relative flex flex-col ${
+        className={`w-full mx-auto rounded-3xl sm:rounded-2xl p-3 sm:p-4 relative flex flex-col ${
           inactiveAlerts
             ? "border-3 shadow-[0_20px_50px_-10px_rgba(8,247,51,0.8)] border-success"
             : "border-5 shadow-[0_20px_120px_-10px_rgba(255,0,94,0.5)] border-critic-light"
@@ -89,7 +89,7 @@ function CrtiticAlert() {
       <img
         src={Map}
         alt="Map"
-        className="w-full h-auto lg:h-[250px] object-contain rounded-3xl"
+        className="w-full sm:w-3/4 md:w-2/3 h-auto object-contain rounded-3xl mx-auto"
       />
     </div>
   );

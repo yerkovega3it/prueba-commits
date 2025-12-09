@@ -29,7 +29,7 @@ function LiveOccupancy() {
           Personas en Faena
         </p>
       </div>
-      <div className="rounded-3xl bg-main h-full flex flex-col justify-around gap-8 mt-2">
+      <div className="rounded-3xl bg-main h-full flex flex-col justify-around gap-8 mt-2 w-full mx-auto">
         <StatCard
           icon={faArrowRight}
           value={peopleOutOfShiftAndNotRegisteredExit}

@@ -2,7 +2,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHea
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import LiveOccupancy from "@/components/dashboard/LiveOccupancy/LiveOccupancy";
 import ExpiringExams from "@/components/dashboard/ExpiringExams/ExpiringExams";
-import CrtiticAlert from "@/components/dashboard/CriticAlert/CrtiticAlert";
+import CriticAlert from "@/components/dashboard/CriticAlert/CriticAlert";
 import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLicenses";
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
 
@@ -10,17 +10,21 @@ export default function HomePage() {
   return (
     <DashboardLayout>
       <DashboardHeader />
-      <div className="flex gap-4">
-        <div className="max-w-md w-full">
-          <LiveOccupancy />
+      <div className="relative flex flex-col xl:flex-row gap-4 w-full">
+        <div className="flex flex-wrap gap-4 w-full xl:max-w-[calc(100%-28rem)] flex-shrink-0 justify-center xl:justify-start">
+          <div className="w-full sm:w-[calc(50%-0.5rem)] xl:flex-1 xl:min-w-[400px]">
+            <LiveOccupancy />
+          </div>
+          <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-0.5rem)] xl:flex-1 xl:min-w-[400px]">
+            <ExpiringExams />
+            <ExpiringLicenses />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 max-w-md w-full">
-          <ExpiringExams />
-          <ExpiringLicenses />
+        <div className="w-full xl:absolute xl:right-0 xl:top-0 xl:w-[26rem]">
+          <CriticAlert />
         </div>
-        <CrtiticAlert />
       </div>
-      <div className="flex w-full max-w-[calc(100%-27rem)]">
+      <div className="flex w-full xl:max-w-[calc(100%-28rem)]">
         <MonthlyPassesChart />
       </div>
     </DashboardLayout>
