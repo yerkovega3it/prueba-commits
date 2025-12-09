@@ -10,7 +10,7 @@ export default function VisitPasses() {
   } = useVisitorPass();
 
   return (
-    <div className="w-full max-w-xl text-white space-y-5 sm:space-y-6 lg:space-y-8">
+    <div className="w-full max-w-xl text-white space-y-5 sm:space-y-6 lg:space-y-8 bg-main rounded-3xl p-4 sm:p-5 lg:p-6">
       <h2 className="text-approved font-bold text-base sm:text-lg mb-3 sm:mb-4">
         PASES DE VISITA
       </h2>
