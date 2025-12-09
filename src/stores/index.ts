@@ -1,2 +1,2 @@
 export * from "./theme.store";
-export * from "./notification.store";
+export * from "./dashboard.store";

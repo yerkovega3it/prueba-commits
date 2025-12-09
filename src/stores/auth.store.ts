@@ -3,11 +3,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 //Interface
 import type { AuthState } from "@/interfaces";
 //Factories
-import {
-  initialUserConfig,
-  initialAlert,
-  initialUserMenuSidebar,
-} from "@/factories";
+import { initialUserConfig, initialUserMenuSidebar } from "@/factories";
 
 export const useStoreAuth = create<AuthState>()(
   devtools(
@@ -36,7 +32,7 @@ export const useStoreAuth = create<AuthState>()(
       setLoginSubmitting: (value: boolean) => set({ loginSubmitting: value }),
 
       //Messages
-      messageAlert: { ...initialAlert },
+      messageAlert: { message: "", type: "info", show: false },
       setMessageAlert: (alert) => set(() => ({ messageAlert: alert })),
       successMessage: null,
       errorMessage: null,

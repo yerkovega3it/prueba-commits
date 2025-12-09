@@ -10,7 +10,7 @@ interface Logotipo {
 }
 
 // Stub utils to replace uikit createTheme
-const handleThemeColors = (colors: string[]) => {};
+const handleThemeColors = () => {};
 const handleThemeLogos = (logos: string[]) => ({
   light: logos[0] || "",
   dark: logos[2] || "",
@@ -23,21 +23,12 @@ interface ThemeState {
 }
 
 export const useStoreTheme = create<ThemeState>((set) => ({
-  logotipo: { ...defaultLogotipo },
+  logotipo: { dark: "", light: "", ...defaultLogotipo },
   errorBack: null,
 
   getTheme: async () => {
     try {
-      handleThemeColors([
-        // Light colors
-        "#005AEE",
-        "#3BC0CF",
-        "#3BC0CF",
-        // Dark colors
-        "#005AEE",
-        "#3BC0CF",
-        "#3BC0CF",
-      ]);
+      handleThemeColors();
       set({
         logotipo: handleThemeLogos([
           // Light logos
