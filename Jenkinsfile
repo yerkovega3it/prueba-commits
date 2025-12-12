@@ -125,7 +125,7 @@ pipeline {
                         sh "kubectl get namespace ${NAMESPACE} || kubectl create namespace ${NAMESPACE}"
 
                         // Replace placeholders in K8s manifests
-                        sh "sed -i 's|\\\\\${ECR_IMAGE}|${ECR_IMAGE}|g' k8s/deployment.yaml"
+                        sh "sed -i 's|ECR_IMAGE_PLACEHOLDER|${ECR_IMAGE}|g' k8s/deployment.yaml"
 	                        
 	                        sh "kubectl apply -f k8s/ -n ${NAMESPACE}"
 	                        

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sigadash-frontend
-          image: ${ECR_IMAGE}
+          image: ECR_IMAGE_PLACEHOLDER
           ports:
             - containerPort: 3000
           resources:
