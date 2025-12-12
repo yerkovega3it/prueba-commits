@@ -67,6 +67,8 @@ pipeline {
                         env.CLOUDFRONT_DISTRIBUTION_ID = 'E1ITZKC1KOCBQB'
                         env.VITE_API_URL = 'https://dev-amsa-sigadash-backend.3itapp.com/api'
                         env.VITE_ENVIROMENT = 'Desarrollo'
+                        env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
+                        env.VITE_AMSA_LOGOUT_URL = 'https://loginintegrado.aminerals.cl/Login/LogoutAMSA'
                         env.DEPLOY_ALLOWED = 'true'
                     } else if (env.IS_RELEASE_BRANCH == 'true') {
                         env.AWS_ACCOUNT_ID = '533315175931'
@@ -75,6 +77,8 @@ pipeline {
                         env.CLOUDFRONT_DISTRIBUTION_ID = '123123'
                         env.VITE_API_URL = 'https://qa-amsa-sgh-api.3itapp.com/api'
                         env.VITE_ENVIROMENT = 'Desarrollo'
+                        env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
+                        env.VITE_AMSA_LOGOUT_URL = 'https://loginintegrado.aminerals.cl/Login/LogoutAMSA'
                         env.DEPLOY_ALLOWED = 'true'
                     } else {
                         env.DEPLOY_ALLOWED = 'false'
@@ -127,6 +131,8 @@ pipeline {
                     writeFile file: '.env', text: """
 VITE_API_URL=\${env.VITE_API_URL}
 VITE_ENVIROMENT=\${env.VITE_ENVIROMENT}
+VITE_AMSA_LOGIN_URL=\${env.VITE_AMSA_LOGIN_URL}
+VITE_AMSA_LOGOUT_URL=\${env.VITE_AMSA_LOGOUT_URL}
 """
                     sh '''
                         echo "Building frontend application..."
