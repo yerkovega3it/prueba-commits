@@ -124,13 +124,13 @@ pipeline {
                         // Create namespace if not exists
                         sh "kubectl get namespace ${NAMESPACE} || kubectl create namespace ${NAMESPACE}"
 
-                        // Replace placeholders in K8s manifests
-                        // Escaping $ for jenkins shell is tricky. using single quotes for sed expression helps.
-                        sh "sed -i 's|"${ECR_IMAGE}"|${ECR_IMAGE}|g' k8s/deployment.yaml"
-                        
-                        sh "kubectl apply -f k8s/ -n ${NAMESPACE}"
-                        
-                        sh "kubectl rollout status deployment/sigadash-frontend -n ${NAMESPACE} --timeout=120s"
+	                        // Replace placeholders in K8s manifests
+	                        // Escaping $ for jenkins shell is tricky. using single quotes for sed expression helps.
+	                        sh "sed -i 's|\\${ECR_IMAGE}|${ECR_IMAGE}|g' k8s/deployment.yaml"
+	                        
+	                        sh "kubectl apply -f k8s/ -n ${NAMESPACE}"
+	                        
+	                        sh "kubectl rollout status deployment/sigadash-frontend -n ${NAMESPACE} --timeout=120s"
                     }
                 }
             }
