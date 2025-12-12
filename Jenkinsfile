@@ -39,7 +39,7 @@ pipeline {
                         repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
                         repoName = repoUrl.replaceAll('.*/([^/]+)\\.git$', '$1')
                     } catch (Exception e) {
-                        if (env.GIT_URL) { repoUrl = env.GIT_URL; repoName = repoUrl.replaceAll('.*/([^/]+)\.git$', '$1') }
+                        if (env.GIT_URL) { repoUrl = env.GIT_URL; repoName = repoUrl.replaceAll('.*/([^/]+)\\.git$', '$1') }
                         else if (env.JOB_NAME) { def jp = env.JOB_NAME.split('/'); repoName = jp[-1] }
                         else { error "No se pudo determinar el nombre del repositorio" }
                     }
