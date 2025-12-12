@@ -1,43 +1,25 @@
-import { useEffect, type PropsWithChildren } from 'react'
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import AppRouter from './router/app.router'
-import { useStoreTheme } from '@/stores'
-import { checkAuthAction, startThemeAutoApply } from '@/actions'
+import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import AppRouter from "./router/app.router";
+import { useStoreTheme } from "@/stores";
 
 // Create a client
-const queryClient = new QueryClient()
-const TIME_MS = 60 * 60 * 1000
-
-const CheckAuthProvider = ({ children }: PropsWithChildren) => {
-  useQuery({
-    queryKey: ['auth'],
-    queryFn: checkAuthAction,
-    refetchInterval: TIME_MS,
-    staleTime: TIME_MS + 5 * 60 * 1000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: false,
-    retry: false, 
-  })
-  return <>{children}</>
-}
+const queryClient = new QueryClient();
 
 function App() {
-  const getTheme = useStoreTheme(state => state.getTheme)
+  const getTheme = useStoreTheme((state) => state.getTheme);
 
-  useEffect(() => { getTheme() }, [getTheme])
   useEffect(() => {
-    const stop = startThemeAutoApply()
-    return stop
-  }, [])
+    getTheme();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CheckAuthProvider>
-        <AppRouter />
-      </CheckAuthProvider>
+      <AppRouter />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  )
+  );
 }
-export default App
+export default App;

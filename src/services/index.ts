@@ -1,7 +1,3 @@
-export { http } from '@/services/http'
-export * from '@/services/auth.api'
-export * from '@/services/users.api'
-export * from '@/services/roles.api'
-export * from '@/services/examples.api'
-export * from '@/services/select.api'
-export * from '@/services/notifications.api'
+export { http } from "@/services/http";
+export * from "@/services/auth.api";
+export * from "@/services/dashboard.api";

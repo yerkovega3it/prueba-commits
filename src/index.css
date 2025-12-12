@@ -1,109 +1,33 @@
 @import "tailwindcss";
 
+@theme {
+  --color-main: #1B1C20;
+  --color-card: #1B1C20;
+  --color-success: #08F733;
+  --color-success-light: #0ff55c66;
+  --color-approved: #53F7F6;
+  --color-approved-light: #64ccc966;
+  --color-critic: #FF005E;
+  --color-critic-light: #660025;
+  --color-dark-background: #020D16
+  --font-family-sans: "Aldrich", sans-serif;
+}
+
 html,
 body {
   min-height: 100vh;
-  background-color: #111827;
   margin: 0;
   padding: 0;
 }
 
-#root {
-  min-height: 100vh;
-  background-color: #111827;
+body {
+  background-color: #000000;
+  font-family: "Aldrich", sans-serif;
 }
 
 main,
 .layout-private-default,
 .eit-wrapper,
 .eit-container {
-  background-color: #111827 !important;
   min-height: 100vh;
-}
-
-@theme {
-  /* NEON DARK MODE - High Impact Colors */
-
-  /* Primary Neon Colors */
-  --color-primary: #00ffff;
-  --color-primary-dark: #00cccc;
-  --color-primary-light: #66ffff;
-
-  /* Secondary Colors */
-  --color-secondary: #ff00ff;
-  --color-secondary-light: #ff66ff;
-  --color-secondary-red: #ff0055;
-
-  /* EIT Blue - Neon Cyan */
-  --color-eit-blue: #00ffff;
-  --color-eit-blue-text: #00ffff;
-  --color-eit-blue-bg: #00ffff1a;
-
-  /* Tertiary */
-  --color-tertiary: #00ff88;
-
-  /* Backgrounds - PURE BLACK */
-  --color-bg-mute: #0a0a0a;
-  --color-bg-soft: #000000;
-
-  /* Borders - Neon Glow */
-  --color-border: #00ffff;
-  --color-border-focus: #ff00ff;
-
-  /* Text Colors - High Contrast */
-  --color-text: #ffffff;
-  --color-text-soft: #aaaaaa;
-  --color-text-default: #ffffff;
-
-  /* Status Colors - NEON */
-  --color-blue: #00ffff;
-  --color-yellow: #ffff00;
-  --color-yellow-light: #ffff66;
-  --color-red: #ff0055;
-  --color-red-light: #ff3377;
-  --color-green: #00ff88;
-  --color-green-light: #66ffaa;
-  --color-orange: #ff9900;
-
-  /* Neutral */
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-grey-50: #1a1a1a;
-}
-
-@keyframes neon-pulse {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 5px currentColor) drop-shadow(0 0 15px currentColor);
-  }
-  50% {
-    filter: drop-shadow(0 0 10px currentColor)
-      drop-shadow(0 0 30px currentColor);
-  }
-}
-
-@keyframes neon-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor,
-      0 0 20px currentColor;
-  }
-  50% {
-    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor,
-      0 0 40px currentColor;
-  }
-}
-
-.neon-text {
-  text-shadow: 0 0 5px currentColor, 0 0 10px currentColor,
-    0 0 20px currentColor, 0 0 40px currentColor;
-}
-
-.neon-border {
-  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor,
-    inset 0 0 10px currentColor;
-}
-
-.neon-alert-pulse {
-  animation: neon-pulse 1.5s ease-in-out infinite;
 }

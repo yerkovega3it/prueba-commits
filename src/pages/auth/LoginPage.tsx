@@ -1,221 +1,63 @@
-import { useState, useMemo, useRef } from "react";
-import { Footer, FaIcon } from "@/components";
-import { icons } from "@/components/icons";
-import { useStoreTheme, useStoreAuth } from "@/stores";
-import { useShallow } from "zustand/react/shallow";
-import { useNavigate } from "react-router-dom";
-import {
-  utils,
-  //Components
-  Button,
-  Alert,
-  Input,
-} from "uikit-3it-react";
+import backgroundImage from "../../assets/login-bg.jpg";
+import LogoAmsa from "../../assets/amsa_logo_color.svg";
+import { useState } from "react";
+import { AMSA_LOGIN_URL } from "../../constants/environments";
 
-interface LoginFormState {
-  email: string;
-  password: string;
-}
 export default function LoginPage() {
-  const navigate = useNavigate();
-  //Store auth
-  const {
-    darkTheme,
-    loginError,
-    setLoginError,
-    loginSubmitting,
-    messageAlert,
-    setMessageAlert,
-    //login
-  } = useStoreAuth(
-    useShallow((state) => ({
-      darkTheme: state.config.darkTheme,
-      loginError: state.loginError,
-      setLoginError: state.setLoginError,
-      loginSubmitting: state.loginSubmitting,
-      messageAlert: state.messageAlert,
-      setMessageAlert: state.setMessageAlert,
-    }))
-  );
-  //Store theme
-  const logotipoState = useStoreTheme((state) => state.logotipo);
+  const [loading, setLoading] = useState(false);
 
-  const { logotipo } = utils.createLogos(
-    { config: { darkTheme } },
-    { logotipo: logotipoState }
-  );
-
-  //States
-  const rememberEmail = localStorage.getItem("rememberEmail") || "";
-  const [form, setForm] = useState<LoginFormState>({
-    email: rememberEmail,
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [remindMe, setRemindMe] = useState<boolean>(rememberEmail !== "");
-
-  const formRef = useRef<HTMLFormElement>(null);
-
-  //Memos
-  const controlLoginAlert = useMemo(
-    () => (loginError ? "show" : "hide"),
-    [loginError]
-  );
-  const controlIsValidForm = useMemo(
-    () => Object.entries(form).every(([, value]) => value),
-    [form]
-  );
-  const handleEmailValue = (value: string) => {
-    setForm((prev) => ({ ...prev, email: value.trim() }));
-  };
-
-  const handlePasswordValue = (value: string) => {
-    setForm((prev) => ({ ...prev, password: value.trim() }));
-  };
-
-  const handleRecovery = () => {
-    console.log("recovery");
-  };
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (controlIsValidForm) {
-      navigate("/");
-      setForm((prev) => ({ ...prev, password: "" }));
-      //Remember
-      if (remindMe) localStorage.setItem("rememberEmail", form.email);
-      else localStorage.removeItem("rememberEmail");
-    } else {
-      setLoginError(true);
-      setMessageAlert({
-        message:
-          "Ingresa el <strong>usuario y contraseña</strong> para acceder.",
-        variant: "error",
-        icon: icons.info,
-        iconClass: "",
-      });
-    }
+  const handleClick = () => {
+    setLoading(true);
+    window.location.href = `${AMSA_LOGIN_URL}`;
   };
 
   return (
-    <>
-      <section id="login" className="public-page">
-        <div data-eit-mb="3" data-eit-text-align="center">
-          {logotipo && (
+    <div
+      className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+      draggable={false}
+    >
+      <div className="w-full max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-md">
+          <form
+            method="post"
+            onClick={handleClick}
+            className="p-8 flex flex-col gap-6"
+          >
             <img
-              src={logotipo}
-              className="public-page__logo"
-              alt="Logotipo corporativo"
+              src={LogoAmsa}
+              alt="AMSA Logo"
+              draggable={false}
+              className="h-15 select-none"
             />
-          )}
-          <h2 data-eit-font-size="x7" data-eit-color="text" data-eit-my="0">
-            Hola, <strong>inicia sesión</strong>
-          </h2>
-          <h6
-            data-eit-font-size="x3"
-            data-eit-font-weight="500"
-            data-eit-font="primary"
-            data-eit-color="text-soft"
-            data-eit-my="2"
-          >
-            Ingresando los datos de tu cuenta corporativa
-          </h6>
-        </div>
-        <form ref={formRef} onSubmit={handleLogin}>
-          <Alert
-            data-eit-variant="error"
-            data-eit-animation={controlLoginAlert}
-            icon={messageAlert.icon}
-            message={messageAlert.message}
-          />
-          <div data-eit-my="3">
-            <Input
-              type="text"
-              floatLabel="Correo electrónico"
-              requiredField={true}
-              error={loginError}
-              value={form.email}
-              onValueChange={handleEmailValue}
-            />
-          </div>
 
-          <div data-eit-my="3">
-            <Input
-              type={showPassword ? "text" : "password"}
-              floatLabel="Contraseña"
-              requiredField={true}
-              error={loginError}
-              value={form.password}
-              onValueChange={handlePasswordValue}
-              rightSlot={
-                <a
-                  onClick={() => setShowPassword(!showPassword)}
-                  href="javascript:"
-                  data-eit-color="text-soft"
-                  data-eit-link
-                >
-                  {showPassword && <FaIcon name="eye" />}
-                  {!showPassword && <FaIcon name="eyeSlash" />}
-                </a>
-              }
-            />
-          </div>
-
-          <div
-            data-eit-mb="3"
-            data-eit-display="flex"
-            data-eit-justify="between"
-            data-eit-align="center"
-          >
-            <label className="eit-checkbox">
-              <input
-                type="checkbox"
-                className="eit-checkbox__input"
-                checked={remindMe}
-                onChange={(e) => setRemindMe(e.currentTarget.checked)}
-              />
-              <span className="eit-checkbox__checkmark"></span>
-              Recordarme
-            </label>
-            <a
-              href="javascript:"
-              data-eit-font-size="x2"
-              data-eit-color="secondary"
-              data-eit-link
-              onClick={handleRecovery}
+            <button
+              type="button"
+              disabled={loading}
+              className="bg-[#26758d] hover:bg-[#26758d]/90 text-white font-medium py-2 px-4 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
-              ¿Olvidaste tu contraseña?
-            </a>
-          </div>
-
-          <Button
-            type="submit"
-            data-eit-w="100"
-            data-eit-variant="primary"
-            text="Iniciar sesión"
-            loadingText="Accediendo..."
-            isDisabled={loginSubmitting}
-            loading={loginSubmitting}
-            onEmitEvent={handleLogin}
-          />
-          <div
-            data-eit-border="all"
-            data-eit-border-color="default"
-            data-eit-border-radius="x3"
-            data-eit-p="2"
-            data-eit-mb="3"
-            data-eit-bg="color-soft"
-            data-eit-text-align="center"
-            data-eit-mt="3"
-          >
-            <p data-eit-color="text-soft" data-eit-m="0">
-              <strong>Admin →</strong> user: <code>adminTest@3it.cl</code> pass:{" "}
-              <code>admin2025</code>
-            </p>
-          </div>
-        </form>
-      </section>
-      <Footer />
-    </>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {loading ? "Iniciando sesión..." : "Dashboard"}
+            </button>
+            {loading && (
+              <div className="w-full bg-gray-200 rounded-full h-1 overflow-hidden">
+                <div className="bg-green-500 h-full animate-pulse"></div>
+              </div>
+            )}
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

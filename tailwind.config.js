@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xl': '1300px',
+      },
       colors: {
         // Primary colors - NEON
         primary: 'var(--color-primary, #00ffff)',

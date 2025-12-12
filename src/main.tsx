@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap-grid.min.css";
-import "uikit-3it-react/dist/css/uikit-3it-react.css";
 
 function initThemeFromStorage(): void {
   if (typeof document === "undefined") return;

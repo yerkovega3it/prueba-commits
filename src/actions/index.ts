@@ -1,6 +1,0 @@
-export * from '@/actions/auth.actions'
-export * from '@/actions/users.actions'
-export * from '@/actions/roles.actions'
-export * from '@/actions/examples.actions'
-export * from '@/actions/select.actions'
-export * from '@/actions/notifications.actions'

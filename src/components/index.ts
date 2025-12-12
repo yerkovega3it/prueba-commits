@@ -1,8 +1,1 @@
-export { default as Footer } from "@/components/layout/footer/Footer"
-export { default as Navbar } from "@/components/layout/navbar/Navbar"
-export { default as ListSearch } from "@/components/layout/listSearch/ListSearch"
-export { FaIcon } from "@/components/icons/FaIcon"
-export { default as Paginator } from "@/components/table/Paginator"
-export { default as Filters } from "@/components/filters/Filters"
-export { default as EnableDisable } from "@/components/dialog/EnableDisable"
-export { default as Notifications } from "@/components/layout/notifications/Notifications"
+export { FaIcon } from "@/components/icons/FaIcon";
