@@ -9,13 +9,12 @@ pipeline {
         PIPELINE_AWS_ACCOUNT_ID = "533315175931"
         PIPELINE_AWS_CREDENTIALS_ID = "533315175931"
         GIT_CREDENTIALS_ID = "github-token-3it"
-        SCAN_TIMEOUT = "600"
-        FS_SCAN_TIMEOUT = "300"
-        PIPELINE_EKS_CLUSTER = "pipeline-3it-eks-cluster"
-        SONAR_TOKEN = credentials('sonar.token')
-        NODE_ENV = "production"
-        BUILD_COMMAND = "npm run build"
-        DIST_FOLDER = "dist"
+        AWS_ACCOUNT_ID = '533315175931'
+        AWS_REGION = 'us-east-1'
+        CLUSTER_NAME = "amsa-sgh-centinela-eks-cluster"
+        NAMESPACE = "sigadash"
+        ECR_REGISTRY = "533315175931.dkr.ecr.us-east-1.amazonaws.com"
+        APP_NAME = "sigadash-frontend"
     }
 
     stages {
@@ -23,7 +22,7 @@ pipeline {
             steps {
                 script {
                     cleanWs()
-                    // Cleanup old kubeconfig files before starting new job (inline safe cleanup)
+                    // Cleanup old kubeconfig files
                     sh '''
                         find /var/lib/jenkins/.kube/jobs -name "*.config" -type f -mmin +60 -delete 2>/dev/null || true
                     '''
@@ -35,46 +34,27 @@ pipeline {
                     env.IS_RELEASE_BRANCH = currentBranch.contains('release') ? 'true' : 'false'
                     env.IS_DEVELOP_BRANCH = currentBranch.contains('develop') ? 'true' : 'false'
 
-                    def repoUrl = ""; def repoName = ""; def clientName = ""; def serviceName = ""
+                    def repoUrl = ""; def repoName = ""; 
                     try {
                         repoUrl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
-                        repoName = repoUrl.replaceAll('.*/([^/]+)\\.git$', '$1')
+                        repoName = repoUrl.replaceAll('.*/([^/]+)\.git$', '$1')
                     } catch (Exception e) {
-                        if (env.GIT_URL) { repoUrl = env.GIT_URL; repoName = repoUrl.replaceAll('.*/([^/]+)\\.git$', '$1') }
+                        if (env.GIT_URL) { repoUrl = env.GIT_URL; repoName = repoUrl.replaceAll('.*/([^/]+)\.git$', '$1') }
                         else if (env.JOB_NAME) { def jp = env.JOB_NAME.split('/'); repoName = jp[-1] }
-                        else { error "No se pudo determinar el nombre del repositorio (git config/GIT_URL/JOB_NAME)" }
+                        else { error "No se pudo determinar el nombre del repositorio" }
                     }
-                    if (repoName && repoName.contains('-')) { def rp = repoName.split('-'); clientName = rp[0]; serviceName = rp.size()>1? rp[1..-1].join('-') : '' } else { clientName = 'propamat'; serviceName = 'core' }
-                    env.CLIENT_NAME = clientName; env.MICROSERVICE_NAME = serviceName; env.PROJECT_NAME = repoName
-
-                    env.AWS_ACCOUNT_ID = '533315175931'
-                    env.AWS_REGION = 'us-east-1'
+                    env.PROJECT_NAME = repoName
                     env.AWS_CREDENTIALS_ID = env.PIPELINE_AWS_CREDENTIALS_ID
 
                     if (env.IS_DEVELOP_BRANCH == 'true') {
                         env.ENVIRONMENT = 'dev'
-                    } else if (env.IS_RELEASE_BRANCH == 'true') {
-                        env.ENVIRONMENT = 'qa'
-                    } else {
-                        env.ENVIRONMENT = 'dev'
-                    }
-
-                    // Set infra targets based on branch (early in pipeline)
-                    if (env.IS_DEVELOP_BRANCH == 'true') {
-                        env.AWS_ACCOUNT_ID = '533315175931'
-                        env.AWS_REGION  = 'us-east-1'
-                        env.BUCKET_NAME = 'dev-amsa-sigadash-frontend.3itapp.com'
-                        env.CLOUDFRONT_DISTRIBUTION_ID = 'E1ITZKC1KOCBQB'
                         env.VITE_API_URL = 'https://dev-amsa-sigadash-backend.3itapp.com/api'
                         env.VITE_ENVIROMENT = 'Desarrollo'
                         env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
                         env.VITE_AMSA_LOGOUT_URL = 'https://loginintegrado.aminerals.cl/Login/LogoutAMSA'
                         env.DEPLOY_ALLOWED = 'true'
                     } else if (env.IS_RELEASE_BRANCH == 'true') {
-                        env.AWS_ACCOUNT_ID = '533315175931'
-                        env.AWS_REGION  = 'us-east-1'
-                        env.BUCKET_NAME = 'qa-amsa-sigadash-frontend.3itapp.com'
-                        env.CLOUDFRONT_DISTRIBUTION_ID = '123123'
+                        env.ENVIRONMENT = 'qa'
                         env.VITE_API_URL = 'https://qa-amsa-sgh-api.3itapp.com/api'
                         env.VITE_ENVIROMENT = 'Desarrollo'
                         env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
@@ -83,8 +63,10 @@ pipeline {
                     } else {
                         env.DEPLOY_ALLOWED = 'false'
                     }
-
-                    echo "Context: BRANCH=${env.BRANCH_NAME}, DEPLOY_ALLOWED=${env.DEPLOY_ALLOWED}, REGION=${env.AWS_REGION}, BUCKET=${env.BUCKET_NAME}"
+                    
+                    env.IMAGE_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
+                    
+                    echo "Context: BRANCH=${env.BRANCH_NAME}, DEPLOY_ALLOWED=${env.DEPLOY_ALLOWED}, PROJECT=${env.PROJECT_NAME}"
                 }
             }
         }
@@ -92,108 +74,68 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 script {
-                    def repoNameForCheckout = env.PROJECT_NAME ?: 'propamat-core-front-vue'
                     def branchForCheckout = (env.BRANCH_NAME && env.BRANCH_NAME != 'unknown') ? env.BRANCH_NAME : 'develop'
-                    def repoHttpUrl = "https://github.com/3itsoluciones/${repoNameForCheckout}.git"
-                    echo "Checking out ${repoHttpUrl} branch ${branchForCheckout}"
-                    git branch: branchForCheckout, credentialsId: env.GIT_CREDENTIALS_ID, url: repoHttpUrl
-
-                    env.BRANCH_NAME = branchForCheckout
-                    env.IS_DEVELOP_BRANCH = branchForCheckout.contains('develop') ? 'true' : 'false'
-                    env.IS_RELEASE_BRANCH = branchForCheckout.contains('release') ? 'true' : 'false'
-                    if (env.IS_RELEASE_BRANCH == 'true' && env.IS_PR != 'true') { env.DEPLOY_ALLOWED = 'true' }
-                    else if (env.IS_DEVELOP_BRANCH == 'true') { env.DEPLOY_ALLOWED = 'true' }
-                    echo "Post-checkout context: BRANCH=${env.BRANCH_NAME}, DEPLOY_ALLOWED=${env.DEPLOY_ALLOWED}"
+                    git branch: branchForCheckout, credentialsId: env.GIT_CREDENTIALS_ID, url: "https://github.com/3itsoluciones/${env.PROJECT_NAME}.git"
                 }
             }
         }
 
-        stage('Install dependencies') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'github-token-3it', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_TOKEN')]) {
-                    script {
-                        sh 'npm remove uikit-3it-react || true'
-                        sh '''
-                            echo "Installing uikit-3it-react..."
-                            npm install "https://${GIT_USERNAME}:${GIT_TOKEN}@github.com/3itsoluciones/uikit-3it-react-ts.git#develop"
-                        '''
-                        sh 'npm install vite@7.1.2 --save-dev'
-                        sh 'npm install @vitejs/plugin-react-swc@4.0.0 --save-dev'
-                        sh 'npm install'
-                    }
-                }
-            }
-        }
-
-        stage('Generate build') {
-            steps {
-                script {
-                    writeFile file: '.env', text: """
-VITE_API_URL=\${env.VITE_API_URL}
-VITE_ENVIROMENT=\${env.VITE_ENVIROMENT}
-VITE_AMSA_LOGIN_URL=\${env.VITE_AMSA_LOGIN_URL}
-VITE_AMSA_LOGOUT_URL=\${env.VITE_AMSA_LOGOUT_URL}
-"""
-                    sh '''
-                        echo "Building frontend application..."
-                        rm -rf node_modules package-lock.json
-                        npm install --include=dev
-                        if [ ! -f "node_modules/.bin/vite" ]; then
-                          npm install vite@7.1.2 @vitejs/plugin-react-swc@4.0.0 --save-dev
-                        fi
-                        if npm run | grep -qE "^  build$"; then
-                          echo "Running ${BUILD_COMMAND:-npm run build}"
-                          ${BUILD_COMMAND:-npm run build}
-                        elif [ -f "vite.config.js" ] || [ -f "index.html" ]; then
-                          echo "No build script found; using vite build fallback"
-                          npx vite build
-                        else
-                          echo "WARNING: No build script and no vite project detected; creating empty dist/"
-                          mkdir -p dist
-                        fi
-                    '''
-                }
-            }
-        }
-
-        stage('Upload build to s3') {
+        stage('Build & Push Docker Image') {
             when { expression { env.DEPLOY_ALLOWED == 'true' } }
             steps {
                 script {
-                    echo "Uploading build to S3 bucket: ${env.BUCKET_NAME}"
-                    sh 'ls -la dist || true'
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
-                        sh '''
-                            if [ -d "./dist" ] && [ "$(ls -A ./dist 2>/dev/null)" ]; then
-                              aws s3 sync ./dist s3://$BUCKET_NAME --delete --cache-control "max-age=300"
-                            else
-                              echo "No dist/ folder with build artifacts. Skipping S3 upload."
-                            fi
-                        '''
+                    withCredentials([usernamePassword(credentialsId: 'github-token-3it', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_TOKEN'), [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
+                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                        
+                        // Use PROJECT_NAME for repo name
+                        def dockerImage = "${ECR_REGISTRY}/${PROJECT_NAME}:${IMAGE_TAG}"
+                        
+                        // Ensure repo exists
+                        sh "aws ecr describe-repositories --repository-names ${PROJECT_NAME} --region ${AWS_REGION} || aws ecr create-repository --repository-name ${PROJECT_NAME} --region ${AWS_REGION}"
+
+                        echo "Building Docker Image: ${dockerImage}"
+                        sh """
+                            docker build -t ${dockerImage} \
+                            --build-arg GIT_USERNAME=${GIT_USERNAME} \
+                            --build-arg GIT_TOKEN=${GIT_TOKEN} \
+                            --build-arg VITE_API_URL='${VITE_API_URL}' \
+                            --build-arg VITE_ENVIROMENT='${VITE_ENVIROMENT}' \
+                            --build-arg VITE_AMSA_LOGIN_URL='${VITE_AMSA_LOGIN_URL}' \
+                            --build-arg VITE_AMSA_LOGOUT_URL='${VITE_AMSA_LOGOUT_URL}' \
+                            .
+                        """
+                        
+                        sh "docker push ${dockerImage}"
+                        env.ECR_IMAGE = dockerImage
                     }
                 }
             }
         }
 
-        stage('Invalidate CloudFront') {
-            when { expression { env.DEPLOY_ALLOWED == 'true' && env.CLOUDFRONT_DISTRIBUTION_ID } }
+        stage('Deploy to EKS') {
+            when { expression { env.DEPLOY_ALLOWED == 'true' } }
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: env.AWS_CREDENTIALS_ID]]) {
-                        sh '''
-                            echo "Creating CloudFront invalidation for distribution: $${CLOUDFRONT_DISTRIBUTION_ID}"
-                            INVALIDATION_OUTPUT=$(aws cloudfront create-invalidation \
-                                --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
-                                --paths "/*" \
-                                --region $AWS_REGION \
-                                --output json)
-                            echo "$INVALIDATION_OUTPUT"
-                        '''
+                        sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"
+                        
+                        echo "Deploying to EKS Namespace: ${NAMESPACE}"
+                        
+                        // Create namespace if not exists
+                        sh "kubectl get namespace ${NAMESPACE} || kubectl create namespace ${NAMESPACE}"
+
+                        // Replace placeholders in K8s manifests
+                        // Escaping $ for jenkins shell is tricky. using single quotes for sed expression helps.
+                        sh "sed -i 's|"${ECR_IMAGE}"|${ECR_IMAGE}|g' k8s/deployment.yaml"
+                        
+                        sh "kubectl apply -f k8s/ -n ${NAMESPACE}"
+                        
+                        sh "kubectl rollout status deployment/sigadash-frontend -n ${NAMESPACE} --timeout=120s"
                     }
                 }
             }
         }
-
+        
         stage('Skip Deployment') {
             when { expression { env.DEPLOY_ALLOWED == 'false' } }
             steps { echo "Deployment skipped for this build context" }

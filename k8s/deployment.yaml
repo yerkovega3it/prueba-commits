@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sigadash-frontend
+  namespace: sigadash
+  labels:
+    app: sigadash-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sigadash-frontend
+  template:
+    metadata:
+      labels:
+        app: sigadash-frontend
+    spec:
+      containers:
+        - name: sigadash-frontend
+          image: ${ECR_IMAGE}
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          imagePullPolicy: Always
