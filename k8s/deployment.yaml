@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: sigadash-frontend
-          image: 533315175931.dkr.ecr.us-east-1.amazonaws.com/amsa-sigadash-frontend
+          image: ECR_IMAGE_PLACEHOLDER
           ports:
             - containerPort: 8080
           volumeMounts:
