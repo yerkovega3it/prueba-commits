@@ -37,6 +37,14 @@ export default {
         orange: 'var(--color-orange, #ff9900)',
         yellow: 'var(--color-yellow, #ffff00)',
         
+        // Additional status colors
+        success: 'var(--color-success, #08F733)',
+        'success-light': 'var(--color-success-light, #0ff55c66)',
+        approved: 'var(--color-approved, #53F7F6)',
+        'approved-light': 'var(--color-approved-light, #64ccc966)',
+        critic: 'var(--color-critic, #FF005E)',
+        'critic-light': 'var(--color-critic-light, #660025)',
+        
         // Additional neon colors
         'neon-cyan': '#00ffff',
         'neon-magenta': '#ff00ff',
@@ -48,6 +56,7 @@ export default {
       animation: {
         'neon-pulse': 'neon-pulse 1.5s ease-in-out infinite',
         'neon-glow': 'neon-glow 2s ease-in-out infinite',
+        'pulse-border': 'pulse-border 1s ease-in-out infinite',
       },
       keyframes: {
         'neon-pulse': {
@@ -64,6 +73,16 @@ export default {
           },
           '50%': {
             boxShadow: '0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor',
+          },
+        },
+        'pulse-border': {
+          '0%, 100%': {
+            borderColor: '#FF005E',
+            boxShadow: '0 0 40px 10px rgba(255, 0, 94, 1), 0 0 80px 20px rgba(255, 0, 94, 0.8)',
+          },
+          '50%': {
+            borderColor: '#00FF88',
+            boxShadow: '0 0 80px 30px rgba(0, 255, 136, 1), 0 0 120px 40px rgba(0, 255, 136, 0.9)',
           },
         },
       },

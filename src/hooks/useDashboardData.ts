@@ -95,6 +95,7 @@ export function useCriticalOperationalAlert() {
       visitorsApprovedNotCheckedOut: 0,
       isCriticalOperationalAlertActive: false,
       peopleOutOfShiftNotCheckedOutWithDailyConsumption: 0,
+      peopleOutOfShiftAndNotRegisteredExit: 0,
     }
   );
 }

@@ -16,13 +16,14 @@ function ExpiringExams() {
           {today}
         </p>
         <p className="text-sm sm:text-base text-white text-center mt-1">
-          Exámenes que vencen hoy
+          Exámenes vencen hoy
         </p>
       </div>
       <DashboardLineChart
         oneDay={oneDay}
         threeDays={threeDays}
         fiveDays={fiveDays}
+        chartId="expiring-exams-chart"
       />
     </DashboardCard>
   );

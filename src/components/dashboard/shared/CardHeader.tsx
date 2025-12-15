@@ -19,7 +19,7 @@ function CardTitle({
   return (
     <div>
       <h2
-        className={`text-base font-semibold flex items-center gap-2 ${titleClassName}`}
+        className={`text-base font-bold flex items-center gap-2 ${titleClassName}`}
       >
         {icon && <FontAwesomeIcon icon={icon} className={iconClassName} />}
         {title}
