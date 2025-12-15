@@ -48,17 +48,9 @@ pipeline {
 
                     if (env.IS_DEVELOP_BRANCH == 'true') {
                         env.ENVIRONMENT = 'dev'
-                        env.VITE_API_URL = 'https://dev-amsa-sigadash-backend.3itapp.com/api'
-                        env.VITE_ENVIROMENT = 'Desarrollo'
-                        env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
-                        env.VITE_AMSA_LOGOUT_URL = 'https://loginintegrado.aminerals.cl/Login/LogoutAMSA'
                         env.DEPLOY_ALLOWED = 'true'
                     } else if (env.IS_RELEASE_BRANCH == 'true') {
                         env.ENVIRONMENT = 'qa'
-                        env.VITE_API_URL = 'https://qa-amsa-sgh-api.3itapp.com/api'
-                        env.VITE_ENVIROMENT = 'Desarrollo'
-                        env.VITE_AMSA_LOGIN_URL = 'https://loginintegrado.aminerals.cl'
-                        env.VITE_AMSA_LOGOUT_URL = 'https://loginintegrado.aminerals.cl/Login/LogoutAMSA'
                         env.DEPLOY_ALLOWED = 'true'
                     } else {
                         env.DEPLOY_ALLOWED = 'false'
@@ -98,10 +90,6 @@ pipeline {
                             docker build -t ${dockerImage} \
                             --build-arg GIT_USERNAME=${GIT_USERNAME} \
                             --build-arg GIT_TOKEN=${GIT_TOKEN} \
-                            --build-arg VITE_API_URL='${VITE_API_URL}' \
-                            --build-arg VITE_ENVIROMENT='${VITE_ENVIROMENT}' \
-                            --build-arg VITE_AMSA_LOGIN_URL='${VITE_AMSA_LOGIN_URL}' \
-                            --build-arg VITE_AMSA_LOGOUT_URL='${VITE_AMSA_LOGOUT_URL}' \
                             .
                         """
                         

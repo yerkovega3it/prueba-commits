@@ -17,9 +17,13 @@ spec:
     spec:
       containers:
         - name: sigadash-frontend
-          image: ECR_IMAGE_PLACEHOLDER
+          image: 533315175931.dkr.ecr.us-east-1.amazonaws.com/amsa-sigadash-frontend
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+              readOnly: true
           resources:
             limits:
               memory: "512Mi"
@@ -28,3 +32,8 @@ spec:
               memory: "256Mi"
               cpu: "250m"
           imagePullPolicy: Always
+      volumes:
+        - name: config-volume
+          secret:
+            secretName: sigadash-config-file
+            optional: true
