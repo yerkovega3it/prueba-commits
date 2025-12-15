@@ -16,6 +16,15 @@ const vitePort = process.env.VITE_PORT
   ? parseInt(process.env.VITE_PORT, 10)
   : 3000;
 
+// Normalizar variables de entorno para Vite (VITE_*) cuando se inyectan como REACT_APP_*
+process.env.VITE_API_URL = process.env.VITE_API_URL || process.env.REACT_APP_API_URL;
+process.env.VITE_AMSA_LOGIN_URL =
+  process.env.VITE_AMSA_LOGIN_URL || process.env.REACT_APP_AMSA_LOGIN_URL;
+process.env.VITE_AMSA_LOGOUT_URL =
+  process.env.VITE_AMSA_LOGOUT_URL || process.env.REACT_APP_AMSA_LOGOUT_URL;
+process.env.VITE_ENVIRONMENT =
+  process.env.VITE_ENVIRONMENT || process.env.REACT_APP_ENVIRONMENT;
+
 // Variables de entorno
 const environmentVariables = {
   NODE_ENV: nodeEnv,
@@ -23,8 +32,10 @@ const environmentVariables = {
   VITE_API_URL: process.env.REACT_APP_API_URL || process.env.VITE_API_URL,
   VITE_WS_URL: process.env.VITE_WS_URL,
   NODE_TLS_REJECT_UNAUTHORIZED: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
-  AMSA_LOGIN_URL: process.env.REACT_APP_AMSA_LOGIN_URL || process.env.VITE_AMSA_LOGIN_URL,
-  AMSA_LOGOUT_URL: process.env.REACT_APP_AMSA_LOGOUT_URL || process.env.VITE_AMSA_LOGOUT_URL,
+  AMSA_LOGIN_URL:
+    process.env.REACT_APP_AMSA_LOGIN_URL || process.env.VITE_AMSA_LOGIN_URL,
+  AMSA_LOGOUT_URL:
+    process.env.REACT_APP_AMSA_LOGOUT_URL || process.env.VITE_AMSA_LOGOUT_URL,
 };
 
 // Ignorar errores de certificados TLS
@@ -40,6 +51,24 @@ const app: Express = express();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.disable("x-powered-by");
+
+// Endpoint especial para config.js (cargado por index.html) para inyectar configuración en runtime.
+app.get("/config.js", (_req, res) => {
+  res.type("application/javascript");
+
+  const config = {
+    VITE_ENVIRONMENT:
+      process.env.VITE_ENVIRONMENT ||
+      process.env.NODE_ENV ||
+      environmentVariables.NODE_ENV ||
+      "development",
+    VITE_API_URL: "/api",
+    VITE_AMSA_LOGIN_URL: environmentVariables.AMSA_LOGIN_URL || "",
+    VITE_AMSA_LOGOUT_URL: environmentVariables.AMSA_LOGOUT_URL || "",
+  };
+
+  res.send(`window.__ENV__ = ${JSON.stringify(config)};`);
+});
 
 app.get("/env", (_req, res) => {
   res.json({
