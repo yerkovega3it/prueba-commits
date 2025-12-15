@@ -89,8 +89,6 @@ const { apis: apisHttp } = configHttp(
 );
 
 if (isRunDev !== "true") {
-  console.log("dasdsa", isRunDev);
-
   // Ruta a la carpeta dist
   const __filename = fileURLToPath(import.meta.url);
 
