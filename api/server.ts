@@ -55,6 +55,7 @@ app.disable("x-powered-by");
 // Endpoint especial para config.js (cargado por index.html) para inyectar configuración en runtime.
 app.get("/config.js", (_req, res) => {
   res.type("application/javascript");
+  res.setHeader("Cache-Control", "no-store, max-age=0, must-revalidate");
 
   const config = {
     VITE_ENVIRONMENT:
