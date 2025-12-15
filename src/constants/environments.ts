@@ -1,18 +1,30 @@
 /**
  * Constantes generales para las variables de entorno que se utilizaran en el sitio web.
- * Se prioriza window.__ENV__ para configuración en tiempo de ejecución (Docker/K8s/OpenShift).
  */
+interface EnvironmentVariables {
+  ENVIRONMENT: "development" | "staging" | "production";
+  API_URL: string | undefined;
+  AMSA_LOGIN_URL: string | undefined;
+  AMSA_LOGOUT_URL: string | undefined;
+}
 
-const getEnv = (key: keyof Window['__ENV__'], fallback: string = ''): string => {
-  if (typeof window !== 'undefined' && window.__ENV__ && window.__ENV__[key]) {
-    return window.__ENV__[key];
-  }
-  return import.meta.env[key] || fallback;
+const ev: EnvironmentVariables = {
+  ENVIRONMENT: "development",
+  API_URL: undefined,
+  AMSA_LOGIN_URL: undefined,
+  AMSA_LOGOUT_URL: undefined,
 };
 
-const ENVIRONMENT = getEnv('VITE_ENVIRONMENT');
-const API_URL = getEnv('VITE_API_URL');
-const AMSA_LOGIN_URL = getEnv('VITE_AMSA_LOGIN_URL');
-const AMSA_LOGOUT_URL = getEnv('VITE_AMSA_LOGOUT_URL');
+if (import.meta.env) {
+  ev.AMSA_LOGIN_URL = import.meta.env.VITE_AMSA_LOGIN_URL;
+  ev.AMSA_LOGOUT_URL = import.meta.env.VITE_AMSA_LOGOUT_URL;
+  ev.API_URL = import.meta.env.VITE_API_URL;
+  ev.ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT as
+    | "development"
+    | "staging"
+    | "production";
+}
 
+const { ENVIRONMENT, API_URL, AMSA_LOGIN_URL, AMSA_LOGOUT_URL } = ev;
+console.log(ev);
 export { ENVIRONMENT, API_URL, AMSA_LOGIN_URL, AMSA_LOGOUT_URL };

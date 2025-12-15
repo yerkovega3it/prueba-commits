@@ -20,10 +20,31 @@ spec:
           image: ECR_IMAGE_PLACEHOLDER
           ports:
             - containerPort: 8080
-          volumeMounts:
-            - name: config-volume
-              mountPath: /app/config
-              readOnly: true
+          env:
+            - name: REACT_APP_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: ENVIRONMENT
+                  optional: true
+            - name: REACT_APP_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: API_URL
+                  optional: true
+            - name: REACT_APP_AMSA_LOGIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGIN_URL
+                  optional: true
+            - name: REACT_APP_AMSA_LOGOUT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGOUT_URL
+                  optional: true
           resources:
             limits:
               memory: "512Mi"
@@ -32,8 +53,3 @@ spec:
               memory: "256Mi"
               cpu: "250m"
           imagePullPolicy: Always
-      volumes:
-        - name: config-volume
-          secret:
-            secretName: sigadash-config-file
-            optional: true

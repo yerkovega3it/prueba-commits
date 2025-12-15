@@ -25,8 +25,9 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY server.js ./
+COPY --from=builder /app/api ./api
+COPY --from=builder /app/shared ./shared
 
 EXPOSE 8080
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
