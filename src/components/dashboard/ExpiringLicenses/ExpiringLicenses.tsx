@@ -17,13 +17,14 @@ function ExpiringLicenses() {
           {today}
         </p>
         <p className="text-sm sm:text-base text-white text-center mt-1">
-          Vehículos con acreditación que vence hoy
+          Vehículos con acreditación vencen hoy
         </p>
       </div>
       <DashboardLineChart
         oneDay={oneDay}
         threeDays={threeDays}
         fiveDays={fiveDays}
+        chartId="expiring-licenses-chart"
       />
     </DashboardCard>
   );

@@ -6,6 +6,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ChartDataLabels, { type Context } from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 import {
   useMonthlyApprovedPasses,
@@ -14,7 +15,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 export default function MonthlyPassesChart() {
   const monthlyData = useMonthlyApprovedPasses();
@@ -51,10 +59,38 @@ export default function MonthlyPassesChart() {
       {
         label: "",
         data: values,
-        borderRadius: 20,
-        backgroundColor: (ctx: { dataIndex: number }) => {
+        borderRadius: 8,
+        borderSkipped: false,
+        borderWidth: 2,
+        borderColor: (ctx: { dataIndex: number }) => {
           const index = ctx.dataIndex;
           return index === currentMonthIndex ? "#ff005e" : "#53F7F6";
+        },
+        backgroundColor: (ctx: Context) => {
+          const index = ctx.dataIndex;
+          const chart = ctx.chart;
+          const { ctx: canvasCtx, chartArea } = chart;
+
+          if (!chartArea) {
+            return undefined;
+          }
+
+          const gradient = canvasCtx.createLinearGradient(
+            chartArea.left,
+            0,
+            chartArea.right,
+            0
+          );
+
+          if (index === currentMonthIndex) {
+            gradient.addColorStop(0, "rgba(145, 49, 78, 1)");
+            gradient.addColorStop(1, "rgba(255, 0, 94, 1)");
+          } else {
+            gradient.addColorStop(0, "rgba(49, 145, 144, 1)");
+            gradient.addColorStop(1, "rgba(83, 247, 246, 1)");
+          }
+
+          return gradient;
         },
         barPercentage: 0.4,
         categoryPercentage: 0.85,
@@ -72,7 +108,23 @@ export default function MonthlyPassesChart() {
         enabled: false,
       },
       datalabels: {
-        display: false,
+        anchor: "end" as const,
+        align: "end" as const,
+        color: "#ffffff",
+        font: {
+          size: 14,
+          weight: "bold" as const,
+        },
+        offset: 4,
+        backgroundColor: "#0B3044",
+        borderRadius: 4,
+        padding: {
+          top: 4,
+          bottom: 4,
+          left: 6,
+          right: 6,
+        },
+        formatter: (value: number) => value,
       },
     },
     scales: {
@@ -84,7 +136,15 @@ export default function MonthlyPassesChart() {
       y: {
         ticks: {
           color: "#ffffff",
-          font: { size: 12 },
+          font: (context: { index: number }) => {
+            const index = context.index;
+            return {
+              size: 12,
+              weight: (index === currentMonthIndex ? "bold" : "normal") as
+                | "bold"
+                | "normal",
+            };
+          },
           autoSkip: false,
         },
         grid: { display: false },
@@ -99,29 +159,16 @@ export default function MonthlyPassesChart() {
           <h2 className="text-approved font-bold text-sm sm:text-base xl:text-md mb-4 sm:mb-6">
             PASES APROBADOS REALIZADOS DE FORMA MENSUAL
           </h2>
-          <div className="relative pr-8 sm:pr-12 h-[280px] sm:h-[300px] w-full max-w-full xl:max-w-[420px] flex-shrink-0">
+          <div className="relative h-[280px] sm:h-[300px] w-full max-w-full xl:max-w-[420px] flex-shrink-0">
             <Bar data={data} options={options} />
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none flex flex-col justify-around py-1">
-              {values.map((value, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-end"
-                  style={{
-                    height: `${100 / values.length}%`,
-                  }}
-                >
-                  <span className="text-white font-bold text-sm">{value}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
-        <div className="w-full xl:flex-1">
+        <div className="w-full xl:flex-1 flex flex-col gap-4">
           <h2 className="text-approved font-bold text-base sm:text-lg mb-4 sm:mb-6">
             PASES DE VISITA
           </h2>
-          <div className="w-full max-w-full text-white space-y-5 sm:space-y-6 xl:space-y-8">
-            <div className="mt-0 xl:mt-[32px] space-y-8 sm:space-y-12 px-2 sm:px-0">
+          <div className="w-full max-w-full text-white">
+            <div className="mt-0 xl:mt-[32px] space-y-12 sm:space-y-16 px-2 sm:px-0">
               <div className="flex items-start">
                 <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
                   <FontAwesomeIcon

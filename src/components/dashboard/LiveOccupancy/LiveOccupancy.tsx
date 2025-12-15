@@ -3,7 +3,6 @@ import DashboardCard from "../shared/DashboardCard";
 import StatCard from "../shared/StatCard";
 import {
   faUtensils,
-  faArrowRight,
   faPlaneDeparture,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +10,6 @@ function LiveOccupancy() {
   const {
     peopleOnSite,
     peopleRepeatedSameDiningHallConsumption,
-    peopleOutOfShiftAndNotRegisteredExit,
     peopleDidNotShowUpForFlight,
   } = useLaborStatus();
 
@@ -21,7 +19,7 @@ function LiveOccupancy() {
       contentClassName="flex flex-col items-center sm:items-end gap-4 sm:gap-6 justify-between mt-3"
       className="col-span-1 p-4 sm:p-5 lg:p-6 rounded-3xl bg-main h-full"
     >
-      <div className="w-full sm:w-auto mx-auto p-4 sm:p-5 lg:p-6">
+      <div className="w-full sm:w-auto mx-auto p-6 sm:p-8 lg:p-10">
         <p className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-center text-approved">
           {peopleOnSite}
         </p>
@@ -29,12 +27,7 @@ function LiveOccupancy() {
           Personas en Faena
         </p>
       </div>
-      <div className="rounded-3xl bg-main h-full flex flex-col justify-around gap-8 mt-2 w-full mx-auto">
-        <StatCard
-          icon={faArrowRight}
-          value={peopleOutOfShiftAndNotRegisteredExit}
-          label="Personas fuera de turno y no han marcado salida"
-        />
+      <div className="rounded-3xl bg-main h-full flex flex-col justify-around gap-12 mt-2 w-full mx-auto">
         <StatCard
           icon={faUtensils}
           value={peopleRepeatedSameDiningHallConsumption}

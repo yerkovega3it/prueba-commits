@@ -21,13 +21,13 @@ function CrtiticAlert() {
         className={`w-full mx-auto rounded-3xl sm:rounded-2xl p-3 sm:p-4 relative flex flex-col ${
           inactiveAlerts
             ? "border-3 shadow-[0_20px_50px_-10px_rgba(8,247,51,0.8)] border-success"
-            : "border-5 shadow-[0_20px_120px_-10px_rgba(255,0,94,0.5)] border-critic-light"
+            : "border-5 border-critic animate-pulse-border"
         }`}
       >
         <CardTitle
           title={"ALERTA OPERATIVA CRÍTICA"}
           icon={faExclamationTriangle}
-          titleClassName={`text-xl ${
+          titleClassName={`text-xl font-bold ${
             inactiveAlerts ? "text-success" : "text-critic"
           }`}
           iconClassName={"text-alert mb-1.5"}
@@ -47,7 +47,7 @@ function CrtiticAlert() {
                 {peopleFinishedShiftNotCheckedOut}
               </span>
               <p className="text-white text-xs sm:text-sm leading-tight">
-                Personas que terminaron su jornada y no se han retirado
+                Personas fuera de turno y no han marcado salida
               </p>
             </div>
             <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
