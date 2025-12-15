@@ -19,7 +19,56 @@ spec:
         - name: sigadash-frontend
           image: ECR_IMAGE_PLACEHOLDER
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
+          env:
+            - name: REACT_APP_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: ENVIRONMENT
+                  optional: true
+            - name: REACT_APP_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: API_URL
+                  optional: true
+            - name: VITE_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: API_URL
+                  optional: true
+            - name: REACT_APP_AMSA_LOGIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGIN_URL
+                  optional: true
+            - name: VITE_AMSA_LOGIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGIN_URL
+                  optional: true
+            - name: REACT_APP_AMSA_LOGOUT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGOUT_URL
+                  optional: true
+            - name: VITE_AMSA_LOGOUT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: AMSA_LOGOUT_URL
+                  optional: true
+            - name: VITE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: variables-env
+                  key: ENVIRONMENT
+                  optional: true
           resources:
             limits:
               memory: "512Mi"

@@ -1,5 +1,4 @@
 import type { LoginResponse } from "@/interfaces/auth/Login.interface";
-import { API_URL } from "../constants/environments";
 import { internalEndpoints } from "@shared/constants/internalEndpoints/internalEndpoints";
 
 interface ValidateTokenResponse {
@@ -27,7 +26,7 @@ export const authService = {
     return result;
   },
   async validateToken(token: string): Promise<ValidateTokenResponse> {
-    let url = `${API_URL}/auth/validateToken`;
+    let url = internalEndpoints.AUTH_VALIDATE_TOKEN.pathBase;
     if (token) {
       url += `?jwt=${token}`;
     }

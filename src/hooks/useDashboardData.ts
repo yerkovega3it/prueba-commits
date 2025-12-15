@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { dashboardService } from "@/services/dashboard.api";
 
 export function useDashboardData() {
+  dashboardService.get().then((data) => console.log(data));
   return useQuery({
     queryKey: ["dashboard"],
     queryFn: dashboardService.get,
