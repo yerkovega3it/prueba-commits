@@ -19,10 +19,12 @@ const vitePort = process.env.VITE_PORT
 // Variables de entorno
 const environmentVariables = {
   NODE_ENV: nodeEnv,
-  VITE_PORT: vitePort,
-  VITE_API_URL: process.env.VITE_API_URL,
+  VITE_PORT: process.env.VITE_PORT ? parseInt(process.env.VITE_PORT, 10) : 8080,
+  VITE_API_URL: process.env.REACT_APP_API_URL || process.env.VITE_API_URL,
   VITE_WS_URL: process.env.VITE_WS_URL,
   NODE_TLS_REJECT_UNAUTHORIZED: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
+  AMSA_LOGIN_URL: process.env.REACT_APP_AMSA_LOGIN_URL || process.env.VITE_AMSA_LOGIN_URL,
+  AMSA_LOGOUT_URL: process.env.REACT_APP_AMSA_LOGOUT_URL || process.env.VITE_AMSA_LOGOUT_URL,
 };
 
 // Ignorar errores de certificados TLS
