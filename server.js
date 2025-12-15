@@ -1,7 +1,8 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+import express from 'express';
+import path from 'path';
+import fs from 'fs';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -11,7 +12,7 @@ const CONFIG_FILE_PATH = '/app/config/config.json';
 let fileConfig = {};
 try {
   if (fs.existsSync(CONFIG_FILE_PATH)) {
-    const rawData = fs.readFileSync(CONFIG_FILE_PATH);
+    const rawData = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
     fileConfig = JSON.parse(rawData);
     console.log(`Configuration loaded from ${CONFIG_FILE_PATH}`);
   }
@@ -36,7 +37,6 @@ app.use('/api', createProxyMiddleware({
   changeOrigin: true,
   pathRewrite: (path, req) => {
     // Si la URL interna ya contiene '/api' al final, eliminamos '/api' del path de la petición
-    // para evitar duplicados como http://backend/api/api/usuarios
     if (INTERNAL_API_URL.endsWith('/api')) {
       return path.replace(/^\/api/, '');
     }
