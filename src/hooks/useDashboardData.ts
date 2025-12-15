@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { dashboardMetricsApi } from "@/services/dashboard.api";
+import { dashboardService } from "@/services/dashboard.api";
 
 export function useDashboardData() {
   return useQuery({
     queryKey: ["dashboard"],
-    queryFn: dashboardMetricsApi,
+    queryFn: dashboardService.get,
     refetchInterval: 30000,
     staleTime: 20000,
   });

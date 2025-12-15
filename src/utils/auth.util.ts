@@ -35,10 +35,7 @@ export const authUtils = {
   },
 
   getToken(): string | null {
-    return (
-      localStorage.getItem(AUTH_TOKEN_KEY) ??
-      sessionStorage.getItem(AUTH_TOKEN_KEY)
-    );
+    return localStorage.getItem(AUTH_TOKEN_KEY);
   },
 
   removeToken() {
@@ -115,14 +112,6 @@ export const authUtils = {
         return { error: errorMessage };
       }
       return { error: errorMessages[500] };
-    }
-
-    // Verificar si el usuario está vigente
-    if (!response.user?.status) {
-      return {
-        error:
-          "Lo sentimos, tu cuenta no aparece en nuestros registros o se encuentra inactiva. Para recibir ayuda, por favor contacta a AMSA.",
-      };
     }
 
     authUtils.setToken(response.jwt);

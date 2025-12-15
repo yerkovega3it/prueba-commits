@@ -26,7 +26,8 @@
     /* 🔽 Alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["shared/*"]
       /* Opcional: más alias específicos
       ,"@/components/*": ["src/components/*"],
       "@/pages/*": ["src/pages/*"],
