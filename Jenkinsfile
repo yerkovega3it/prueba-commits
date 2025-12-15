@@ -112,12 +112,24 @@ pipeline {
                         // Create namespace if not exists
                         sh "kubectl get namespace ${NAMESPACE} || kubectl create namespace ${NAMESPACE}"
 
-                        // Replace placeholders in K8s manifests
-                        sh "sed -i 's|ECR_IMAGE_PLACEHOLDER|${ECR_IMAGE}|g' k8s/deployment.yaml"
+                        // Read deployment template and replace placeholder
+                        def deploymentContent = readFile('k8s/deployment.yaml')
+                        deploymentContent = deploymentContent.replace('ECR_IMAGE_PLACEHOLDER', env.ECR_IMAGE)
+                        writeFile file: 'k8s/deployment-final.yaml', text: deploymentContent
+
+                        // Apply other manifests
+                        sh "kubectl apply -f k8s/service.yaml -n ${NAMESPACE}"
+                        if (fileExists('k8s/ingress.yaml')) {
+                            sh "kubectl apply -f k8s/ingress.yaml -n ${NAMESPACE}"
+                        }
+                        
+                        // Apply the dynamic deployment
+                        sh "kubectl apply -f k8s/deployment-final.yaml -n ${NAMESPACE}"
+                        
+                        // Clean up temp file
+                        sh "rm k8s/deployment-final.yaml"
 	                        
-	                        sh "kubectl apply -f k8s/ -n ${NAMESPACE}"
-	                        
-	                        sh "kubectl rollout status deployment/sigadash-frontend -n ${NAMESPACE} --timeout=120s"
+                        sh "kubectl rollout status deployment/sigadash-frontend -n ${NAMESPACE} --timeout=120s"
                     }
                 }
             }
