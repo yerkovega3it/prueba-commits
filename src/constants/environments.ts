@@ -8,6 +8,11 @@ interface EnvironmentVariables {
   AMSA_LOGOUT_URL: string | undefined;
 }
 
+const getRuntimeEnv = (): Partial<Record<keyof Window["__ENV__"], string>> => {
+  if (typeof window === "undefined") return {};
+  return window.__ENV__ ?? {};
+};
+
 const ev: EnvironmentVariables = {
   ENVIRONMENT: "development",
   API_URL: undefined,
@@ -16,13 +21,14 @@ const ev: EnvironmentVariables = {
 };
 
 if (import.meta.env) {
-  ev.AMSA_LOGIN_URL = import.meta.env.VITE_AMSA_LOGIN_URL;
-  ev.AMSA_LOGOUT_URL = import.meta.env.VITE_AMSA_LOGOUT_URL;
-  ev.API_URL = import.meta.env.VITE_API_URL;
-  ev.ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT as
-    | "development"
-    | "staging"
-    | "production";
+  const runtimeEnv = getRuntimeEnv();
+  ev.AMSA_LOGIN_URL =
+    runtimeEnv.VITE_AMSA_LOGIN_URL ?? import.meta.env.VITE_AMSA_LOGIN_URL;
+  ev.AMSA_LOGOUT_URL =
+    runtimeEnv.VITE_AMSA_LOGOUT_URL ?? import.meta.env.VITE_AMSA_LOGOUT_URL;
+  ev.API_URL = runtimeEnv.VITE_API_URL ?? import.meta.env.VITE_API_URL;
+  ev.ENVIRONMENT = (runtimeEnv.VITE_ENVIRONMENT ??
+    import.meta.env.VITE_ENVIRONMENT) as "development" | "staging" | "production";
 }
 
 const { ENVIRONMENT, API_URL, AMSA_LOGIN_URL, AMSA_LOGOUT_URL } = ev;
