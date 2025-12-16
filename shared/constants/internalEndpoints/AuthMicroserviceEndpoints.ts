@@ -7,7 +7,7 @@ const AuthMicroserviceEndpoints: AuthMicroserviceInterface = {
     get pathFront() {
       return this.pathBase;
     },
-    pathBack: (API_URL) => `${API_URL}/auth/integrated-login`,
+    pathBack: (API_URL) => `${API_URL}/api/auth/integrated-login`,
     method: "POST",
   }),
   AUTH_VALIDATE_TOKEN: createEndpointInterface({
@@ -15,7 +15,7 @@ const AuthMicroserviceEndpoints: AuthMicroserviceInterface = {
     get pathFront() {
       return this.pathBase;
     },
-    pathBack: (API_URL) => `${API_URL}/auth/validateToken`,
+    pathBack: (API_URL) => `${API_URL}/api/auth/validateToken`,
     method: "POST",
   }),
 };
