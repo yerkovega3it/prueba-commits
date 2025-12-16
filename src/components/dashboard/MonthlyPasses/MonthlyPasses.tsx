@@ -14,6 +14,7 @@ import {
 } from "@/hooks/useDashboardData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import FitText from "@/components/shared/FitText";
 
 ChartJS.register(
   CategoryScale,
@@ -94,6 +95,7 @@ export default function MonthlyPassesChart() {
         },
         barPercentage: 0.4,
         categoryPercentage: 0.85,
+        maxBarThickness: 20,
       },
     ],
   };
@@ -112,8 +114,9 @@ export default function MonthlyPassesChart() {
         align: "end" as const,
         color: "#ffffff",
         font: {
-          size: 14,
+          size: 10,
           weight: "bold" as const,
+          family: "Anta",
         },
         offset: 4,
         backgroundColor: "#0B3044",
@@ -131,7 +134,7 @@ export default function MonthlyPassesChart() {
       x: {
         ticks: { display: false },
         grid: { display: false },
-        max: 40,
+        max: 120,
       },
       y: {
         ticks: {
@@ -143,6 +146,7 @@ export default function MonthlyPassesChart() {
               weight: (index === currentMonthIndex ? "bold" : "normal") as
                 | "bold"
                 | "normal",
+              family: "Anta",
             };
           },
           autoSkip: false,
@@ -153,69 +157,75 @@ export default function MonthlyPassesChart() {
   };
 
   return (
-    <div className="w-full bg-main rounded-3xl p-4 sm:p-5 xl:p-6 overflow-hidden">
-      <div className="flex flex-col xl:flex-row gap-6 sm:gap-8 h-full">
-        <div className="w-full xl:flex-1">
-          <h2 className="text-approved font-bold text-sm sm:text-base xl:text-md mb-4 sm:mb-6">
+    <div className="w-full bg-main rounded-3xl p-4 overflow-hidden h-full flex flex-col">
+      <div className="flex gap-6 flex-1 overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0">
+          <FitText
+            className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
+            maxFontSizePx={18}
+            minFontSizePx={12}
+          >
             PASES APROBADOS REALIZADOS DE FORMA MENSUAL
-          </h2>
-          <div className="relative h-[280px] sm:h-[300px] w-full max-w-full xl:max-w-[420px] flex-shrink-0">
+          </FitText>
+          <div className="relative flex-1 w-full h-72">
             <Bar data={data} options={options} />
           </div>
         </div>
-        <div className="w-full xl:flex-1 flex flex-col gap-4">
-          <h2 className="text-approved font-bold text-base sm:text-lg mb-4 sm:mb-6">
+        <div className="flex-1 flex flex-col gap-2 min-w-0">
+          <FitText
+            className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
+            maxFontSizePx={18}
+            minFontSizePx={12}
+          >
             PASES DE VISITA
-          </h2>
-          <div className="w-full max-w-full text-white">
-            <div className="mt-0 xl:mt-[32px] space-y-12 sm:space-y-16 px-2 sm:px-0">
-              <div className="flex items-start">
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-approved text-base sm:text-lg"
-                  />
-                </div>
-                <div className="flex items-start gap-3 sm:gap-4 ml-3 sm:ml-4 min-w-0">
-                  <span className="text-3xl sm:text-4xl font-bold w-12 sm:w-16 text-center shrink-0">
-                    {approvedPassesToday}
-                  </span>
-                  <span className="text-xs sm:text-sm opacity-90 break-words self-center">
-                    Pases Aprobados hoy (duración 1 día)
-                  </span>
-                </div>
+          </FitText>
+          <div className="w-full text-white flex-1 flex flex-col justify-around">
+            <div className="flex items-start">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="text-approved text-base md:text-lg lg:text-xl"
+                />
               </div>
-              <div className="flex items-start">
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-approved text-base sm:text-lg"
-                  />
-                </div>
-                <div className="flex items-start gap-3 sm:gap-4 ml-3 sm:ml-4 min-w-0">
-                  <span className="text-3xl sm:text-4xl font-bold w-12 sm:w-16 text-center shrink-0">
-                    {peopleWithPlusOneApprovedNext5Days}
-                  </span>
-                  <span className="text-xs sm:text-sm opacity-90 break-words self-center">
-                    Personas con +1 pase aprobados en los próximos 5 días
-                  </span>
-                </div>
+              <div className="flex items-start gap-2 ml-2 min-w-0">
+                <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                  {approvedPassesToday}
+                </span>
+                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                  Pases Aprobados hoy (duración 1 día)
+                </span>
               </div>
-              <div className="flex items-start">
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-approved text-base sm:text-lg"
-                  />
-                </div>
-                <div className="flex items-start gap-3 sm:gap-4 ml-3 sm:ml-4 min-w-0">
-                  <span className="text-3xl sm:text-4xl font-bold w-12 sm:w-16 text-center shrink-0">
-                    {approvedPassesNext7Days}
-                  </span>
-                  <span className="text-xs sm:text-sm opacity-90 break-words self-center">
-                    Pases Aprobados en los próximos 7 días
-                  </span>
-                </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="text-approved text-base md:text-lg lg:text-xl"
+                />
+              </div>
+              <div className="flex items-start gap-2 ml-2 min-w-0">
+                <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                  {peopleWithPlusOneApprovedNext5Days}
+                </span>
+                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                  Personas con +1 pase aprobados en los próximos 5 días
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="text-approved text-base md:text-lg lg:text-xl"
+                />
+              </div>
+              <div className="flex items-start gap-2 ml-2 min-w-0">
+                <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                  {approvedPassesNext7Days}
+                </span>
+                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                  Pases Aprobados en los próximos 7 días
+                </span>
               </div>
             </div>
           </div>

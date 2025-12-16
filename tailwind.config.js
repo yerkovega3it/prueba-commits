@@ -56,7 +56,7 @@ export default {
       animation: {
         'neon-pulse': 'neon-pulse 1.5s ease-in-out infinite',
         'neon-glow': 'neon-glow 2s ease-in-out infinite',
-        'pulse-border': 'pulse-border 1s ease-in-out infinite',
+        'pulse-border': 'pulse-border 2s ease-in-out infinite',
       },
       keyframes: {
         'neon-pulse': {
@@ -77,12 +77,10 @@ export default {
         },
         'pulse-border': {
           '0%, 100%': {
-            borderColor: '#FF005E',
-            boxShadow: '0 0 40px 10px rgba(255, 0, 94, 1), 0 0 80px 20px rgba(255, 0, 94, 0.8)',
+            boxShadow: '0 0 15px 5px rgba(220, 38, 38, 0.6)',
           },
           '50%': {
-            borderColor: '#00FF88',
-            boxShadow: '0 0 80px 30px rgba(0, 255, 136, 1), 0 0 120px 40px rgba(0, 255, 136, 0.9)',
+            boxShadow: '0 0 40px 15px rgba(220, 38, 38, 1)',
           },
         },
       },

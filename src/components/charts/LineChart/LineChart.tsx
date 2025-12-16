@@ -112,7 +112,7 @@ export default function DashboardLineChart({
           color: "#ffffff",
           font: {
             size: 10,
-            family: "Aldrich",
+            family: "Anta",
           },
         },
         grid: { display: false },
@@ -135,7 +135,7 @@ export default function DashboardLineChart({
         font: {
           size: 12,
           weight: "bold" as const,
-          family: "Aldrich",
+          family: "Anta",
         },
         formatter: (value: number) => (value === 0 ? "" : value),
       },
@@ -143,7 +143,7 @@ export default function DashboardLineChart({
   };
 
   return (
-    <div className="flex-1 h-32 min-w-0">
+    <div className="flex-1 h-32 md:h-42 lg:h-52 min-w-0">
       <Line ref={chartRef} data={data} options={options} />
     </div>
   );
