@@ -24,7 +24,7 @@ function DashboardHeader() {
           </p>
         </div>
         <div className="text-right">
-          <p className="text-4xl md:text-5xl lg:text-6xl font-normal font-aldrich">
+          <p className="text-3xl md:text-4xl lg:text-5xl font-normal font-aldrich">
             {currentDateTime.toLocaleTimeString("es-CL", {
               hour: "2-digit",
               minute: "2-digit",

@@ -30,7 +30,7 @@ function CardTitle({
             }
           />
         )}
-        <FitText className="inline-block" maxFontSizePx={18} minFontSizePx={12}>
+        <FitText className="inline-block" maxFontSizePx={16} minFontSizePx={12}>
           {title}
         </FitText>
       </h2>
