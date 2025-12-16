@@ -7,7 +7,7 @@ const DashboardMicroserviceEndpoints: DashboardMicroserviceInterface = {
     get pathFront() {
       return this.pathBase;
     },
-    pathBack: (API_URL) => `${API_URL}/api/dashboard/get`,
+    pathBack: (API_URL) => `${API_URL}/dashboard/get`,
     method: "GET",
   }),
 };
