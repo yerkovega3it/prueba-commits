@@ -1,0 +1,47 @@
+.card {
+  position: relative;
+  padding: 10px;
+  border-radius: 16px;
+  background-image: linear-gradient(
+    135deg,
+    #ff005e 0%,
+    #660025 35%,
+    #660025 65%,
+    #ff005e 100%
+  );
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: linear-gradient(
+    135deg,
+    #ff005e 0%,
+    #660025 35%,
+    #660025 65%,
+    #ff005e 100%
+  );
+  filter: blur(0px);
+  animation: blurPulse 2s ease-in-out infinite;
+}
+
+@keyframes blurPulse {
+  0% {
+    filter: blur(0px);
+  }
+  50% {
+    filter: blur(18px);
+  }
+  100% {
+    filter: blur(0px);
+  }
+}
+
+.card-content {
+  background: #000000;
+  border-radius: inherit;
+  padding: 16px;
+  position: relative;
+}
