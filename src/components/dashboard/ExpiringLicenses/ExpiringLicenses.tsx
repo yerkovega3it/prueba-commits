@@ -10,13 +10,14 @@ function ExpiringLicenses() {
     <DashboardCard
       title="VEHÍCULOS DOCUMENTOS POR VENCER"
       icon={faCar}
-      contentClassName="flex flex-col sm:flex-row items-center gap-4 h-full"
+      titleClassName="text-lg text-approved"
+      contentClassName="flex items-center gap-3 h-full"
     >
-      <div className="shrink-0 w-full sm:w-auto sm:max-w-32">
-        <p className="text-5xl sm:text-6xl font-bold text-center text-approved">
+      <div className="shrink-0 w-auto max-w-32">
+        <p className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-approved font-anta">
           {today}
         </p>
-        <p className="text-sm sm:text-base text-white text-center mt-1">
+        <p className="text-sm md:text-base text-white text-center mt-1">
           Vehículos con acreditación vencen hoy
         </p>
       </div>

@@ -5,20 +5,28 @@ function StatCard({
   value,
   label,
   icon,
+  iconClassName = "text-approved text-2xl md:text-3xl lg:text-3xl",
+  valueClassName = "text-3xl md:text-4xl lg:text-5xl w-20",
+  labelClassName = "text-base md:text-lg lg:text-lg",
 }: {
   value: number;
   label: string;
   icon: IconDefinition;
+  iconClassName?: string;
+  valueClassName?: string;
+  labelClassName?: string;
 }) {
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 shrink-0">
-        <FontAwesomeIcon icon={icon} className="text-approved text-lg" />
+    <div className="flex items-center gap-5">
+      <div className="flex items-center justify-center w-14 h-14 shrink-0">
+        <FontAwesomeIcon icon={icon} className={iconClassName} />
       </div>
-      <span className="mt-2 text-3xl sm:text-4xl w-16 sm:w-20 text-center shrink-0 font-normal leading-none">
+      <span
+        className={`text-center shrink-0 font-normal leading-none font-anta ${valueClassName}`}
+      >
         {value}
       </span>
-      <p className="mt-1 text-xs sm:text-sm opacity-90 leading-none font-medium">
+      <p className={`${labelClassName} opacity-90 leading-tight font-medium`}>
         {label}
       </p>
     </div>

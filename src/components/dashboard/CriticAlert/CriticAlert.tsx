@@ -13,73 +13,73 @@ function CrtiticAlert() {
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
   } = useCriticalOperationalAlert();
 
-  const inactiveAlerts = !isCriticalOperationalAlertActive;
+  const inactiveAlerts = isCriticalOperationalAlertActive;
 
   return (
-    <div className="flex flex-col gap-4 lg:gap-10 w-full">
+    <div className="flex flex-col w-full h-full overflow-hidden">
       <div
-        className={`w-full mx-auto rounded-3xl sm:rounded-2xl p-3 sm:p-4 relative flex flex-col ${
+        className={`w-full mx-auto rounded-3xl p-3 relative flex flex-col h-full overflow-hidden ${
           inactiveAlerts
-            ? "border-3 shadow-[0_20px_50px_-10px_rgba(8,247,51,0.8)] border-success"
-            : "border-5 border-critic animate-pulse-border"
+            ? "border-3 shadow-[0_0_15px_0px_rgba(8,247,51,0.8)] border-success"
+            : "border-5 border-critic shadow-[0_0_15px_5px_rgba(220,38,38,0.6)] animate-pulse-border"
         }`}
       >
         <CardTitle
           title={"ALERTA OPERATIVA CRÍTICA"}
           icon={faExclamationTriangle}
-          titleClassName={`text-xl font-bold ${
+          titleClassName={`text-3xl font-bold whitespace-nowrap ${
             inactiveAlerts ? "text-success" : "text-critic"
           }`}
-          iconClassName={"text-alert mb-1.5"}
+          iconClassName={"text-alert mb-1.5 text-3xl"}
         />
         {inactiveAlerts ? (
-          <div className="mt-4 sm:mt-6 flex flex-col justify-center bg-success-light/20 min-h-[530px] px-[20px]">
-            <div className="text-xs sm:text-sm text-center mx-auto">
+          <div className="mt-3 flex flex-col justify-center flex-1 bg-success-light/20 px-[20px]">
+            <div className="text-4xl text-center mx-auto">
               <span className="text-success">
                 No hay alertas registradas en este momento.
               </span>
             </div>
           </div>
         ) : (
-          <div className="mt-4 sm:mt-6 flex flex-col justify-between gap-5">
-            <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
-              <span className="text-white text-2xl sm:text-3xl font-bold shrink-0 w-12 sm:w-16 text-center">
+          <div className="mt-2 flex flex-col justify-between gap-3 flex-1 overflow-hidden">
+            <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
+              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleFinishedShiftNotCheckedOut}
               </span>
-              <p className="text-white text-xs sm:text-sm leading-tight">
+              <p className="text-white text-lg leading-tight">
                 Personas fuera de turno y no han marcado salida
               </p>
             </div>
-            <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
-              <span className="text-white text-2xl sm:text-3xl font-bold shrink-0 w-12 sm:w-16 text-center">
+            <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
+              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleWithExpiredExams}
               </span>
-              <p className="text-white text-xs sm:text-sm leading-tight">
+              <p className="text-white text-lg leading-tight">
                 Personas con exámenes vencidos
               </p>
             </div>
-            <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
-              <span className="text-white text-2xl sm:text-3xl font-bold shrink-0 w-12 sm:w-16 text-center">
+            <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
+              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                 {vehiclesWithExpiredAccreditation}
               </span>
-              <p className="text-white text-xs sm:text-sm leading-tight">
+              <p className="text-white text-lg leading-tight">
                 Vehículos con acreditación vencida
               </p>
             </div>
-            <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
-              <span className="text-white text-2xl sm:text-3xl font-bold shrink-0 w-12 sm:w-16 text-center">
+            <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
+              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
               </span>
-              <p className="text-white text-xs sm:text-sm leading-tight">
+              <p className="text-white text-lg leading-tight">
                 Personas fuera de turno que no han registrado retiro y tienen
                 consumo diario
               </p>
             </div>
-            <div className="bg-critic-light rounded-lg flex items-center gap-3 sm:gap-4 px-[20px] py-[14px] min-h-[90px]">
-              <span className="text-white text-2xl sm:text-3xl font-bold shrink-0 w-12 sm:w-16 text-center">
+            <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
+              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                 {visitorsApprovedNotCheckedOut}
               </span>
-              <p className="text-white text-xs sm:text-sm leading-tight">
+              <p className="text-white text-lg leading-tight">
                 Personas con pase de visita aprobado que aún no registran retiro
               </p>
             </div>
@@ -89,7 +89,8 @@ function CrtiticAlert() {
       <img
         src={Map}
         alt="Map"
-        className="w-full sm:w-3/4 md:w-2/3 h-auto object-contain rounded-3xl mx-auto"
+        className="w-full h-auto object-contain rounded-3xl flex-shrink-0 mt-3"
+        style={{ maxHeight: "25%" }}
       />
     </div>
   );
