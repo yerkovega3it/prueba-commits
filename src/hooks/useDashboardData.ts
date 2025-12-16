@@ -1,12 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { dashboardMetricsApi } from "@/services/dashboard.api";
+import {
+  DASHBOARD_REFETCH_INTERVAL_MS,
+  DASHBOARD_STALE_TIME_MS,
+  RETRY_DELAY_MS,
+} from "@/constants";
 
 export function useDashboardData() {
   return useQuery({
     queryKey: ["dashboard"],
     queryFn: dashboardMetricsApi,
-    refetchInterval: 30000,
-    staleTime: 20000,
+    refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
   });
 }
 
