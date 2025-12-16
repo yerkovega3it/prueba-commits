@@ -98,9 +98,6 @@ export default function DashboardLineChart({
     ],
   };
 
-  const maxValue = Math.max(...paddedData);
-  const suggestedMax = maxValue * 1.5;
-
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -119,7 +116,7 @@ export default function DashboardLineChart({
       },
       y: {
         min: 0,
-        suggestedMax: suggestedMax,
+        grace: "100%",
         ticks: { display: false },
         grid: { display: false },
       },
@@ -137,13 +134,20 @@ export default function DashboardLineChart({
           weight: "bold" as const,
           family: "Anta",
         },
-        formatter: (value: number) => (value === 0 ? "" : value),
+        formatter: (value: number, context: Context) => {
+          const index = context.dataIndex;
+          const dataLength = context.dataset.data.length;
+          if (index === 0 || index === dataLength - 1) {
+            return "";
+          }
+          return value;
+        },
       },
     },
   };
 
   return (
-    <div className="flex-1 h-32 md:h-42 lg:h-52 min-w-0">
+    <div className="flex-1 h-32 md:h-42 lg:h-44 min-w-0">
       <Line ref={chartRef} data={data} options={options} />
     </div>
   );

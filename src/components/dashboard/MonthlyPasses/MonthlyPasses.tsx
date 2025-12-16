@@ -162,7 +162,7 @@ export default function MonthlyPassesChart() {
         <div className="flex-1 flex flex-col min-w-0">
           <FitText
             className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
-            maxFontSizePx={18}
+            maxFontSizePx={16}
             minFontSizePx={12}
           >
             PASES APROBADOS REALIZADOS DE FORMA MENSUAL
@@ -174,17 +174,17 @@ export default function MonthlyPassesChart() {
         <div className="flex-1 flex flex-col gap-2 min-w-0">
           <FitText
             className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
-            maxFontSizePx={18}
+            maxFontSizePx={16}
             minFontSizePx={12}
           >
             PASES DE VISITA
           </FitText>
           <div className="w-full text-white flex-1 flex flex-col justify-around">
             <div className="flex items-start">
-              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
                 <FontAwesomeIcon
                   icon={faCheckCircle}
-                  className="text-approved text-base md:text-lg lg:text-xl"
+                  className="text-approved text-lg md:text-xl lg:text-2xl"
                 />
               </div>
               <div className="flex items-start gap-2 ml-2 min-w-0">
@@ -197,10 +197,10 @@ export default function MonthlyPassesChart() {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
                 <FontAwesomeIcon
                   icon={faCheckCircle}
-                  className="text-approved text-base md:text-lg lg:text-xl"
+                  className="text-approved text-lg md:text-xl lg:text-2xl"
                 />
               </div>
               <div className="flex items-start gap-2 ml-2 min-w-0">
@@ -213,10 +213,10 @@ export default function MonthlyPassesChart() {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-full bg-approved/15 shadow-[0_0_10px_var(--tw-approved)] shrink-0">
+              <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
                 <FontAwesomeIcon
                   icon={faCheckCircle}
-                  className="text-approved text-base md:text-lg lg:text-xl"
+                  className="text-approved text-lg md:text-xl lg:text-2xl"
                 />
               </div>
               <div className="flex items-start gap-2 ml-2 min-w-0">

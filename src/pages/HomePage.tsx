@@ -17,8 +17,8 @@ export default function HomePage() {
         style={{ height: "88%" }}
       >
         <div
-          className="flex flex-col gap-6 overflow-hidden h-full"
-          style={{ width: "73%" }}
+          className="flex flex-col gap-6 overflow-hidden h-full mr-6"
+          style={{ width: "72%" }}
         >
           <div className="flex gap-6 w-full" style={{ height: "60%" }}>
             <div className="w-1/2 h-full overflow-hidden">
@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
         <div
           className="absolute right-0 top-0 h-full overflow-hidden"
-          style={{ width: "26%" }}
+          style={{ width: "28%" }}
         >
           <CriticAlert />
         </div>

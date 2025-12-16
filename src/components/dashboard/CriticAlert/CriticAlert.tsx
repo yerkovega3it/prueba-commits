@@ -16,12 +16,12 @@ function CrtiticAlert() {
   const inactiveAlerts = isCriticalOperationalAlertActive;
 
   return (
-    <div className="flex flex-col w-full h-full overflow-hidden">
+    <div className="flex flex-col w-full h-full overflow-hidden p-8">
       <div
         className={`w-full mx-auto rounded-3xl p-3 relative flex flex-col h-full overflow-hidden ${
           inactiveAlerts
-            ? "border-3 shadow-[0_0_15px_0px_rgba(8,247,51,0.8)] border-success"
-            : "border-5 border-critic shadow-[0_0_15px_5px_rgba(220,38,38,0.6)] animate-pulse-border"
+            ? "border-5 shadow-[0_0_15px_0px_rgba(8,247,51,0.8)] border-success"
+            : "border-5 border-critic shadow-[0_0_15px_0px_rgba(220,38,38,0.6)] animate-pulse-border"
         }`}
       >
         <CardTitle
@@ -34,7 +34,7 @@ function CrtiticAlert() {
         />
         {inactiveAlerts ? (
           <div className="mt-3 flex flex-col justify-center flex-1 bg-success-light/20 px-[20px]">
-            <div className="text-4xl text-center mx-auto">
+            <div className="text-3xl text-center mx-auto">
               <span className="text-success">
                 No hay alertas registradas en este momento.
               </span>
@@ -43,7 +43,7 @@ function CrtiticAlert() {
         ) : (
           <div className="mt-2 flex flex-col justify-between gap-3 flex-1 overflow-hidden">
             <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
+              <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleFinishedShiftNotCheckedOut}
               </span>
               <p className="text-white text-lg leading-tight">
@@ -51,7 +51,7 @@ function CrtiticAlert() {
               </p>
             </div>
             <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
+              <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleWithExpiredExams}
               </span>
               <p className="text-white text-lg leading-tight">
@@ -59,7 +59,7 @@ function CrtiticAlert() {
               </p>
             </div>
             <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
+              <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
                 {vehiclesWithExpiredAccreditation}
               </span>
               <p className="text-white text-lg leading-tight">
@@ -67,7 +67,7 @@ function CrtiticAlert() {
               </p>
             </div>
             <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
+              <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
                 {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
               </span>
               <p className="text-white text-lg leading-tight">
@@ -76,7 +76,7 @@ function CrtiticAlert() {
               </p>
             </div>
             <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-              <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
+              <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
                 {visitorsApprovedNotCheckedOut}
               </span>
               <p className="text-white text-lg leading-tight">
