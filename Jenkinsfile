@@ -87,9 +87,9 @@ pipeline {
 
                         echo "Building Docker Image: ${dockerImage}"
                         sh """
-                            docker build -t ${dockerImage} \
-                            --build-arg GIT_USERNAME=${GIT_USERNAME} \
-                            --build-arg GIT_TOKEN=${GIT_TOKEN} \
+                            docker build -t ${dockerImage} \\
+                            --build-arg GIT_USERNAME=\$GIT_USERNAME \\
+                            --build-arg GIT_TOKEN=\$GIT_TOKEN \\
                             .
                         """
                         
