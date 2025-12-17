@@ -13,11 +13,12 @@ import {
 } from "@/hooks/useDashboardData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import type { MonthlyApprovedPasses } from "@/interfaces/dashboard/monthlyApprovedPasses.interface";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function MonthlyPassesChart() {
-  const monthlyData: { [key: string]: number } = useMonthlyApprovedPasses();
+  const monthlyData: MonthlyApprovedPasses = useMonthlyApprovedPasses();
   const {
     approvedPassesToday,
     peopleWithPlusOneApprovedNext5Days,
@@ -41,7 +42,7 @@ export default function MonthlyPassesChart() {
 
   const values = months.map((_, index) => {
     const monthKey = `month${String(index + 1).padStart(2, "0")}`;
-    return monthlyData[monthKey] ?? 0;
+    return monthlyData[monthKey as keyof MonthlyApprovedPasses] ?? 0;
   });
   const currentMonthIndex = new Date().getMonth();
 

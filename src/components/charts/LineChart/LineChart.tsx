@@ -23,9 +23,9 @@ ChartJS.register(
 );
 
 interface DashboardLineChartProps {
-  oneDay: number;
-  threeDays: number;
-  fiveDays: number;
+  oneDay: number | string;
+  threeDays: number | string;
+  fiveDays: number | string;
 }
 
 export default function DashboardLineChart({
@@ -76,7 +76,10 @@ export default function DashboardLineChart({
     ],
   };
 
-  const maxValue = Math.max(...paddedData);
+  const paddedDataNumbers = paddedData.map((m) =>
+    Number.isNaN(Number(m)) ? 0 : Number(m)
+  );
+  const maxValue = Math.max(...paddedDataNumbers);
   const suggestedMax = maxValue * 1.5;
 
   const options = {

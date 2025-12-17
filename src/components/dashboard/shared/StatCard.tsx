@@ -6,7 +6,7 @@ function StatCard({
   label,
   icon,
 }: {
-  value: number;
+  value: number | string;
   label: string;
   icon: IconDefinition;
 }) {
