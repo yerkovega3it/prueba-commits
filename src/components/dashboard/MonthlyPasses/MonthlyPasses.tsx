@@ -17,7 +17,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function MonthlyPassesChart() {
-  const monthlyData = useMonthlyApprovedPasses();
+  const monthlyData: { [key: string]: number } = useMonthlyApprovedPasses();
   const {
     approvedPassesToday,
     peopleWithPlusOneApprovedNext5Days,
