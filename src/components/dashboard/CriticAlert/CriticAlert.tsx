@@ -49,7 +49,7 @@ function CrtiticAlert() {
           ) : (
             <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0 overflow-hidden">
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-                <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
+                <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {peopleWithExpiredExams}
                 </span>
                 <p className="text-white text-lg leading-tight">
@@ -57,7 +57,7 @@ function CrtiticAlert() {
                 </p>
               </div>
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-                <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
+                <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {vehiclesWithExpiredAccreditation}
                 </span>
                 <p className="text-white text-lg leading-tight">
@@ -65,7 +65,7 @@ function CrtiticAlert() {
                 </p>
               </div>
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-                <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
+                <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
                 </span>
                 <p className="text-white text-lg leading-tight">
@@ -74,7 +74,7 @@ function CrtiticAlert() {
                 </p>
               </div>
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
-                <span className="text-white text-6xl font-bold shrink-0 w-20 text-center font-anta">
+                <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {visitorsApprovedNotCheckedOut}
                 </span>
                 <p className="text-white text-lg leading-tight">
