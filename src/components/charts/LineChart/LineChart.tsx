@@ -34,7 +34,7 @@ export default function DashboardLineChart({
   threeDays,
   fiveDays,
 }: DashboardLineChartProps) {
-  const chartRef = useRef<ChartJS<"line">>(null);
+  const chartRef = useRef<ChartJS<"line", (number | string)[], unknown>>(null);
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -96,12 +96,6 @@ export default function DashboardLineChart({
       },
     ],
   };
-
-  const paddedDataNumbers = paddedData.map((m) =>
-    Number.isNaN(Number(m)) ? 0 : Number(m)
-  );
-  const maxValue = Math.max(...paddedDataNumbers);
-  const suggestedMax = maxValue * 1.5;
 
   const options = {
     responsive: true,
