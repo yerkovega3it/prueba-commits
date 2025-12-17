@@ -96,7 +96,7 @@ export default function MonthlyPassesChart() {
 
           return gradient;
         },
-        barPercentage: 0.4,
+        barPercentage: 0.5,
         categoryPercentage: 0.85,
         maxBarThickness: 20,
       },
@@ -118,12 +118,11 @@ export default function MonthlyPassesChart() {
         align: "end" as const,
         color: "#ffffff",
         font: {
-          size: 10,
+          size: 12,
           weight: "bold" as const,
           family: "Anta",
         },
         offset: 4,
-        backgroundColor: "#0B3044",
         borderRadius: 4,
         padding: {
           top: 4,
