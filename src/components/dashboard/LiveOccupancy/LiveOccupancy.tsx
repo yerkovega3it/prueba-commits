@@ -3,7 +3,6 @@ import DashboardCard from "../shared/DashboardCard";
 import StatCard from "../shared/StatCard";
 import {
   faUtensils,
-  faArrowRight,
   faPlaneDeparture,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,30 +10,24 @@ function LiveOccupancy() {
   const {
     peopleOnSite,
     peopleRepeatedSameDiningHallConsumption,
-    peopleOutOfShiftAndNotRegisteredExit,
     peopleDidNotShowUpForFlight,
   } = useLaborStatus();
 
   return (
     <DashboardCard
       title="ESTADO EN FAENA"
-      contentClassName="flex flex-col items-center sm:items-end gap-4 sm:gap-6 justify-between mt-3"
-      className="col-span-1 p-4 sm:p-5 lg:p-6 rounded-3xl bg-main h-full"
+      contentClassName="flex flex-col items-center gap-24 lg:gap-20 xl:gap-12 mt-20 lg:mt-16 xl:mt-12 h-full"
+      className="col-span-1 p-4 rounded-3xl bg-main h-full"
     >
-      <div className="w-full sm:w-auto mx-auto p-4 sm:p-5 lg:p-6">
-        <p className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-center text-approved">
+      <div className="w-full mx-auto flex-none flex flex-col items-center">
+        <p className="text-6xl md:text-8xl lg:text-[9rem] text-center text-approved font-anta leading-none">
           {peopleOnSite}
         </p>
-        <p className="text-sm sm:text-base lg:text-lg text-white text-center">
+        <p className="text-xl md:text-2xl text-white text-center mt-2">
           Personas en Faena
         </p>
       </div>
-      <div className="rounded-3xl bg-main h-full flex flex-col justify-around gap-8 mt-2 w-full mx-auto">
-        <StatCard
-          icon={faArrowRight}
-          value={peopleOutOfShiftAndNotRegisteredExit}
-          label="Personas fuera de turno y no han marcado salida"
-        />
+      <div className="rounded-3xl bg-main flex-none flex flex-col items-stretch justify-center gap-16 lg:gap-12 w-full mx-auto">
         <StatCard
           icon={faUtensils}
           value={peopleRepeatedSameDiningHallConsumption}

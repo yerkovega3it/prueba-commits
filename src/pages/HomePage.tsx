@@ -9,23 +9,40 @@ import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPass
 export default function HomePage() {
   return (
     <DashboardLayout>
-      <DashboardHeader />
-      <div className="relative flex flex-col xl:flex-row gap-4 w-full">
-        <div className="flex flex-wrap gap-4 w-full xl:max-w-[calc(100%-28rem)] flex-shrink-0 justify-center xl:justify-start">
-          <div className="w-full sm:w-[calc(50%-0.5rem)] xl:flex-1 xl:min-w-[400px]">
-            <LiveOccupancy />
+      <div className="flex-shrink-0" style={{ maxHeight: "12%" }}>
+        <DashboardHeader />
+      </div>
+      <div
+        className="relative flex gap-6 w-full overflow-hidden"
+        style={{ height: "88%" }}
+      >
+        <div
+          className="flex flex-col gap-6 overflow-hidden h-full mr-6"
+          style={{ width: "72%" }}
+        >
+          <div className="flex gap-6 w-full" style={{ height: "60%" }}>
+            <div className="w-1/2 h-full overflow-hidden">
+              <LiveOccupancy />
+            </div>
+            <div className="flex flex-col gap-6 w-1/2 h-full overflow-hidden">
+              <div className="h-1/2 overflow-hidden">
+                <ExpiringExams />
+              </div>
+              <div className="h-1/2 overflow-hidden">
+                <ExpiringLicenses />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-0.5rem)] xl:flex-1 xl:min-w-[400px]">
-            <ExpiringExams />
-            <ExpiringLicenses />
+          <div className="w-full overflow-hidden" style={{ height: "40%" }}>
+            <MonthlyPassesChart />
           </div>
         </div>
-        <div className="w-full xl:absolute xl:right-0 xl:top-0 xl:w-[26rem]">
+        <div
+          className="absolute right-0 top-0 h-full overflow-hidden"
+          style={{ width: "28%" }}
+        >
           <CriticAlert />
         </div>
-      </div>
-      <div className="flex w-full xl:max-w-[calc(100%-28rem)]">
-        <MonthlyPassesChart />
       </div>
     </DashboardLayout>
   );

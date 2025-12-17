@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type { Dashboard } from "@/interfaces/dashboard/dashboard.interface";
-import { dashboardMetricsApi } from "@/services/dashboard.api";
+import { dashboardService } from "@/services/dashboard.api";
 
 interface DashboardState {
   dashboard: Dashboard | null;
@@ -30,7 +30,7 @@ export const useStoreDashboard = create<DashboardState>()(
       fetchDashboard: async () => {
         set({ isLoading: true, error: null });
         try {
-          const data = await dashboardMetricsApi();
+          const data = await dashboardService.get();
           set({
             dashboard: data,
             isLoading: false,

@@ -1,33 +1,54 @@
 @import "tailwindcss";
 
 @theme {
-  --color-main: #1B1C20;
-  --color-card: #1B1C20;
-  --color-success: #08F733;
+  --color-main: #1b1c20;
+  --color-card: #1b1c20;
+  --color-success: #08f733;
   --color-success-light: #0ff55c66;
-  --color-approved: #53F7F6;
+  --color-approved: #53f7f6;
   --color-approved-light: #64ccc966;
-  --color-critic: #FF005E;
+  --color-critic: #ff005e;
   --color-critic-light: #660025;
-  --color-dark-background: #020D16
-  --font-family-sans: "Aldrich", sans-serif;
+  --color-dark-background: #020d16;
+  --font-aldrich: "Aldrich", sans-serif;
+  --font-anta: "Anta", sans-serif;
+
+  --animate-pulse-border: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    box-shadow: 0 0 15px 5px rgba(220, 38, 38, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(220, 38, 38, 1);
+  }
 }
 
 html,
 body {
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  font-size: clamp(8px, 0.8vw, 16px);
 }
 
 body {
   background-color: #000000;
-  font-family: "Aldrich", sans-serif;
+  font-family: "Avenir", sans-serif;
 }
 
 main,
 .layout-private-default,
 .eit-wrapper,
 .eit-container {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
 }

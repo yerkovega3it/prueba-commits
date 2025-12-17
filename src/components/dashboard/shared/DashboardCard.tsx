@@ -15,11 +15,11 @@ interface DashboardCardProps {
 export default function DashboardCard({
   title,
   icon,
-  titleClassName = "text-[18px] text-approved",
-  iconClassName = "text-approved mb-1.5",
+  titleClassName = "text-base md:text-lg text-approved",
+  iconClassName = "text-approved mb-1 text-lg md:text-xl lg:text-2xl",
   children,
-  contentClassName = "flex items-end gap-6 justify-between mt-3",
-  className = "col-span-1 p-4 sm:p-5 lg:p-6 rounded-3xl bg-main min-h-[200px] sm:h-auto lg:h-[255px]",
+  contentClassName = "flex items-end gap-8 justify-between mt-2",
+  className = "col-span-1 p-4 rounded-3xl bg-main h-full flex flex-col",
 }: DashboardCardProps) {
   return (
     <div className={className}>

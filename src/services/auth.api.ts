@@ -10,6 +10,7 @@ interface ValidateTokenResponse {
 
 export const authService = {
   async integratedLogin(token: string): Promise<LoginResponse> {
+    console.log(API_URL);
     const url = `${API_URL}/auth/integrated-login`;
     const response = await fetch(url, {
       method: "POST",

@@ -1,4 +1,5 @@
 import { Line } from "react-chartjs-2";
+import { useRef, useEffect } from "react";
 import {
   Chart as ChartJS,
   LineElement,
@@ -33,6 +34,16 @@ export default function DashboardLineChart({
   threeDays,
   fiveDays,
 }: DashboardLineChartProps) {
+  const chartRef = useRef<ChartJS<"line">>(null);
+
+  useEffect(() => {
+    const chart = chartRef.current;
+    return () => {
+      if (chart) {
+        chart.destroy();
+      }
+    };
+  }, []);
   const paddedLabels = ["", "1 día", "3 días", "5 días", ""];
   const paddedData = [0, oneDay, threeDays, fiveDays, 0];
 
@@ -62,16 +73,26 @@ export default function DashboardLineChart({
         fill: true,
         backgroundColor: (context: Context) => {
           const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, "rgba(255, 255, 255, 0.3)");
-          gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.1)");
+          const chartArea = context.chart.chartArea;
+
+          // Guard against undefined chartArea during initial render
+          if (!chartArea) {
+            return "rgba(255, 255, 255, 0.2)";
+          }
+
+          const gradient = ctx.createLinearGradient(
+            0,
+            chartArea.top,
+            0,
+            chartArea.bottom
+          );
+          gradient.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+          gradient.addColorStop(0.25, "rgba(255, 255, 255, 0.5)");
+          gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.2)");
+          gradient.addColorStop(0.75, "rgba(255, 255, 255, 0.08)");
           gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
           return gradient;
         },
-        shadowColor: "rgba(255, 255, 255, 0.5)",
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowOffsetY: 4,
       },
     ],
   };
@@ -93,14 +114,14 @@ export default function DashboardLineChart({
           color: "#ffffff",
           font: {
             size: 10,
-            family: "Aldrich",
+            family: "Anta",
           },
         },
         grid: { display: false },
       },
       y: {
         min: 0,
-        suggestedMax: suggestedMax,
+        grace: "100%",
         ticks: { display: false },
         grid: { display: false },
       },
@@ -116,16 +137,23 @@ export default function DashboardLineChart({
         font: {
           size: 12,
           weight: "bold" as const,
-          family: "Aldrich",
+          family: "Anta",
         },
-        formatter: (value: number) => (value === 0 ? "" : value),
+        formatter: (value: number, context: Context) => {
+          const index = context.dataIndex;
+          const dataLength = context.dataset.data.length;
+          if (index === 0 || index === dataLength - 1) {
+            return "";
+          }
+          return value;
+        },
       },
     },
   };
 
   return (
-    <div className="flex-1 h-32 min-w-0">
-      <Line data={data} options={options} />
+    <div className="flex-1 h-32 md:h-42 lg:h-44 min-w-0">
+      <Line ref={chartRef} data={data} options={options} />
     </div>
   );
 }
