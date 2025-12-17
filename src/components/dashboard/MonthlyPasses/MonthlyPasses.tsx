@@ -54,6 +54,8 @@ export default function MonthlyPassesChart() {
     return monthlyData[monthKey as keyof MonthlyApprovedPasses] ?? 0;
   });
   const currentMonthIndex = new Date().getMonth();
+  const maxValue = Math.ceil(Math.max(...(values as number[])));
+  const scaledMaxValue = maxValue > 100 ? maxValue * 1.3 : maxValue;
 
   const data = {
     labels: months,
@@ -111,6 +113,7 @@ export default function MonthlyPassesChart() {
         enabled: false,
       },
       datalabels: {
+        display: maxValue !== 0,
         anchor: "end" as const,
         align: "end" as const,
         color: "#ffffff",
@@ -135,7 +138,7 @@ export default function MonthlyPassesChart() {
       x: {
         ticks: { display: false },
         grid: { display: false },
-        max: 120,
+        max: scaledMaxValue,
       },
       y: {
         ticks: {
@@ -192,9 +195,9 @@ export default function MonthlyPassesChart() {
                 <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
                   {approvedPassesToday}
                 </span>
-                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
                   Pases Aprobados hoy (duración 1 día)
-                </span>
+                </p>
               </div>
             </div>
             <div className="flex items-start">
@@ -208,9 +211,9 @@ export default function MonthlyPassesChart() {
                 <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
                   {peopleWithPlusOneApprovedNext5Days}
                 </span>
-                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
                   Personas con +1 pase aprobados en los próximos 5 días
-                </span>
+                </p>
               </div>
             </div>
             <div className="flex items-start">
@@ -224,9 +227,9 @@ export default function MonthlyPassesChart() {
                 <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
                   {approvedPassesNext7Days}
                 </span>
-                <span className="text-sm md:text-base opacity-90 break-words self-center">
+                <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
                   Pases Aprobados en los próximos 7 días
-                </span>
+                </p>
               </div>
             </div>
           </div>

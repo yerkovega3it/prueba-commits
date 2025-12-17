@@ -7,7 +7,7 @@ function StatCard({
   icon,
   iconClassName = "text-approved text-2xl md:text-3xl lg:text-3xl",
   valueClassName = "text-3xl md:text-4xl lg:text-5xl w-20",
-  labelClassName = "text-base md:text-lg lg:text-lg",
+  labelClassName = "text-lg md:text-lg lg:text-lg",
 }: {
   value: number | string;
   label: string;
@@ -26,9 +26,7 @@ function StatCard({
       >
         {value}
       </span>
-      <p className={`${labelClassName} opacity-90 leading-tight font-medium`}>
-        {label}
-      </p>
+      <p className={`${labelClassName} leading-tight font-medium`}>{label}</p>
     </div>
   );
 }

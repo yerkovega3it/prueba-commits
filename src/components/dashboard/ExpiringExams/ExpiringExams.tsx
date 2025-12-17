@@ -16,7 +16,7 @@ function ExpiringExams() {
         <p className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-approved font-anta">
           {today}
         </p>
-        <p className="text-sm md:text-base text-white text-center mt-1">
+        <p className="text-sm md:text-lg text-white text-center mt-1">
           Exámenes vencen hoy
         </p>
       </div>
