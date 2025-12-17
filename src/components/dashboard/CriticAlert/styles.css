@@ -9,6 +9,7 @@
     #660025 65%,
     #ff005e 100%
   );
+  margin-bottom: 16px;
 }
 
 .card::before {

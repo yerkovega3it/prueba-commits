@@ -165,7 +165,7 @@ export default function MonthlyPassesChart() {
       <div className="flex gap-6 flex-1 overflow-hidden">
         <div className="flex-1 flex flex-col min-w-0">
           <FitText
-            className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
+            className="text-3xl font-bold whitespace-nowrap text-approved mb-2"
             maxFontSizePx={16}
             minFontSizePx={12}
           >
@@ -177,7 +177,7 @@ export default function MonthlyPassesChart() {
         </div>
         <div className="flex-1 flex flex-col gap-2 min-w-0">
           <FitText
-            className="text-approved font-bold text-xl md:text-2xl lg:text-3xl mb-2"
+            className="text-3xl font-bold whitespace-nowrap text-approved mb-2"
             maxFontSizePx={16}
             minFontSizePx={12}
           >

@@ -9,7 +9,7 @@ function ExpiringExams() {
     <DashboardCard
       title="EXÁMENES POR VENCER"
       icon={faUser}
-      titleClassName="text-lg text-approved"
+      titleClassName="text-3xl font-bold whitespace-nowrap text-approved"
       contentClassName="flex items-center gap-3 h-full"
     >
       <div className="shrink-0 w-auto max-w-32">

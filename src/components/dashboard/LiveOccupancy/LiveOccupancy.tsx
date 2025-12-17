@@ -16,6 +16,7 @@ function LiveOccupancy() {
   return (
     <DashboardCard
       title="ESTADO EN FAENA"
+      titleClassName="text-3xl font-bold whitespace-nowrap text-approved"
       contentClassName="flex flex-col items-center gap-24 lg:gap-20 xl:gap-12 mt-20 lg:mt-16 xl:mt-12 h-full"
       className="col-span-1 p-4 rounded-3xl bg-main h-full"
     >
@@ -27,7 +28,7 @@ function LiveOccupancy() {
           Personas en Faena
         </p>
       </div>
-      <div className="rounded-3xl bg-main flex-none flex flex-col items-stretch justify-center gap-16 lg:gap-12 w-full mx-auto">
+      <div className="rounded-3xl bg-main flex-none flex flex-col items-stretch justify-center gap-16 lg:gap-14 w-full mx-auto">
         <StatCard
           icon={faUtensils}
           value={peopleRepeatedSameDiningHallConsumption}
