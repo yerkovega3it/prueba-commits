@@ -15,7 +15,7 @@ interface DashboardCardProps {
 export default function DashboardCard({
   title,
   icon,
-  titleClassName = "text-base md:text-lg text-approved",
+  titleClassName = "text-lg md:text-lg text-approved",
   iconClassName = "text-approved mb-1 text-lg md:text-xl lg:text-2xl",
   children,
   contentClassName = "flex items-end gap-8 justify-between mt-2",

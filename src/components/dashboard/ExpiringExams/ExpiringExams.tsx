@@ -9,14 +9,14 @@ function ExpiringExams() {
     <DashboardCard
       title="EXÁMENES POR VENCER"
       icon={faUser}
-      titleClassName="text-lg text-approved"
+      titleClassName="text-3xl font-bold whitespace-nowrap text-approved"
       contentClassName="flex items-center gap-3 h-full"
     >
       <div className="shrink-0 w-auto max-w-32">
         <p className="text-5xl md:text-6xl lg:text-7xl font-bold text-center text-approved font-anta">
           {today}
         </p>
-        <p className="text-sm md:text-base text-white text-center mt-1">
+        <p className="text-sm md:text-lg text-white text-center mt-1">
           Exámenes vencen hoy
         </p>
       </div>

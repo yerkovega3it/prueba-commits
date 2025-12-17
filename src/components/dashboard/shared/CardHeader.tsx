@@ -20,7 +20,7 @@ function CardTitle({
   return (
     <div>
       <h2
-        className={`text-base md:text-lg font-bold flex items-center gap-2 whitespace-nowrap ${titleClassName}`}
+        className={`text-lg md:text-lg font-bold flex items-center gap-2 whitespace-nowrap ${titleClassName}`}
       >
         {icon && (
           <FontAwesomeIcon
