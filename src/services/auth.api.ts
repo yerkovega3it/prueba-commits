@@ -1,5 +1,5 @@
 import type { LoginResponse } from "@/interfaces/auth/Login.interface";
-import { internalEndpoints } from "@shared/constants/internalEndpoints/internalEndpoints";
+import { API_URL } from "../constants/environments";
 
 interface ValidateTokenResponse {
   validToken: boolean;
@@ -10,7 +10,8 @@ interface ValidateTokenResponse {
 
 export const authService = {
   async integratedLogin(token: string): Promise<LoginResponse> {
-    const url = internalEndpoints.AUTH_INTEGRATED_LOGIN.pathBase;
+    console.log(API_URL);
+    const url = `${API_URL}/auth/integrated-login`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -18,6 +19,7 @@ export const authService = {
         "Content-Type": "application/json",
       },
     });
+
     if (!response.ok) {
       console.error("Error en la respuesta del servidor:", response.statusText);
     }
@@ -26,7 +28,7 @@ export const authService = {
     return result;
   },
   async validateToken(token: string): Promise<ValidateTokenResponse> {
-    let url = internalEndpoints.AUTH_VALIDATE_TOKEN.pathBase;
+    let url = `${API_URL}/auth/validateToken`;
     if (token) {
       url += `?jwt=${token}`;
     }

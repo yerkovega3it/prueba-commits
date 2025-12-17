@@ -15,6 +15,18 @@ RUN npm ci
 
 COPY . .
 
+# Build arguments for Vite environment variables
+ARG VITE_API_URL
+ARG VITE_ENVIROMENT
+ARG VITE_AMSA_LOGIN_URL
+ARG VITE_AMSA_LOGOUT_URL
+
+# Set environment variables so Vite can pick them up during build
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_ENVIROMENT=$VITE_ENVIROMENT
+ENV VITE_AMSA_LOGIN_URL=$VITE_AMSA_LOGIN_URL
+ENV VITE_AMSA_LOGOUT_URL=$VITE_AMSA_LOGOUT_URL
+
 RUN npm run build
 
 # Runner stage
@@ -25,9 +37,7 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/api ./api
-COPY --from=builder /app/shared ./shared
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["npm", "start"]

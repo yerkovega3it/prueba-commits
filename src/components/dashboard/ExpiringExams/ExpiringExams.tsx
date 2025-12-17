@@ -24,7 +24,6 @@ function ExpiringExams() {
         oneDay={oneDay}
         threeDays={threeDays}
         fiveDays={fiveDays}
-        chartId="expiring-exams-chart"
       />
     </DashboardCard>
   );

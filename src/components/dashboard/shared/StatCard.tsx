@@ -9,7 +9,7 @@ function StatCard({
   valueClassName = "text-3xl md:text-4xl lg:text-5xl w-20",
   labelClassName = "text-base md:text-lg lg:text-lg",
 }: {
-  value: number;
+  value: number | string;
   label: string;
   icon: IconDefinition;
   iconClassName?: string;

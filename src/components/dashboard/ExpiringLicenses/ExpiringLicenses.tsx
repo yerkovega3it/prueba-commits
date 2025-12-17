@@ -25,7 +25,6 @@ function ExpiringLicenses() {
         oneDay={oneDay}
         threeDays={threeDays}
         fiveDays={fiveDays}
-        chartId="expiring-licenses-chart"
       />
     </DashboardCard>
   );
