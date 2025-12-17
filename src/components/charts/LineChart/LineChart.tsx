@@ -24,10 +24,9 @@ ChartJS.register(
 );
 
 interface DashboardLineChartProps {
-  oneDay: number;
-  threeDays: number;
-  fiveDays: number;
-  chartId?: string;
+  oneDay: number | string;
+  threeDays: number | string;
+  fiveDays: number | string;
 }
 
 export default function DashboardLineChart({
@@ -35,7 +34,7 @@ export default function DashboardLineChart({
   threeDays,
   fiveDays,
 }: DashboardLineChartProps) {
-  const chartRef = useRef<ChartJS<"line">>(null);
+  const chartRef = useRef<ChartJS<"line", (number | string)[], unknown>>(null);
 
   useEffect(() => {
     const chart = chartRef.current;
