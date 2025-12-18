@@ -6,6 +6,7 @@ import {
   faPlaneDeparture,
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
+import "./styles.css";
 
 function LiveOccupancy() {
   const {
@@ -19,18 +20,18 @@ function LiveOccupancy() {
     <DashboardCard
       title="ESTADO EN FAENA"
       titleClassName="text-3xl font-bold whitespace-nowrap text-approved"
-      contentClassName="flex flex-col items-center gap-24 lg:gap-14 xl:gap-12 mt-20 lg:mt-16 xl:mt-12 h-full"
+      contentClassName="flex flex-col items-center gap-24 mt-12 lg:mt-14 xl:mt-16 h-full dashboard-card-content"
       className="col-span-1 p-4 rounded-3xl bg-main h-full"
     >
-      <div className="w-full mx-auto flex-none flex flex-col items-center">
-        <p className="text-6xl md:text-8xl lg:text-[9rem] text-center text-approved font-anta leading-none">
+      <div className="w-full mx-auto flex-none flex flex-col">
+        <p className="text-6xl md:text-8xl lg:text-[9rem] text-center text-approved font-anta leading-none people-onsite">
           {peopleOnSite}
         </p>
-        <p className="text-xl md:text-2xl text-white text-center mt-2">
+        <p className="text-xl md:text-2xl text-white text-center mt-2 people-onsite-label">
           Personas en Faena
         </p>
       </div>
-      <div className="rounded-3xl bg-main flex-none flex flex-col items-stretch justify-center gap-6 lg:gap-8 w-full mx-auto mb-2">
+      <div className="rounded-3xl bg-main flex-none flex flex-col items-stretch justify-center gap-6 lg:gap-8 w-full mx-auto mb-2 statcards-container">
         <StatCard
           icon={faArrowRight}
           value={peopleOutOfShiftAndNotRegisteredExit}

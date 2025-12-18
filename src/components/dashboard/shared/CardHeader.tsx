@@ -18,22 +18,22 @@ function CardTitle({
   subtitleClassName?: string;
 }) {
   return (
-    <div>
-      <h2
-        className={`text-lg md:text-lg font-bold flex items-center gap-2 whitespace-nowrap ${titleClassName}`}
-      >
-        {icon && (
-          <FontAwesomeIcon
-            icon={icon}
-            className={
-              iconClassName ?? "text-alert text-xl md:text-2xl lg:text-3xl"
-            }
-          />
-        )}
-        <FitText className="inline-block" maxFontSizePx={16} minFontSizePx={12}>
+    <div className="flex gap-2">
+      {icon && (
+        <FontAwesomeIcon
+          icon={icon}
+          className={
+            iconClassName ?? `text-alert text-xl md:text-2xl lg:text-3xl`
+          }
+        />
+      )}
+      <FitText className="inline-block" maxFontSizePx={16} minFontSizePx={12}>
+        <h2
+          className={`text-lg md:text-xl font-bold flex items-center gap-2 whitespace-nowrap ${titleClassName}`}
+        >
           {title}
-        </FitText>
-      </h2>
+        </h2>
+      </FitText>
       <p className={subtitleClassName}>{subtitle}</p>
     </div>
   );

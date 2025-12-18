@@ -47,6 +47,10 @@ export default function DashboardLineChart({
   const paddedLabels = ["", "1 día", "3 días", "5 días", ""];
   const paddedData = [0, oneDay, threeDays, fiveDays, 0];
 
+  const numericData = [Number(oneDay), Number(threeDays), Number(fiveDays)];
+  const maxValue = Math.max(...numericData);
+  const dotRadius = 5;
+
   const data = {
     labels: paddedLabels,
     datasets: [
@@ -75,7 +79,6 @@ export default function DashboardLineChart({
           const ctx = context.chart.ctx;
           const chartArea = context.chart.chartArea;
 
-          // Guard against undefined chartArea during initial render
           if (!chartArea) {
             return "rgba(255, 255, 255, 0.2)";
           }
@@ -114,8 +117,8 @@ export default function DashboardLineChart({
         grid: { display: false },
       },
       y: {
-        min: 0,
-        grace: "100%",
+        min: 0 - dotRadius,
+        suggestedMax: (maxValue + dotRadius) * 1.6,
         ticks: { display: false },
         grid: { display: false },
       },
