@@ -1,0 +1,19 @@
+@media (max-height: 719px) {
+  .dashboard-card-content {
+    gap: 2.5rem;
+    margin-top: 0.5rem;
+  }
+  .people-onsite {
+    margin: 0;
+    padding: 0;
+  }
+  .people-onsite-label {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  .statcards-container {
+    gap: 0.5rem;
+  }
+}

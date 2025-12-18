@@ -31,15 +31,17 @@ function CrtiticAlert() {
            `}
         >
           <CardTitle
-            title={"ALERTA OPERATIVA CRÍTICA"}
+            title={"ALERTA OPERATIVA CRÍTICA EN FAENA"}
             icon={faExclamationTriangle}
-            titleClassName={`text-3xl font-bold whitespace-nowrap ${
+            titleClassName={`text-3xl font-bold flex flex-col break-words whitespace-normal w-full max-w-full overflow-hidden text-center ${
               !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
             }`}
-            iconClassName={"text-alert mb-1.5 text-3xl"}
+            iconClassName={`text-alert text-xl ${
+              !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
+            }`}
           />
           {!isCriticalOperationalAlertActive ? (
-            <div className="mt-3 flex flex-col justify-center flex-1 min-h-0 bg-success-light/20 px-[20px]">
+            <div className="mt-3 flex flex-col justify-center flex-1 min-h-0 bg-success-light/20">
               <div className="text-3xl text-center mx-auto">
                 <span className="text-success">
                   No hay alertas registradas en este momento.

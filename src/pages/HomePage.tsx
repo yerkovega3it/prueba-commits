@@ -17,10 +17,10 @@ export default function HomePage() {
         style={{ height: "88%" }}
       >
         <div
-          className="flex flex-col gap-6 overflow-hidden h-full mr-6"
+          className="flex flex-col h-full min-h-0 mr-6 gap-6"
           style={{ width: "72%" }}
         >
-          <div className="flex gap-6 w-full" style={{ height: "60%" }}>
+          <div className="flex gap-6 w-full flex-1 min-h-0">
             <div className="w-1/2 h-full overflow-hidden">
               <LiveOccupancy />
             </div>
@@ -33,7 +33,10 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="w-full overflow-hidden" style={{ height: "40%" }}>
+          <div
+            className="w-full overflow-hidden flex-shrink-0"
+            style={{ minHeight: "150px" }}
+          >
             <MonthlyPassesChart />
           </div>
         </div>

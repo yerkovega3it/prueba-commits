@@ -43,6 +43,12 @@
 .card-content {
   background: #000000;
   border-radius: inherit;
-  padding: 16px;
+  padding: 8px;
   position: relative;
+}
+
+@media (min-width: 1200px) {
+  .card-content {
+    padding: 16px;
+  }
 }
