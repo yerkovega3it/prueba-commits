@@ -8,13 +8,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
 
-function LiveOccupancy() {
+function LiveOccupancy({ companyName }: { companyName: string }) {
   const {
     peopleOnSite,
     peopleRepeatedSameDiningHallConsumption,
     peopleDidNotShowUpForFlight,
     peopleOutOfShiftAndNotRegisteredExit,
-  } = useLaborStatus();
+  } = useLaborStatus(companyName);
 
   return (
     <DashboardCard

@@ -2,9 +2,13 @@ import useCurrentTime from "@/hooks/useCurrentTime";
 import { useDashboardInfo } from "@/hooks/useDashboardData";
 import FitText from "@/components/shared/FitText";
 
-function DashboardHeader() {
+interface DashboardHeaderProps {
+  companyName: string;
+}
+
+function DashboardHeader({ companyName }: DashboardHeaderProps) {
   const { currentDateTime } = useCurrentTime();
-  const { miningCompanyName } = useDashboardInfo();
+  const { miningCompanyName } = useDashboardInfo(companyName);
 
   return (
     <div className="px-6 py-[8px] rounded-3xl bg-card">

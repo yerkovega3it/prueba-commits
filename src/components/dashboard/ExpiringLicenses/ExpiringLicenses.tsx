@@ -3,9 +3,9 @@ import DashboardLineChart from "@/components/charts/LineChart/LineChart";
 import { faCar } from "@fortawesome/free-solid-svg-icons";
 import { useVehicleDocumentsAboutToExpire } from "@/hooks/useDashboardData";
 
-function ExpiringLicenses() {
+function ExpiringLicenses({ companyName }: { companyName: string }) {
   const { today, oneDay, threeDays, fiveDays } =
-    useVehicleDocumentsAboutToExpire();
+    useVehicleDocumentsAboutToExpire(companyName);
   return (
     <DashboardCard
       title="VEHÍCULOS DOCUMENTOS POR VENCER"
