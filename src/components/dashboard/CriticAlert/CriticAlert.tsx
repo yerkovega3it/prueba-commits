@@ -1,6 +1,7 @@
 import CardTitle from "../shared/CardHeader";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
+import { useState } from "react";
 import "./styles.css";
 
 function CrtiticAlert({ companyName }: { companyName: string }) {
@@ -12,10 +13,13 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
   } = useCriticalOperationalAlert(companyName);
 
+  const [imageExists, setImageExists] = useState(true);
+  const imageSrc = `src/assets/maps/${companyName}.svg`;
+
   return (
     <div className="flex flex-col w-full h-full min-h-0 overflow-hidden p-8">
       <div
-        className={`${
+        className={`$${
           isCriticalOperationalAlertActive
             ? "card flex flex-col flex-1 min-h-0"
             : "relative p-2.5 rounded-2xl mb-4 flex flex-col flex-1 min-h-0"
@@ -87,11 +91,16 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
           )}
         </div>
       </div>
-      <img
-        src={`src/assets/maps/${companyName}.svg`}
-        alt="Map"
-        className="w-full h-auto object-contain rounded-3xl flex-shrink-0 mt-3 max-h-1/4"
-      />
+      {imageExists ? (
+        <img
+          src={imageSrc}
+          alt="Map"
+          className="w-full h-[200px] object-contain rounded-3xl flex-shrink-0 mt-3"
+          onError={() => setImageExists(false)}
+        />
+      ) : (
+        <div className="w-full h-[200px] object-contain rounded-3xl flex-shrink-0 mt-3" />
+      )}
     </div>
   );
 }
