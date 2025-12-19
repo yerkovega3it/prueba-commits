@@ -12,20 +12,37 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AMSA_LOGIN_URL } from "@/constants/environments";
 import { NotFoundPage } from "@/pages/NotFoundPage";
+import { useQuery } from "@tanstack/react-query";
+import { validateToken } from "@/services/validateToken.api";
 
 function HomePageRouteWrapper() {
-  const isAuthenticated = Boolean(localStorage.getItem("auth_token"));
+  const token = localStorage.getItem("auth_token") as string;
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["auth_token"],
+    queryFn: () => validateToken(token),
+    retry: false,
+  });
+  const isAuthenticated = (data?.validToken && !isError) || false;
   const location = useLocation();
   const navigate = useNavigate();
   const pathParam = location.pathname.slice(1);
+
+  if (isError) {
+    localStorage.removeItem("auth_token");
+    navigate("/login", { replace: true, state: { pathParam } });
+  }
+
   useEffect(() => {
+    if (isLoading) return;
     if (!isAuthenticated) {
       if (pathParam) {
+        console.log("pathParam:", pathParam);
         localStorage.setItem("pending_path_param", pathParam);
       }
       navigate("/login", { replace: true, state: { pathParam } });
     }
-  }, [isAuthenticated, pathParam, navigate]);
+  }, [isAuthenticated, pathParam, navigate, isLoading]);
+  if (isLoading) return null;
   if (!isAuthenticated) return null;
   return <HomePage />;
 }
