@@ -3,8 +3,9 @@ import DashboardLineChart from "@/components/charts/LineChart/LineChart";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useExamsAboutToExpire } from "@/hooks/useDashboardData";
 
-function ExpiringExams() {
-  const { today, oneDay, threeDays, fiveDays } = useExamsAboutToExpire();
+function ExpiringExams({ companyName }: { companyName: string }) {
+  const { today, oneDay, threeDays, fiveDays } =
+    useExamsAboutToExpire(companyName);
   return (
     <DashboardCard
       title="EXÁMENES POR VENCER"

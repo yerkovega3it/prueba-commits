@@ -11,10 +11,10 @@ import {
   DASHBOARD_STALE_TIME_MS,
   RETRY_DELAY_MS,
 } from "@/constants";
-export function useDashboardInfo() {
+export function useDashboardInfo(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["dashboard-info"],
-    queryFn: getDashboardInformation,
+    queryKey: ["dashboard-info", companyName],
+    queryFn: () => getDashboardInformation(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -25,10 +25,10 @@ export function useDashboardInfo() {
   };
 }
 
-export function useLaborStatus() {
+export function useLaborStatus(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["labor-status"],
-    queryFn: getLaborStatus,
+    queryKey: ["labor-status", companyName],
+    queryFn: () => getLaborStatus(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -43,10 +43,10 @@ export function useLaborStatus() {
   };
 }
 
-export function useMonthlyApprovedPasses() {
+export function useMonthlyApprovedPasses(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["monthly-approved-passes"],
-    queryFn: getMonthlyApprovedPasses,
+    queryKey: ["monthly-approved-passes", companyName],
+    queryFn: () => getMonthlyApprovedPasses(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -69,10 +69,10 @@ export function useMonthlyApprovedPasses() {
   );
 }
 
-export function useExamsAboutToExpire() {
+export function useExamsAboutToExpire(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["exams-about-to-expire"],
-    queryFn: getExamsAboutToExpire,
+    queryKey: ["exams-about-to-expire", companyName],
+    queryFn: () => getExamsAboutToExpire(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -80,10 +80,10 @@ export function useExamsAboutToExpire() {
   return data ?? { today: "-", oneDay: "-", threeDays: "-", fiveDays: "-" };
 }
 
-export function useVehicleDocumentsAboutToExpire() {
+export function useVehicleDocumentsAboutToExpire(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["vehicle-documents-about-to-expire"],
-    queryFn: getVehicleDocumentsAboutToExpire,
+    queryKey: ["vehicle-documents-about-to-expire", companyName],
+    queryFn: () => getVehicleDocumentsAboutToExpire(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -91,10 +91,10 @@ export function useVehicleDocumentsAboutToExpire() {
   return data ?? { today: "-", oneDay: "-", threeDays: "-", fiveDays: "-" };
 }
 
-export function useVisitorPass() {
+export function useVisitorPass(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["visitor-pass"],
-    queryFn: getVisitorPass,
+    queryKey: ["visitor-pass", companyName],
+    queryFn: () => getVisitorPass(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -108,10 +108,10 @@ export function useVisitorPass() {
   );
 }
 
-export function useCriticalOperationalAlert() {
+export function useCriticalOperationalAlert(companyName: string) {
   const { data } = useQuery({
-    queryKey: ["critical-operational-alert"],
-    queryFn: getCriticalOperationalAlert,
+    queryKey: ["critical-operational-alert", companyName],
+    queryFn: () => getCriticalOperationalAlert(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,

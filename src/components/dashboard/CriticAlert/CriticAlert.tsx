@@ -1,17 +1,16 @@
 import CardTitle from "../shared/CardHeader";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
-import Map from "@/assets/map.svg";
 import "./styles.css";
 
-function CrtiticAlert() {
+function CrtiticAlert({ companyName }: { companyName: string }) {
   const {
     peopleWithExpiredExams,
     vehiclesWithExpiredAccreditation,
     visitorsApprovedNotCheckedOut,
     isCriticalOperationalAlertActive,
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
-  } = useCriticalOperationalAlert();
+  } = useCriticalOperationalAlert(companyName);
 
   return (
     <div className="flex flex-col w-full h-full min-h-0 overflow-hidden p-8">
@@ -89,7 +88,7 @@ function CrtiticAlert() {
         </div>
       </div>
       <img
-        src={Map}
+        src={`src/assets/maps/${companyName}.svg`}
         alt="Map"
         className="w-full h-auto object-contain rounded-3xl flex-shrink-0 mt-3 max-h-1/4"
       />

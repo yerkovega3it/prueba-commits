@@ -26,13 +26,18 @@ ChartJS.register(
   ChartDataLabels
 );
 
-export default function MonthlyPassesChart() {
-  const monthlyData: MonthlyApprovedPasses = useMonthlyApprovedPasses();
+export default function MonthlyPassesChart({
+  companyName,
+}: {
+  companyName: string;
+}) {
+  const monthlyData: MonthlyApprovedPasses =
+    useMonthlyApprovedPasses(companyName);
   const {
     approvedPassesToday,
     peopleWithPlusOneApprovedNext5Days,
     approvedPassesNext7Days,
-  } = useVisitorPass();
+  } = useVisitorPass(companyName);
 
   const months = [
     "Enero",
