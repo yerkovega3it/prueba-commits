@@ -6,12 +6,12 @@ import {
 import { NotAuthenticatedRoutes } from "./ProtectedRoutes";
 import { LayoutPublicDefault } from "@/layouts";
 import { HomePage } from "@/pages";
-import NotFoundPage from "@/pages/NotFoundPage";
 import HomeIndexPage from "@/pages/index/HomeIndexPage";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AMSA_LOGIN_URL } from "@/constants/environments";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 function HomePageRouteWrapper() {
   const isAuthenticated = Boolean(localStorage.getItem("auth_token"));
