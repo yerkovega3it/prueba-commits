@@ -3,10 +3,39 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import { AuthenticatedRoutes, NotAuthenticatedRoutes } from "./ProtectedRoutes";
-import { LayoutPublicDefault, LayoutPrivateDefault } from "@/layouts";
-import { HomePage, LoginPage } from "@/pages";
+import { NotAuthenticatedRoutes } from "./ProtectedRoutes";
+import { LayoutPublicDefault } from "@/layouts";
+import { HomePage } from "@/pages";
+import NotFoundPage from "@/pages/NotFoundPage";
 import HomeIndexPage from "@/pages/index/HomeIndexPage";
+
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { AMSA_LOGIN_URL } from "@/constants/environments";
+
+function HomePageRouteWrapper() {
+  const isAuthenticated = Boolean(localStorage.getItem("auth_token"));
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathParam = location.pathname.slice(1);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      if (pathParam) {
+        localStorage.setItem("pending_path_param", pathParam);
+      }
+      navigate("/login", { replace: true, state: { pathParam } });
+    }
+  }, [isAuthenticated, pathParam, navigate]);
+  if (!isAuthenticated) return null;
+  return <HomePage />;
+}
+
+function LoginRedirect() {
+  useEffect(() => {
+    window.location.href = `${AMSA_LOGIN_URL}`;
+  }, []);
+  return null;
+}
 
 const router = createBrowserRouter([
   {
@@ -18,7 +47,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        element: <LoginPage />,
+        element: <LoginRedirect />,
         handle: { breadcrumb: "Login" },
       },
       {
@@ -29,23 +58,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: (
-      <AuthenticatedRoutes>
-        <LayoutPrivateDefault />
-      </AuthenticatedRoutes>
-    ),
-    children: [
-      {
-        path: "/",
-        element: <HomePage />,
-        handle: { breadcrumb: "Dashboard" },
-      },
-
-      {
-        path: "*",
-        element: <Navigate to="/" replace />,
-      },
-    ],
+    path: "/:pathParam",
+    element: <HomePageRouteWrapper />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

@@ -7,9 +7,16 @@ export default function HomeIndexPage() {
   const navigate = useNavigate();
   const { jwtToken } = useParams();
 
+  const pendingPathParam = localStorage.getItem("pending_path_param");
+
   authService.integratedLogin(jwtToken as string).then((res) => {
     const loginLoader = authUtils.loginLoader(res, "integrated");
-    navigate("/", { state: { token: jwtToken } });
+    if (pendingPathParam) {
+      localStorage.removeItem("pending_path_param");
+      navigate(`/${pendingPathParam}`);
+    } else {
+      navigate("/", { state: { token: jwtToken } });
+    }
     return loginLoader;
   });
 

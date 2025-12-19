@@ -1,4 +1,5 @@
 import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import LiveOccupancy from "@/components/dashboard/LiveOccupancy/LiveOccupancy";
 import ExpiringExams from "@/components/dashboard/ExpiringExams/ExpiringExams";
@@ -7,6 +8,10 @@ import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLi
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
 
 export default function HomePage() {
+  const { pathParam } = useParams();
+  if (pathParam) {
+    console.log("[HomePage] pathParam:", pathParam);
+  }
   return (
     <DashboardLayout>
       <div className="flex-shrink-0" style={{ maxHeight: "12%" }}>
