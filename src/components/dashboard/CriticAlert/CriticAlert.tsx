@@ -1,8 +1,12 @@
 import CardTitle from "../shared/CardHeader";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
-import { useState } from "react";
 import "./styles.css";
+
+const companyMaps = import.meta.glob("/src/assets/maps/*.svg", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
 
 function CrtiticAlert({ companyName }: { companyName: string }) {
   const {
@@ -13,13 +17,14 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
   } = useCriticalOperationalAlert(companyName);
 
-  const [imageExists, setImageExists] = useState(true);
-  const imageSrc = `src/assets/maps/${companyName}.svg`;
+  const normalizedCompanyName = companyName.toLowerCase().replace(/\s+/g, "-");
+
+  const mapSrc = companyMaps[`/src/assets/maps/${normalizedCompanyName}.svg`];
 
   return (
     <div className="flex flex-col w-full h-full min-h-0 overflow-hidden p-8">
       <div
-        className={`$${
+        className={`${
           isCriticalOperationalAlertActive
             ? "card flex flex-col flex-1 min-h-0"
             : "relative p-2.5 rounded-2xl mb-4 flex flex-col flex-1 min-h-0"
@@ -30,11 +35,10 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
             !isCriticalOperationalAlertActive
               ? "border-5 shadow-[0_0_15px_0px_rgba(8,247,51,0.8)] border-success"
               : ""
-          }
-           `}
+          }`}
         >
           <CardTitle
-            title={"ALERTA OPERATIVA CRÍTICA EN FAENA"}
+            title="ALERTA OPERATIVA CRÍTICA EN FAENA"
             icon={faExclamationTriangle}
             titleClassName={`text-3xl font-bold flex flex-col break-words whitespace-normal w-full max-w-full overflow-hidden text-center ${
               !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
@@ -43,6 +47,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
             }`}
           />
+
           {!isCriticalOperationalAlertActive ? (
             <div className="mt-3 flex flex-col justify-center flex-1 min-h-0 bg-success-light/20">
               <div className="text-3xl text-center mx-auto">
@@ -61,6 +66,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                   Personas con exámenes vencidos
                 </p>
               </div>
+
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {vehiclesWithExpiredAccreditation}
@@ -69,6 +75,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                   Vehículos con acreditación vencida
                 </p>
               </div>
+
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
@@ -78,6 +85,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                   consumo diario
                 </p>
               </div>
+
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
                   {visitorsApprovedNotCheckedOut}
@@ -91,12 +99,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
           )}
         </div>
       </div>
-      {imageExists ? (
+      {mapSrc ? (
         <img
-          src={imageSrc}
-          alt="Map"
+          src={mapSrc}
+          alt={`Mapa ${companyName}`}
           className="w-full h-[200px] object-contain rounded-3xl flex-shrink-0 mt-3"
-          onError={() => setImageExists(false)}
         />
       ) : (
         <div className="w-full h-[200px] object-contain rounded-3xl flex-shrink-0 mt-3" />
