@@ -8,7 +8,7 @@ interface DashboardHeaderProps {
 
 function DashboardHeader({ companyName }: DashboardHeaderProps) {
   const { currentDateTime } = useCurrentTime();
-  const { miningCompanyName } = useDashboardInfo(companyName);
+  const { miningCompanyName, isLoading } = useDashboardInfo(companyName);
 
   return (
     <div className="px-6 py-[8px] rounded-3xl bg-card">
@@ -20,7 +20,14 @@ function DashboardHeader({ companyName }: DashboardHeaderProps) {
               maxFontSizePx={18}
               minFontSizePx={12}
             >
-              Centro de Mando SIGA - {miningCompanyName}
+              Centro de Mando SIGA -{" "}
+              {isLoading ? (
+                <span className="inline-block align-middle">
+                  <span className="animate-pulse bg-gray-300 dark:bg-gray-700 rounded w-32 h-6 inline-block" />
+                </span>
+              ) : (
+                miningCompanyName
+              )}
             </FitText>
           </h1>
           <p className="text-lg md:text-xl mt-1 font-normal font-aldrich">

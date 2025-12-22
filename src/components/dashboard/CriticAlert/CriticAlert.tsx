@@ -1,6 +1,7 @@
 import CardTitle from "../shared/CardHeader";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
+import Skeleton from "@/components/shared/Skeleton";
 import "./styles.css";
 
 const companyMaps = import.meta.glob("/src/assets/maps/*.svg", {
@@ -15,10 +16,10 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
     visitorsApprovedNotCheckedOut,
     isCriticalOperationalAlertActive,
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
+    isLoading,
   } = useCriticalOperationalAlert(companyName);
 
   const normalizedCompanyName = companyName.toLowerCase().replace(/\s+/g, "-");
-
   const mapSrc = companyMaps[`/src/assets/maps/${normalizedCompanyName}.svg`];
 
   return (
@@ -60,7 +61,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
             <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0 overflow-hidden">
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
-                  {peopleWithExpiredExams}
+                  {isLoading ? (
+                    <Skeleton width={40} height={32} />
+                  ) : (
+                    peopleWithExpiredExams
+                  )}
                 </span>
                 <p className="text-white text-lg leading-tight">
                   Personas con exámenes vencidos
@@ -69,7 +74,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
-                  {vehiclesWithExpiredAccreditation}
+                  {isLoading ? (
+                    <Skeleton width={40} height={32} />
+                  ) : (
+                    vehiclesWithExpiredAccreditation
+                  )}
                 </span>
                 <p className="text-white text-lg leading-tight">
                   Vehículos con acreditación vencida
@@ -78,7 +87,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
-                  {peopleOutOfShiftNotCheckedOutWithDailyConsumption}
+                  {isLoading ? (
+                    <Skeleton width={40} height={32} />
+                  ) : (
+                    peopleOutOfShiftNotCheckedOutWithDailyConsumption
+                  )}
                 </span>
                 <p className="text-white text-lg leading-tight">
                   Personas fuera de turno que no han registrado salida y tienen
@@ -88,7 +101,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-[20px] py-[14px] flex-1 min-h-0">
                 <span className="text-white text-4xl font-bold shrink-0 w-20 text-center font-anta">
-                  {visitorsApprovedNotCheckedOut}
+                  {isLoading ? (
+                    <Skeleton width={40} height={32} />
+                  ) : (
+                    visitorsApprovedNotCheckedOut
+                  )}
                 </span>
                 <p className="text-white text-lg leading-tight">
                   Personas con pase de visita aprobado que aún no registran
