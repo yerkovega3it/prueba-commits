@@ -9,8 +9,12 @@ import {
 import "./styles.css";
 
 import Skeleton from "@/components/shared/Skeleton";
+import { useLocation } from "react-router-dom";
 
 function LiveOccupancy({ companyName }: { companyName: string }) {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   const {
     peopleOnSite,
     peopleRepeatedSameDiningHallConsumption,
@@ -18,6 +22,9 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
     peopleOutOfShiftAndNotRegisteredExit,
     isLoading,
   } = useLaborStatus(companyName);
+
+  const showNoShowStat =
+    currentPath.includes("/mlp") || currentPath.includes("/all");
 
   return (
     <DashboardCard
@@ -53,12 +60,14 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
           label="Personas han repetido un mismo consumo en casino"
           loading={isLoading}
         />
-        <StatCard
-          icon={faPlaneDeparture}
-          value={peopleDidNotShowUpForFlight}
-          label="Personas no se presentaron al vuelo"
-          loading={isLoading}
-        />
+        {showNoShowStat ? (
+          <StatCard
+            icon={faPlaneDeparture}
+            value={peopleDidNotShowUpForFlight}
+            label="Personas no se presentaron al vuelo"
+            loading={isLoading}
+          />
+        ) : null}
       </div>
     </DashboardCard>
   );
