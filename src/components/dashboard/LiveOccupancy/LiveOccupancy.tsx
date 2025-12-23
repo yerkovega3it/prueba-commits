@@ -23,8 +23,8 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
     isLoading,
   } = useLaborStatus(companyName);
 
-  const showNoShowStat =
-    currentPath.includes("/mlp") || currentPath.includes("/all");
+  const normalizedPath = currentPath.toLowerCase();
+  const showNoShowStat = ["/mlp", "/all"].includes(normalizedPath);
 
   return (
     <DashboardCard
