@@ -62,7 +62,7 @@ export default function MonthlyPassesChart({
   });
   const currentMonthIndex = new Date().getMonth();
   const maxValue = Math.ceil(Math.max(...(values as number[])));
-  const scaledMaxValue = maxValue > 100 ? maxValue * 1.3 : maxValue;
+  const scaledMaxValue = maxValue * 1.3;
 
   const data = {
     labels: months,
@@ -129,7 +129,10 @@ export default function MonthlyPassesChart({
           weight: "bold" as const,
           family: "Anta",
         },
-        offset: 4,
+        offset: (context: Context) => {
+          const value = context.dataset.data[context.dataIndex];
+          return value === 0 ? -5 : 4;
+        },
         borderRadius: 4,
         padding: {
           top: 4,
