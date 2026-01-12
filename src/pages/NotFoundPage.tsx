@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { authUtils } from "@/utils/auth.util";
 
 export const NotFoundPage = () => {
+  // Se realiza el logout para limpiar cualquier dato de sesión
+  authUtils.logout();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg-soft">
       <div className="bg-card shadow-lg rounded-3xl p-10 w-full max-w-3xl text-center border border-border animate-neon-glow">

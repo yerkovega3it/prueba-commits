@@ -84,6 +84,12 @@ export const authUtils = {
     sessionStorage.removeItem(PERMISSIONS_KEY);
   },
 
+  logout() {
+    this.removeUser();
+    this.removeToken();
+    this.removePermissions();
+  },
+
   setLoginType(loginType: "integrated" | "external") {
     localStorage.setItem(LOGIN_TYPE, loginType);
   },
