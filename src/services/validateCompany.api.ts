@@ -1,5 +1,4 @@
 import { API_URL } from "@/constants/environments";
-import { http } from "./http";
 import { apiService } from "./api.service";
 
 interface ValidateCompanyResponse {
