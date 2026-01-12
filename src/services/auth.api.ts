@@ -9,9 +9,12 @@ interface ValidateTokenResponse {
 }
 
 export const authService = {
-  async integratedLogin(token: string): Promise<LoginResponse> {
+  async integratedLogin(
+    token: string,
+    functionality: string
+  ): Promise<LoginResponse> {
     console.log(API_URL);
-    const url = `${API_URL}/auth/integrated-login`;
+    const url = `${API_URL}/auth/integrated-login?functionality=${functionality}`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -22,6 +25,10 @@ export const authService = {
 
     if (!response.ok) {
       console.error("Error en la respuesta del servidor:", response.statusText);
+      throw {
+        status: response.status,
+        message: `HTTP error! status: ${response.status}`,
+      };
     }
 
     const result = await response.json();

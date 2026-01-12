@@ -14,6 +14,7 @@ import { AMSA_LOGIN_URL } from "@/constants/environments";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { useQuery } from "@tanstack/react-query";
 import { validateToken } from "@/services/validateToken.api";
+import { UnauthorizedPage } from "@/pages/UnauthorizedPage";
 
 function HomePageRouteWrapper() {
   const token = localStorage.getItem("auth_token") as string;
@@ -77,6 +78,14 @@ const router = createBrowserRouter([
   {
     path: "/:pathParam",
     element: <HomePageRouteWrapper />,
+  },
+  {
+    path: "/error401",
+    element: <UnauthorizedPage />,
+  },
+  {
+    path: "/error404",
+    element: <NotFoundPage />,
   },
   {
     path: "*",

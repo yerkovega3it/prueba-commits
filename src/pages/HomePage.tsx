@@ -1,5 +1,5 @@
 import DashboardHeader from "@/components/dashboard/DashboardHeader/DashboardHeader";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import LiveOccupancy from "@/components/dashboard/LiveOccupancy/LiveOccupancy";
 import ExpiringExams from "@/components/dashboard/ExpiringExams/ExpiringExams";
@@ -8,12 +8,14 @@ import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLi
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
 import { useQuery } from "@tanstack/react-query";
 import { validateCompany } from "@/services/validateCompany.api";
+import type { AxiosError } from "axios";
+import { UnauthorizedPage } from "./UnauthorizedPage";
+import { NotFoundPage } from "./NotFoundPage";
 
 export default function HomePage() {
   const { pathParam } = useParams();
-  const navigate = useNavigate();
 
-  const { isLoading, isError } = useQuery({
+  const { isLoading, isError, error } = useQuery({
     queryKey: ["company-validator", pathParam],
     queryFn: () => {
       return validateCompany(pathParam as string);
@@ -29,10 +31,13 @@ export default function HomePage() {
       </div>
     );
   }
-
   if (isError) {
-    navigate("/", { replace: true });
-    return null;
+    console.log(error);
+    if ((error as AxiosError)?.status === 401) {
+      return <UnauthorizedPage />;
+    } else {
+      return <NotFoundPage />;
+    }
   }
 
   return (
