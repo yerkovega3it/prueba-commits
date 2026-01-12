@@ -3,6 +3,7 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { authUtils } from "@/utils/auth.util";
 
 export const UnauthorizedPage = () => {
+  // Se realiza el logout para limpiar cualquier dato de sesión
   authUtils.logout();
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg-soft">
