@@ -6,6 +6,7 @@ import ExpiringExams from "@/components/dashboard/ExpiringExams/ExpiringExams";
 import CriticAlert from "@/components/dashboard/CriticAlert/CriticAlert";
 import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLicenses";
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
+import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { validateCompany } from "@/services/validateCompany.api";
 import type { AxiosError } from "axios";
@@ -14,6 +15,7 @@ import { NotFoundPage } from "./NotFoundPage";
 
 export default function HomePage() {
   const { pathParam } = useParams();
+  const criticAlertRef = useRef<HTMLDivElement>(null);
 
   const { isLoading, isError, error } = useQuery({
     queryKey: ["company-validator", pathParam],
@@ -42,40 +44,37 @@ export default function HomePage() {
 
   return (
     <DashboardLayout>
-      <div className="flex-shrink-0" style={{ maxHeight: "12%" }}>
-        <DashboardHeader companyName={pathParam as string} />
+      <div className="flex-shrink-0 xl:max-h-[12%]">
+        <DashboardHeader
+          companyName={pathParam as string}
+          onScrollToAlert={() =>
+            criticAlertRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        />
       </div>
-      <div
-        className="relative flex gap-6 w-full overflow-hidden"
-        style={{ height: "88%" }}
-      >
-        <div
-          className="flex flex-col h-full min-h-0 mr-6 gap-6"
-          style={{ width: "72%" }}
-        >
-          <div className="flex gap-6 w-full flex-1 min-h-0">
-            <div className="w-1/2 h-full overflow-hidden">
+
+      <div className="flex gap-6 w-full xl:h-[88%] xl:overflow-hidden flex-col xl:flex-row">
+        <div className="flex flex-col min-h-0 gap-6 xl:w-[72%] w-full">
+          <div className="flex gap-6 w-full flex-1 min-h-0 flex-col xl:flex-row">
+            <div className="w-full xl:w-1/2 xl:h-full min-h-[220px]">
               <LiveOccupancy companyName={pathParam as string} />
             </div>
-            <div className="flex flex-col gap-6 w-1/2 h-full overflow-hidden">
-              <div className="h-1/2 overflow-hidden">
+            <div className="flex flex-col gap-6 w-full xl:w-1/2 xl:h-full overflow-hidden">
+              <div className="flex-1 xl:flex-none xl:h-1/2 min-h-[160px] overflow-hidden">
                 <ExpiringExams companyName={pathParam as string} />
               </div>
-              <div className="h-1/2 overflow-hidden">
+              <div className="flex-1 xl:flex-none xl:h-1/2 min-h-[160px] overflow-hidden">
                 <ExpiringLicenses companyName={pathParam as string} />
               </div>
             </div>
           </div>
-          <div
-            className="w-full overflow-hidden flex-shrink-0"
-            style={{ minHeight: "150px" }}
-          >
+          <div className="w-full overflow-hidden flex-shrink-0 min-h-[150px] xl:h-[30%]">
             <MonthlyPassesChart companyName={pathParam as string} />
           </div>
         </div>
         <div
-          className="absolute right-0 top-0 h-full overflow-hidden"
-          style={{ width: "28%" }}
+          ref={criticAlertRef}
+          className="xl:w-[28%] w-full xl:h-full xl:overflow-hidden"
         >
           <CriticAlert companyName={pathParam as string} />
         </div>

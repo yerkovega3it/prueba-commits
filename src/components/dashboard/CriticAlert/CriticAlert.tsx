@@ -1,5 +1,8 @@
 import CardTitle from "../shared/CardHeader";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationTriangle,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
 import "./styles.css";
@@ -40,7 +43,11 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         >
           <CardTitle
             title="ALERTA OPERATIVA CRÍTICA EN FAENA"
-            icon={faExclamationTriangle}
+            icon={
+              isCriticalOperationalAlertActive
+                ? faExclamationTriangle
+                : faCheckCircle
+            }
             titleClassName={`text-xl md:text-2xl xl:text-3xl font-bold flex flex-col break-words whitespace-normal w-full max-w-full overflow-hidden text-center ${
               !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
             }`}

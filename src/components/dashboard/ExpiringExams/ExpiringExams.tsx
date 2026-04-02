@@ -15,7 +15,7 @@ function ExpiringExams({ companyName }: { companyName: string }) {
       contentClassName="flex flex-col md:flex-row items-center gap-3 h-full mt-3"
     >
       <div className="shrink-0 w-auto max-w-28 xl:max-w-32">
-        <p className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-center text-approved font-anta">
+        <p className="text-5xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-center text-approved font-anta">
           {isLoading ? (
             <span className="flex justify-center items-center w-full h-full">
               <Skeleton width={60} height={40} className="mx-auto" />
