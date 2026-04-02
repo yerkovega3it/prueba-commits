@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       screens: {
+        'sm': '480px',
         'xl': '1300px',
+        '2xl': '1920px',
       },
       colors: {
         // Primary colors - NEON

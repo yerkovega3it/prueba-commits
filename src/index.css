@@ -13,6 +13,11 @@
   --font-aldrich: "Aldrich", sans-serif;
   --font-anta: "Anta", sans-serif;
   --animate-pulse-border: pulse-border 2s ease-in-out infinite;
+
+  /* Custom breakpoints — must live here in Tailwind v4, not in tailwind.config.js */
+  --breakpoint-sm: 480px;
+  --breakpoint-xl: 1300px;
+  --breakpoint-2xl: 1920px;
 }
 
 @keyframes pulse-border {
@@ -50,4 +55,25 @@ main,
 #root {
   height: 100vh;
   overflow: hidden;
+}
+
+/* ── Responsive unlock for screens below the TV breakpoint (xl = 1300px) ── */
+@media (max-width: 1299px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100dvh;
+    overflow: auto;
+    font-size: 16px;
+  }
+
+  main,
+  .layout-private-default,
+  .eit-wrapper,
+  .eit-container,
+  #root {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
 }

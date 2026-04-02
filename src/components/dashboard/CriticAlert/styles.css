@@ -47,7 +47,7 @@
   position: relative;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
   .card-content {
     padding: 16px;
   }

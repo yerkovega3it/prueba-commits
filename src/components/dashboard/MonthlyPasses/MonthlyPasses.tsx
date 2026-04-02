@@ -17,6 +17,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import type { MonthlyApprovedPasses } from "@/interfaces/dashboard/monthlyApprovedPasses.interface";
 import FitText from "@/components/shared/FitText";
 import Skeleton from "@/components/shared/Skeleton";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +41,11 @@ export default function MonthlyPassesChart({
     approvedPassesNext7Days,
     isLoading: isLoadingVisitor,
   } = useVisitorPass(companyName);
+
+  const { isMd, isLg, isXl } = useBreakpoint();
+  const labelFontSize = isXl ? 12 : isLg ? 11 : isMd ? 10 : 9;
+  const tickFontSize = isXl ? 12 : isLg ? 11 : isMd ? 10 : 9;
+  const maxTicksLimit = isMd ? undefined : 6;
 
   const months = [
     "Enero",
@@ -125,7 +131,7 @@ export default function MonthlyPassesChart({
         align: "end" as const,
         color: "#ffffff",
         font: {
-          size: 12,
+          size: labelFontSize,
           weight: "bold" as const,
           family: "Anta",
         },
@@ -155,7 +161,7 @@ export default function MonthlyPassesChart({
           font: (context: { index: number }) => {
             const index = context.index;
             return {
-              size: 12,
+              size: tickFontSize,
               weight: (index === currentMonthIndex ? "bold" : "normal") as
                 | "bold"
                 | "normal",
@@ -163,6 +169,7 @@ export default function MonthlyPassesChart({
             };
           },
           autoSkip: false,
+          maxTicksLimit,
         },
         grid: { display: false },
       },
@@ -171,7 +178,7 @@ export default function MonthlyPassesChart({
 
   return (
     <div className="w-full bg-main rounded-3xl p-4 overflow-hidden h-full flex flex-col">
-      <div className="flex gap-6 flex-1 overflow-hidden">
+      <div className="flex gap-6 flex-1 overflow-hidden flex-col xl:flex-row">
         <div className="flex-1 flex flex-col min-w-0">
           <FitText
             className="text-3xl font-bold whitespace-nowrap text-approved mb-2"
@@ -180,7 +187,7 @@ export default function MonthlyPassesChart({
           >
             PASES APROBADOS REALIZADOS DE FORMA MENSUAL
           </FitText>
-          <div className="relative flex-1 w-full h-72">
+          <div className="relative flex-1 w-full h-48 sm:h-56 md:h-64 xl:h-72">
             <Bar data={data} options={options} />
           </div>
         </div>
@@ -196,49 +203,49 @@ export default function MonthlyPassesChart({
             {isLoadingVisitor ? (
               <>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Pases Aprobados hoy (duración 1 día)
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Personas con +1 pase aprobados en los próximos 5 días
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Pases Aprobados en los próximos 7 días
                     </p>
                   </div>
@@ -247,49 +254,49 @@ export default function MonthlyPassesChart({
             ) : (
               <>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
                       {approvedPassesToday}
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Pases Aprobados hoy (duración 1 día)
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
                       {peopleWithPlusOneApprovedNext5Days}
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Personas con +1 pase aprobados en los próximos 5 días
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 xl:w-10 xl:h-10 shrink-0">
                     <FontAwesomeIcon
                       icon={faCheckCircle}
-                      className="text-approved text-lg md:text-xl lg:text-2xl"
+                      className="text-approved text-base md:text-lg xl:text-2xl"
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-3xl md:text-4xl lg:text-5xl font-bold w-14 md:w-16 text-center shrink-0 font-anta">
+                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
                       {approvedPassesNext7Days}
                     </span>
-                    <p className="text-sm md:text-lg text-white text-center mt-1 break-words self-center">
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
                       Pases Aprobados en los próximos 7 días
                     </p>
                   </div>

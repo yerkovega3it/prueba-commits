@@ -25,8 +25,8 @@ export default function FitText({
       if (!el) return;
       // Start from max and reduce until fits or reaches min
       let size = maxFontSizePx;
-      el.style.whiteSpace = "nowrap";
-      el.style.display = "inline-block";
+      el.style.whiteSpace = "normal";
+      el.style.display = "block";
       el.style.lineHeight = "1";
       el.style.fontSize = `${size}px`;
 
