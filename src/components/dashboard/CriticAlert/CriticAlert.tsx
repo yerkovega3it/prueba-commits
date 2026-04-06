@@ -65,56 +65,56 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               </div>
             </div>
           ) : (
-            <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0 overflow-hidden">
-              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 min-h-0">
-                <span className="text-white text-2xl md:text-3xl xl:text-4xl font-bold shrink-0 w-14 md:w-16 xl:w-20 text-center font-anta">
+            <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0">
+              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
+                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
                     peopleWithExpiredExams
                   )}
                 </span>
-                <p className="text-white text-base md:text-base xl:text-lg leading-tight">
+                <p className="text-white text-base xl:text-xl leading-tight">
                   Personas con exámenes vencidos
                 </p>
               </div>
 
-              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 min-h-0">
-                <span className="text-white text-2xl md:text-3xl xl:text-4xl font-bold shrink-0 w-14 md:w-16 xl:w-20 text-center font-anta">
+              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
+                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
                     vehiclesWithExpiredAccreditation
                   )}
                 </span>
-                <p className="text-white text-base md:text-base xl:text-lg leading-tight">
+                <p className="text-white text-base xl:text-xl leading-tight">
                   Vehículos con acreditación vencida
                 </p>
               </div>
 
-              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 min-h-0">
-                <span className="text-white text-2xl md:text-3xl xl:text-4xl font-bold shrink-0 w-14 md:w-16 xl:w-20 text-center font-anta">
+              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
+                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
                     peopleOutOfShiftNotCheckedOutWithDailyConsumption
                   )}
                 </span>
-                <p className="text-white text-base md:text-base xl:text-lg leading-tight">
+                <p className="text-white text-base xl:text-xl leading-tight">
                   Personas fuera de turno que no han registrado salida y tienen
                   consumo diario
                 </p>
               </div>
 
-              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 min-h-0">
-                <span className="text-white text-2xl md:text-3xl xl:text-4xl font-bold shrink-0 w-14 md:w-16 xl:w-20 text-center font-anta">
+              <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
+                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
                     visitorsApprovedNotCheckedOut
                   )}
                 </span>
-                <p className="text-white text-base md:text-base xl:text-lg leading-tight">
+                <p className="text-white text-base  xl:text-xl leading-tight">
                   Personas con pase de visita aprobado que aún no registran
                   salida
                 </p>

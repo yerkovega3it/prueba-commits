@@ -64,7 +64,7 @@ function DashboardHeader({
 
         <div className="flex items-center justify-between gap-8">
           <div className="text-center md:text-right">
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-normal font-aldrich">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-normal font-aldrich whitespace-nowrap">
               {currentDateTime.toLocaleTimeString("es-CL", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -100,7 +100,7 @@ function DashboardHeader({
                 className={`text-3xl ${isCriticalOperationalAlertActive ? "text-critic" : "text-success"}`}
               />
               <span
-                className={`text-xs font-aldrich ${isCriticalOperationalAlertActive ? "text-critic" : "text-success"}`}
+                className={`text-xs font-aldrich text-center whitespace-nowrap ${isCriticalOperationalAlertActive ? "text-critic" : "text-success"}`}
               >
                 {activeAlertCount}{" "}
                 {activeAlertCount === 1 ? "Alerta activa" : "Alertas activas"}
