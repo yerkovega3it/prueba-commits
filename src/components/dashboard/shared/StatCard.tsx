@@ -7,7 +7,7 @@ function StatCard({
   label,
   icon,
   iconClassName = "text-approved text-xl md:text-2xl lg:text-3xl",
-  valueClassName = "text-2xl md:text-3xl lg:text-4xl xl:text-5xl w-12 md:w-16 xl:w-20",
+  valueClassName = "text-3xl lg:text-4xl xl:text-5xl w-14 lg:w-16 xl:w-20",
   labelClassName = "text-sm md:text-base lg:text-lg",
   loading = false,
 }: {

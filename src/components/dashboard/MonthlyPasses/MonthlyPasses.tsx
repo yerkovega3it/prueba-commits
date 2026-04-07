@@ -178,7 +178,7 @@ export default function MonthlyPassesChart({
 
   return (
     <div className="w-full bg-main rounded-3xl p-4 overflow-hidden h-full flex flex-col">
-      <div className="flex gap-6 flex-1 overflow-hidden flex-col xl:flex-row">
+      <div className="flex gap-6 flex-1 overflow-hidden flex-col md:flex-row">
         <div className="flex-1 flex flex-col min-w-0">
           <FitText
             className="text-3xl font-bold whitespace-nowrap text-approved mb-2"
@@ -210,7 +210,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
@@ -226,7 +226,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
@@ -242,7 +242,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta flex items-center justify-center">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta flex items-center justify-center">
                       <Skeleton width={40} height={32} className="mx-auto" />
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
@@ -261,7 +261,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta">
                       {approvedPassesToday}
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
@@ -277,7 +277,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta">
                       {peopleWithPlusOneApprovedNext5Days}
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">
@@ -293,7 +293,7 @@ export default function MonthlyPassesChart({
                     />
                   </div>
                   <div className="flex items-start gap-2 ml-2 min-w-0">
-                    <span className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold w-12 md:w-14 xl:w-16 text-center shrink-0 font-anta">
+                    <span className="text-3xl lg:text-4xl xl:text-5xl font-bold w-14 lg:w-16 text-center shrink-0 font-anta">
                       {approvedPassesNext7Days}
                     </span>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1 break-words self-center">

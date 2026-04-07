@@ -11,6 +11,7 @@ import {
   DASHBOARD_STALE_TIME_MS,
   RETRY_DELAY_MS,
 } from "@/constants";
+
 export function useDashboardInfo(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard-info", companyName],
@@ -117,6 +118,7 @@ export function useVisitorPass(companyName: string) {
     isLoading,
   };
 }
+
 export function useCriticalOperationalAlert(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["critical-operational-alert", companyName],

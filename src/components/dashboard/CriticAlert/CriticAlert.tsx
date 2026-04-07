@@ -5,12 +5,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useCriticalOperationalAlert } from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
+import CompanyMap from "@/components/dashboard/CompanyMap/CompanyMap";
 import "./styles.css";
-
-const companyMaps = import.meta.glob("/src/assets/maps/*.svg", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
 
 function CrtiticAlert({ companyName }: { companyName: string }) {
   const {
@@ -21,9 +17,6 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
     isLoading,
   } = useCriticalOperationalAlert(companyName);
-
-  const normalizedCompanyName = companyName.toLowerCase().replace(/\s+/g, "-");
-  const mapSrc = companyMaps[`/src/assets/maps/${normalizedCompanyName}.svg`];
 
   return (
     <div className="flex flex-col w-full h-full min-h-0 overflow-hidden p-3 md:p-5 xl:p-8">
@@ -67,7 +60,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
           ) : (
             <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0">
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
-                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
+                <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
@@ -80,7 +73,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               </div>
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
-                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
+                <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
@@ -93,7 +86,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               </div>
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
-                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
+                <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
@@ -107,7 +100,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               </div>
 
               <div className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1">
-                <span className="text-white text-2xl xl:text-5xl font-bold shrink-0 w-14 xl:w-20 inline-flex items-center justify-center font-anta">
+                <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                   {isLoading ? (
                     <Skeleton width={40} height={32} />
                   ) : (
@@ -123,15 +116,10 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
           )}
         </div>
       </div>
-      {mapSrc ? (
-        <img
-          src={mapSrc}
-          alt={`Mapa ${companyName}`}
-          className="w-full object-contain rounded-3xl flex-shrink-0 mt-3 h-[120px] sm:h-[150px] md:h-[170px] xl:h-[200px]"
-        />
-      ) : (
-        <div className="w-full rounded-3xl flex-shrink-0 mt-3 h-[120px] sm:h-[150px] md:h-[170px] xl:h-[200px]" />
-      )}
+      <CompanyMap
+        companyName={companyName}
+        className="hidden xl:block flex-shrink-0 mt-3 h-[200px]"
+      />
     </div>
   );
 }

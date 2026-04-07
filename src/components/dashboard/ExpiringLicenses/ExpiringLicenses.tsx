@@ -24,7 +24,7 @@ function ExpiringLicenses({ companyName }: { companyName: string }) {
             today
           )}
         </p>
-        <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white text-center mt-1">
+        <p className="text-sm md:text-sm lg:text-base xl:text-lg text-white text-center mt-1">
           Vehículos con acreditación vencen hoy
         </p>
       </div>

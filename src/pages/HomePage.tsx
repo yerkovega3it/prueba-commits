@@ -6,7 +6,7 @@ import ExpiringExams from "@/components/dashboard/ExpiringExams/ExpiringExams";
 import CriticAlert from "@/components/dashboard/CriticAlert/CriticAlert";
 import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLicenses";
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
-import { useRef } from "react";
+import CompanyMap from "@/components/dashboard/CompanyMap/CompanyMap";
 import { useQuery } from "@tanstack/react-query";
 import { validateCompany } from "@/services/validateCompany.api";
 import type { AxiosError } from "axios";
@@ -15,8 +15,6 @@ import { NotFoundPage } from "./NotFoundPage";
 
 export default function HomePage() {
   const { pathParam } = useParams();
-  const criticAlertRef = useRef<HTMLDivElement>(null);
-
   const { isLoading, isError, error } = useQuery({
     queryKey: ["company-validator", pathParam],
     queryFn: () => {
@@ -45,21 +43,26 @@ export default function HomePage() {
   return (
     <DashboardLayout>
       <div className="flex-shrink-0 xl:max-h-[12%]">
-        <DashboardHeader
-          companyName={pathParam as string}
-          onScrollToAlert={() =>
-            criticAlertRef.current?.scrollIntoView({ behavior: "smooth" })
-          }
-        />
+        <DashboardHeader companyName={pathParam as string} />
+      </div>
+
+      {/* Mobile-only: map + CriticAlert at top */}
+      <div className="xl:hidden flex flex-col md:flex-row gap-6 w-full">
+        <div className="flex-shrink-0 h-[280px] sm:h-[320px] md:h-auto md:w-2/5 p-5 md:p-5">
+          <CompanyMap companyName={pathParam as string} className="h-full" />
+        </div>
+        <div className="md:flex-1 min-w-0">
+          <CriticAlert companyName={pathParam as string} />
+        </div>
       </div>
 
       <div className="flex gap-6 w-full xl:h-[88%] xl:overflow-hidden flex-col xl:flex-row">
         <div className="flex flex-col min-h-0 gap-6 xl:w-[72%] w-full">
-          <div className="flex gap-6 w-full flex-1 min-h-0 flex-col xl:flex-row">
-            <div className="w-full xl:w-1/2 xl:h-full min-h-[220px]">
+          <div className="flex gap-6 w-full flex-1 min-h-0 flex-col md:flex-row">
+            <div className="w-full md:w-1/2 xl:h-full min-h-[220px]">
               <LiveOccupancy companyName={pathParam as string} />
             </div>
-            <div className="flex flex-col gap-6 w-full xl:w-1/2 xl:h-full overflow-hidden">
+            <div className="flex flex-col gap-6 w-full md:w-1/2 xl:h-full overflow-hidden">
               <div className="flex-1 xl:flex-none xl:h-1/2 min-h-[160px] overflow-hidden">
                 <ExpiringExams companyName={pathParam as string} />
               </div>
@@ -72,10 +75,7 @@ export default function HomePage() {
             <MonthlyPassesChart companyName={pathParam as string} />
           </div>
         </div>
-        <div
-          ref={criticAlertRef}
-          className="xl:w-[28%] w-full xl:h-full xl:overflow-hidden"
-        >
+        <div className="hidden xl:flex xl:w-[28%] xl:h-full xl:overflow-hidden">
           <CriticAlert companyName={pathParam as string} />
         </div>
       </div>
