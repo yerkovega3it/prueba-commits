@@ -48,7 +48,7 @@ function ExpiringExams({ companyName }: { companyName: string }) {
           onClick={() => !isLoading && setIsOpen(true)}
           title="Ver detalle de exámenes por vencer"
         >
-          <p className="text-5xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-center text-approved font-anta">
+          <div className="text-5xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-center text-approved font-anta">
             {isLoading ? (
               <span className="flex justify-center items-center w-full h-full">
                 <Skeleton width={60} height={40} className="mx-auto" />
@@ -56,7 +56,7 @@ function ExpiringExams({ companyName }: { companyName: string }) {
             ) : (
               today
             )}
-          </p>
+          </div>
           <p className="text-sm md:text-sm lg:text-base xl:text-lg text-white text-center mt-1">
             Exámenes vencen hoy
           </p>

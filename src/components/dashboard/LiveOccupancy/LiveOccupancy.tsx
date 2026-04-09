@@ -101,7 +101,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
           onClick={() => !isLoading && peopleOnSiteModal.setIsOpen(true)}
           title="Ver detalle de personas en faena"
         >
-          <p className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[9rem] text-center text-approved font-anta leading-none people-onsite">
+          <div className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[9rem] text-center text-approved font-anta leading-none people-onsite">
             {isLoading ? (
               <span className="flex justify-center items-center w-full h-full">
                 <Skeleton width={120} height={80} className="mx-auto" />
@@ -109,7 +109,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
             ) : (
               peopleOnSite
             )}
-          </p>
+          </div>
           <p className="text-base md:text-lg lg:text-xl xl:text-2xl text-white text-center mt-2 people-onsite-label">
             Personas en Faena
           </p>
