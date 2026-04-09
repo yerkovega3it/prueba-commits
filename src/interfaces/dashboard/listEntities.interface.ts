@@ -1,83 +1,73 @@
 // ── LiveOccupancy StatCards ──────────────────────────────────────────────────
 
 export interface PersonOutOfShiftExit {
-  nombre: string;
-  apellido: string;
   rut: string;
-  empresa: string;
-  turno: string;
+  name: string;
+  siteEntryDate: string;
+  expectedExit: string;
+  currentStatus: string;
 }
 
 export interface PersonRepeatedDining {
-  nombre: string;
-  apellido: string;
+  service: string;
   rut: string;
-  empresa: string;
-  cantidadConsumos: number;
+  name: string;
+  date: string;
+  consumptionCount: number;
 }
 
 export interface PersonNoShowFlight {
-  nombre: string;
-  apellido: string;
   rut: string;
-  empresa: string;
-  vuelo: string;
+  name: string;
 }
 
 // ── ExpiringExams ────────────────────────────────────────────────────────────
 
 export interface PersonExpiringExam {
-  nombre: string;
-  apellido: string;
   rut: string;
-  empresa: string;
-  examen: string;
-  fechaVencimiento: string;
-  diasRestantes: number;
+  requirementType: string;
+  startDate: string;
+  expirationDate: string;
 }
 
 // ── ExpiringLicenses ─────────────────────────────────────────────────────────
 
 export interface VehicleExpiringDocument {
-  patente: string;
-  tipoVehiculo: string;
-  empresa: string;
-  documento: string;
-  fechaVencimiento: string;
-  diasRestantes: number;
+  licensePlate: string;
+  requirementType: string;
+  startDate: string;
+  expirationDate: string;
 }
 
 // ── CriticAlert ──────────────────────────────────────────────────────────────
 
 export interface PersonExpiredExam {
-  nombre: string;
-  apellido: string;
   rut: string;
-  empresa: string;
-  examen: string;
-  fechaVencimiento: string;
+  requirementType: string;
+  startDate: string;
+  expirationDate: string;
 }
 
 export interface VehicleExpiredAccreditation {
-  patente: string;
-  tipoVehiculo: string;
-  empresa: string;
-  fechaVencimiento: string;
+  licensePlate: string;
+  vehicleType: string;
+  company: string;
+  expirationDate: string;
 }
 
 export interface PersonOutOfShiftDailyConsumption {
-  nombre: string;
-  apellido: string;
   rut: string;
-  empresa: string;
-  consumoEnCasino: string;
+  name: string;
+  siteEntryDate: string;
+  expectedExit: string;
+  currentStatus: string;
 }
 
 export interface VisitorNotCheckedOut {
-  nombre: string;
-  apellido: string;
+  name: string;
+  lastName: string;
   rut: string;
-  empresa: string;
-  fechaIngreso: string;
-  tipoVisita: string;
+  company: string;
+  visitType: string;
+  entryDate: string;
 }

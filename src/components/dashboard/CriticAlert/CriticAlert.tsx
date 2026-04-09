@@ -28,36 +28,34 @@ import "./styles.css";
 const PAGE_SIZE = 10;
 
 const EXPIRED_EXAMS_COLUMNS: ColumnDef<PersonExpiredExam>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "examen", label: "Examen", sortable: true },
-  { key: "fechaVencimiento", label: "Venció", sortable: true },
+  { key: "requirementType", label: "Tipo de requisito", sortable: true },
+  { key: "startDate", label: "Fecha de inicio", sortable: true },
+  { key: "expirationDate", label: "Fecha de vencimiento", sortable: true },
 ];
 
 const EXPIRED_VEHICLES_COLUMNS: ColumnDef<VehicleExpiredAccreditation>[] = [
-  { key: "patente", label: "Patente", sortable: true },
-  { key: "tipoVehiculo", label: "Tipo", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "fechaVencimiento", label: "Venció", sortable: true },
+  { key: "licensePlate", label: "Patente", sortable: true },
+  { key: "vehicleType", label: "Tipo", sortable: true },
+  { key: "company", label: "Empresa", sortable: true },
+  { key: "expirationDate", label: "Venció", sortable: true },
 ];
 
 const OUT_OF_SHIFT_CONSUMPTION_COLUMNS: ColumnDef<PersonOutOfShiftDailyConsumption>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "consumoEnCasino", label: "Consumo en casino", sortable: false },
+  { key: "name", label: "Nombre", sortable: true },
+  { key: "siteEntryDate", label: "Fecha de entrada a faena", sortable: true },
+  { key: "expectedExit", label: "Salida esperada", sortable: true },
+  { key: "currentStatus", label: "Estado actual", sortable: false },
 ];
 
 const VISITORS_NOT_CHECKED_OUT_COLUMNS: ColumnDef<VisitorNotCheckedOut>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
+  { key: "name", label: "Nombre", sortable: true },
+  { key: "lastName", label: "Apellido", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "tipoVisita", label: "Tipo visita", sortable: true },
-  { key: "fechaIngreso", label: "Ingresó", sortable: true },
+  { key: "company", label: "Empresa", sortable: true },
+  { key: "visitType", label: "Tipo visita", sortable: true },
+  { key: "entryDate", label: "Ingresó", sortable: true },
 ];
 
 function useModalState() {
@@ -274,7 +272,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isExpiredExamsLoading}
         columns={EXPIRED_EXAMS_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por nombre, RUT o examen"
+        searchPlaceholder="Buscar por RUT o tipo de requisito"
         search={expiredExamsModal.search}
         onSearch={expiredExamsModal.handleSearch}
         sort={expiredExamsModal.sort}
@@ -290,7 +288,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isExpiredVehiclesLoading}
         columns={EXPIRED_VEHICLES_COLUMNS}
         entityLabel="vehículos"
-        searchPlaceholder="Buscar por patente o empresa"
+        searchPlaceholder="Buscar por patente"
         search={expiredVehiclesModal.search}
         onSearch={expiredVehiclesModal.handleSearch}
         sort={expiredVehiclesModal.sort}

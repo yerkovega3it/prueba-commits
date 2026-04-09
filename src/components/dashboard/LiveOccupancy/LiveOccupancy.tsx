@@ -52,27 +52,24 @@ function useModalState() {
 }
 
 const OUT_OF_SHIFT_COLUMNS: ColumnDef<PersonOutOfShiftExit>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "turno", label: "Turno", sortable: true },
+  { key: "name", label: "Nombre", sortable: true },
+  { key: "siteEntryDate", label: "Fecha de entrada a faena", sortable: true },
+  { key: "expectedExit", label: "Salida esperada", sortable: true },
+  { key: "currentStatus", label: "Estado actual", sortable: false },
 ];
 
 const REPEATED_DINING_COLUMNS: ColumnDef<PersonRepeatedDining>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
+  { key: "service", label: "Servicio", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "cantidadConsumos", label: "Consumos", sortable: true },
+  { key: "name", label: "Nombre", sortable: true },
+  { key: "date", label: "Fecha", sortable: true },
+  { key: "consumptionCount", label: "Cantidad de consumos", sortable: true },
 ];
 
 const NO_SHOW_FLIGHT_COLUMNS: ColumnDef<PersonNoShowFlight>[] = [
-  { key: "nombre", label: "Nombre", sortable: true },
-  { key: "apellido", label: "Apellido", sortable: true },
   { key: "rut", label: "RUT", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "vuelo", label: "Vuelo", sortable: true },
+  { key: "name", label: "Nombre", sortable: true },
 ];
 
 function LiveOccupancy({ companyName }: { companyName: string }) {

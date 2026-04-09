@@ -76,15 +76,17 @@ function getPageNumbers(page: number, pageCount: number): (number | "...")[] {
 
   // Always show: first, last, current, and its immediate neighbours
   // so the user can always advance or go back one step by clicking
-  const alwaysShow = new Set([1, pageCount, page, page - 1, page + 1].filter(
-    (p) => p >= 1 && p <= pageCount,
-  ));
+  const alwaysShow = new Set(
+    [1, pageCount, page, page - 1, page + 1].filter(
+      (p) => p >= 1 && p <= pageCount,
+    ),
+  );
 
   const sorted = Array.from(alwaysShow).sort((a, b) => a - b);
 
   // Insert "..." wherever consecutive pages are not adjacent
   return sorted.reduce<(number | "...")[]>((acc, p, i) => {
-    if (i > 0 && p - (sorted[i - 1]) > 1) acc.push("...");
+    if (i > 0 && p - sorted[i - 1] > 1) acc.push("...");
     acc.push(p);
     return acc;
   }, []);
@@ -177,67 +179,69 @@ function DashboardModal<T extends object>({
         {/* ── Table ── */}
         <div className="overflow-y-auto flex-1">
           <div className="overflow-x-auto min-w-0">
-          <table className="w-full min-w-[600px] border-collapse">
-            <thead className="sticky top-0 bg-main border-b border-white">
-              <tr>
-                {columns.map((col) => (
-                  <th
-                    key={col.key}
-                    className={`px-3 py-2 sm:px-8 sm:py-3 text-left text-sm sm:text-[18px] font-bold text-white transition-colors ${
-                      col.sortable
-                        ? "cursor-pointer select-none hover:text-approved"
-                        : ""
-                    }`}
-                    onClick={col.sortable ? () => onSort(col.key) : undefined}
-                  >
-                    {col.label}
-                    {col.sortable && <SortIcon colKey={col.key} sort={sort} />}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
+            <table className="w-full min-w-[600px] border-collapse table-fixed">
+              <thead className="sticky top-0 bg-main border-b border-white">
                 <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="text-center py-12 text-white/40 text-sm"
-                  >
-                    Cargando...
-                  </td>
+                  {columns.map((col) => (
+                    <th
+                      key={col.key}
+                      className={`px-3 py-2 sm:px-8 sm:py-3 text-left text-sm  xl:text-[18px] font-bold text-white transition-colors ${
+                        col.sortable
+                          ? "cursor-pointer select-none hover:text-approved"
+                          : ""
+                      }`}
+                      onClick={col.sortable ? () => onSort(col.key) : undefined}
+                    >
+                      {col.label}
+                      {col.sortable && (
+                        <SortIcon colKey={col.key} sort={sort} />
+                      )}
+                    </th>
+                  ))}
                 </tr>
-              ) : rows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="text-center py-12 text-white/40 text-sm"
-                  >
-                    No se encontraron resultados
-                  </td>
-                </tr>
-              ) : (
-                rows.map((row, i) => (
-                  <tr
-                    key={i}
-                    className="border-b border-white/[0.10] hover:bg-white/[0.04] transition-colors xl:h-14"
-                  >
-                    {columns.map((col) => (
-                      <td
-                        key={col.key}
-                        className="px-3 py-2 sm:px-6 sm:py-3 text-sm sm:text-base text-white"
-                      >
-                        {col.render
-                          ? col.render(row)
-                          : String(
-                              (row as Record<string, unknown>)[col.key] ?? "",
-                            )}
-                      </td>
-                    ))}
+              </thead>
+              <tbody>
+                {isLoading ? (
+                  <tr>
+                    <td
+                      colSpan={columns.length}
+                      className="text-center py-12 text-white/40 text-sm"
+                    >
+                      Cargando...
+                    </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : rows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={columns.length}
+                      className="text-center py-12 text-white/40 text-sm"
+                    >
+                      No se encontraron resultados
+                    </td>
+                  </tr>
+                ) : (
+                  rows.map((row, i) => (
+                    <tr
+                      key={i}
+                      className="border-b border-white/[0.10] hover:bg-white/[0.04] transition-colors xl:h-14"
+                    >
+                      {columns.map((col) => (
+                        <td
+                          key={col.key}
+                          className="px-3 py-2 sm:px-6 sm:py-3 text-sm text-white"
+                        >
+                          {col.render
+                            ? col.render(row)
+                            : String(
+                                (row as Record<string, unknown>)[col.key] ?? "",
+                              )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 

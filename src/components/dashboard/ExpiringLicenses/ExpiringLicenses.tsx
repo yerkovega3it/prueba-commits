@@ -16,29 +16,10 @@ import type { VehicleExpiringDocument } from "@/interfaces/dashboard/listEntitie
 const PAGE_SIZE = 10;
 
 const COLUMNS: ColumnDef<VehicleExpiringDocument>[] = [
-  { key: "patente", label: "Patente", sortable: true },
-  { key: "tipoVehiculo", label: "Tipo", sortable: true },
-  { key: "empresa", label: "Empresa", sortable: true },
-  { key: "documento", label: "Documento", sortable: true },
-  { key: "fechaVencimiento", label: "Vence", sortable: true },
-  {
-    key: "diasRestantes",
-    label: "Días",
-    sortable: true,
-    render: (row) => (
-      <span
-        className={
-          row.diasRestantes === 0
-            ? "text-critic font-bold"
-            : row.diasRestantes <= 1
-              ? "text-alert font-bold"
-              : "text-white"
-        }
-      >
-        {row.diasRestantes === 0 ? "Hoy" : `${row.diasRestantes}d`}
-      </span>
-    ),
-  },
+  { key: "licensePlate", label: "Patente", sortable: true },
+  { key: "requirementType", label: "Tipo de requisito", sortable: true },
+  { key: "startDate", label: "Fecha de inicio", sortable: true },
+  { key: "expirationDate", label: "Fecha de vencimiento", sortable: true },
 ];
 
 function ExpiringLicenses({ companyName }: { companyName: string }) {
@@ -119,7 +100,7 @@ function ExpiringLicenses({ companyName }: { companyName: string }) {
         isLoading={isListLoading}
         columns={COLUMNS}
         entityLabel="vehículos"
-        searchPlaceholder="Buscar por patente o empresa"
+        searchPlaceholder="Buscar por patente o tipo de requisito"
         search={search}
         onSearch={handleSearch}
         sort={sort}
