@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
 import type { PersonOutOfShiftExit } from "@/interfaces/dashboard/listEntities.interface";
 import type { UsePaginatedParams } from "@/hooks/useDashboardData";
-import { http } from "../http";
+import { http } from "../../http";
 
 export async function getOutOfShiftExitList(
   params: UsePaginatedParams,

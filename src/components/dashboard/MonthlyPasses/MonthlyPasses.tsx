@@ -6,7 +6,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import ChartDataLabels, { type Context } from "chartjs-plugin-datalabels";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 import {
   useMonthlyApprovedPasses,
@@ -14,10 +14,10 @@ import {
 } from "@/hooks/useDashboardData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import type { MonthlyApprovedPasses } from "@/interfaces/dashboard/monthlyApprovedPasses.interface";
 import FitText from "@/components/shared/FitText";
 import Skeleton from "@/components/shared/Skeleton";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { getChartValues, getChartData, getChartOptions } from "./utils";
 
 ChartJS.register(
   CategoryScale,
@@ -25,7 +25,7 @@ ChartJS.register(
   BarElement,
   Tooltip,
   Legend,
-  ChartDataLabels
+  ChartDataLabels,
 );
 
 export default function MonthlyPassesChart({
@@ -33,8 +33,7 @@ export default function MonthlyPassesChart({
 }: {
   companyName: string;
 }) {
-  const monthlyData: MonthlyApprovedPasses =
-    useMonthlyApprovedPasses(companyName);
+  const monthlyData = useMonthlyApprovedPasses(companyName);
   const {
     approvedPassesToday,
     peopleWithPlusOneApprovedNext5Days,
@@ -47,134 +46,20 @@ export default function MonthlyPassesChart({
   const tickFontSize = isXl ? 12 : isLg ? 11 : isMd ? 10 : 9;
   const maxTicksLimit = isMd ? undefined : 6;
 
-  const months = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-
-  const values = months.map((_, index) => {
-    const monthKey = `month${String(index + 1).padStart(2, "0")}`;
-    return monthlyData[monthKey as keyof MonthlyApprovedPasses] ?? 0;
-  });
   const currentMonthIndex = new Date().getMonth();
-  const maxValue = Math.ceil(Math.max(...(values as number[])));
+  const values = getChartValues(monthlyData);
+  const maxValue = Math.ceil(Math.max(...values));
   const scaledMaxValue = maxValue * 1.3;
 
-  const data = {
-    labels: months,
-    datasets: [
-      {
-        label: "",
-        data: values,
-        borderRadius: 8,
-        borderSkipped: false,
-        borderWidth: 2,
-        borderColor: (ctx: { dataIndex: number }) => {
-          const index = ctx.dataIndex;
-          return index === currentMonthIndex ? "#ff005e" : "#53F7F6";
-        },
-        backgroundColor: (ctx: Context) => {
-          const index = ctx.dataIndex;
-          const chart = ctx.chart;
-          const { ctx: canvasCtx, chartArea } = chart;
-
-          if (!chartArea) {
-            return undefined;
-          }
-
-          const gradient = canvasCtx.createLinearGradient(
-            chartArea.left,
-            0,
-            chartArea.right,
-            0
-          );
-
-          if (index === currentMonthIndex) {
-            gradient.addColorStop(0, "rgba(145, 49, 78, 1)");
-            gradient.addColorStop(1, "rgba(255, 0, 94, 1)");
-          } else {
-            gradient.addColorStop(0, "rgba(49, 145, 144, 1)");
-            gradient.addColorStop(1, "rgba(83, 247, 246, 1)");
-          }
-
-          return gradient;
-        },
-        barPercentage: 0.5,
-        categoryPercentage: 0.85,
-        maxBarThickness: 20,
-      },
-    ],
-  };
-
-  const options = {
-    indexAxis: "y" as const,
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: false,
-      },
-      datalabels: {
-        display: maxValue !== 0,
-        anchor: "end" as const,
-        align: "end" as const,
-        color: "#ffffff",
-        font: {
-          size: labelFontSize,
-          weight: "bold" as const,
-          family: "Anta",
-        },
-        offset: (context: Context) => {
-          const value = context.dataset.data[context.dataIndex];
-          return value === 0 ? -5 : 4;
-        },
-        borderRadius: 4,
-        padding: {
-          top: 4,
-          bottom: 4,
-          left: 6,
-          right: 6,
-        },
-        formatter: (value: number) => value,
-      },
-    },
-    scales: {
-      x: {
-        ticks: { display: false },
-        grid: { display: false },
-        max: scaledMaxValue,
-      },
-      y: {
-        ticks: {
-          color: "#ffffff",
-          font: (context: { index: number }) => {
-            const index = context.index;
-            return {
-              size: tickFontSize,
-              weight: (index === currentMonthIndex ? "bold" : "normal") as
-                | "bold"
-                | "normal",
-              family: "Anta",
-            };
-          },
-          autoSkip: false,
-          maxTicksLimit,
-        },
-        grid: { display: false },
-      },
-    },
-  };
+  const data = getChartData(monthlyData, currentMonthIndex);
+  const options = getChartOptions(
+    labelFontSize,
+    tickFontSize,
+    maxTicksLimit,
+    scaledMaxValue,
+    currentMonthIndex,
+    maxValue,
+  );
 
   return (
     <div className="w-full bg-main rounded-3xl p-4 overflow-hidden h-full flex flex-col">

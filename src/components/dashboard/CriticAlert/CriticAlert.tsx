@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CardTitle from "../shared/CardHeader";
 import {
   faExclamationTriangle,
@@ -13,78 +12,16 @@ import {
 } from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
 import CompanyMap from "@/components/dashboard/CompanyMap/CompanyMap";
-import DashboardModal, {
-  type ColumnDef,
-  type DashboardModalSortState,
-} from "@/components/dashboard/shared/DashboardModal";
-import type {
-  PersonExpiredExam,
-  VehicleExpiredAccreditation,
-  PersonOutOfShiftDailyConsumption,
-  VisitorNotCheckedOut,
-} from "@/interfaces/dashboard/listEntities.interface";
+import DashboardModal from "@/components/dashboard/shared/DashboardModal";
+import { useModalState } from "./useModalState";
+import {
+  PAGE_SIZE,
+  EXPIRED_EXAMS_COLUMNS,
+  EXPIRED_VEHICLES_COLUMNS,
+  OUT_OF_SHIFT_CONSUMPTION_COLUMNS,
+  VISITORS_NOT_CHECKED_OUT_COLUMNS,
+} from "./constants";
 import "./styles.css";
-
-const PAGE_SIZE = 10;
-
-const EXPIRED_EXAMS_COLUMNS: ColumnDef<PersonExpiredExam>[] = [
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "requirementType", label: "Tipo de requisito", sortable: true },
-  { key: "startDate", label: "Fecha de inicio", sortable: true },
-  { key: "expirationDate", label: "Fecha de vencimiento", sortable: true },
-];
-
-const EXPIRED_VEHICLES_COLUMNS: ColumnDef<VehicleExpiredAccreditation>[] = [
-  { key: "licensePlate", label: "Patente", sortable: true },
-  { key: "vehicleType", label: "Tipo", sortable: true },
-  { key: "company", label: "Empresa", sortable: true },
-  { key: "expirationDate", label: "Venció", sortable: true },
-];
-
-const OUT_OF_SHIFT_CONSUMPTION_COLUMNS: ColumnDef<PersonOutOfShiftDailyConsumption>[] = [
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "name", label: "Nombre", sortable: true },
-  { key: "siteEntryDate", label: "Fecha de entrada a faena", sortable: true },
-  { key: "expectedExit", label: "Salida esperada", sortable: true },
-  { key: "currentStatus", label: "Estado actual", sortable: false },
-];
-
-const VISITORS_NOT_CHECKED_OUT_COLUMNS: ColumnDef<VisitorNotCheckedOut>[] = [
-  { key: "name", label: "Nombre", sortable: true },
-  { key: "lastName", label: "Apellido", sortable: true },
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "company", label: "Empresa", sortable: true },
-  { key: "visitType", label: "Tipo visita", sortable: true },
-  { key: "entryDate", label: "Ingresó", sortable: true },
-];
-
-function useModalState() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<DashboardModalSortState>({ key: null, dir: null });
-
-  function handleSearch(value: string) {
-    setSearch(value);
-    setPage(1);
-  }
-  function handleSort(key: string) {
-    setSort((prev) => {
-      if (prev.key !== key) return { key, dir: "asc" };
-      if (prev.dir === "asc") return { key, dir: "desc" };
-      return { key: null, dir: null };
-    });
-    setPage(1);
-  }
-  function handleClose() {
-    setIsOpen(false);
-    setPage(1);
-    setSearch("");
-    setSort({ key: null, dir: null });
-  }
-
-  return { isOpen, setIsOpen, page, setPage, search, sort, handleSearch, handleSort, handleClose };
-}
 
 function CrtiticAlert({ companyName }: { companyName: string }) {
   const {
@@ -170,10 +107,14 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                   : faCheckCircle
               }
               titleClassName={`text-xl md:text-2xl xl:text-3xl font-bold flex flex-col break-words whitespace-normal w-full max-w-full overflow-hidden text-center ${
-                !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
+                !isCriticalOperationalAlertActive
+                  ? "text-success"
+                  : "text-critic"
               }`}
               iconClassName={`text-alert text-xl ${
-                !isCriticalOperationalAlertActive ? "text-success" : "text-critic"
+                !isCriticalOperationalAlertActive
+                  ? "text-success"
+                  : "text-critic"
               }`}
             />
 
@@ -189,7 +130,9 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
               <div className="mt-2 flex flex-col justify-between gap-3 flex-1 min-h-0">
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
-                  onClick={() => !isLoading && expiredExamsModal.setIsOpen(true)}
+                  onClick={() =>
+                    !isLoading && expiredExamsModal.setIsOpen(true)
+                  }
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                     {isLoading ? (
@@ -205,7 +148,9 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
 
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
-                  onClick={() => !isLoading && expiredVehiclesModal.setIsOpen(true)}
+                  onClick={() =>
+                    !isLoading && expiredVehiclesModal.setIsOpen(true)
+                  }
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                     {isLoading ? (
@@ -233,8 +178,8 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                     )}
                   </span>
                   <p className="text-white text-base xl:text-xl leading-tight">
-                    Personas fuera de turno que no han registrado salida y tienen
-                    consumo diario
+                    Personas fuera de turno que no han registrado salida y
+                    tienen consumo diario
                   </p>
                 </button>
 

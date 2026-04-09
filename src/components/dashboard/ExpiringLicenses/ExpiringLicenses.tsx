@@ -1,63 +1,40 @@
-import { useState } from "react";
 import DashboardCard from "../shared/DashboardCard";
 import DashboardLineChart from "@/components/charts/LineChart/LineChart";
-import DashboardModal, {
-  type ColumnDef,
-  type DashboardModalSortState,
-} from "@/components/dashboard/shared/DashboardModal";
+import DashboardModal from "@/components/dashboard/shared/DashboardModal";
 import { faCar } from "@fortawesome/free-solid-svg-icons";
 import {
   useVehicleDocumentsAboutToExpire,
   useExpiringVehicleDocumentsList,
 } from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
-import type { VehicleExpiringDocument } from "@/interfaces/dashboard/listEntities.interface";
-
-const PAGE_SIZE = 10;
-
-const COLUMNS: ColumnDef<VehicleExpiringDocument>[] = [
-  { key: "licensePlate", label: "Patente", sortable: true },
-  { key: "requirementType", label: "Tipo de requisito", sortable: true },
-  { key: "startDate", label: "Fecha de inicio", sortable: true },
-  { key: "expirationDate", label: "Fecha de vencimiento", sortable: true },
-];
+import { useModalState } from "@/hooks/useModalState";
+import { PAGE_SIZE, COLUMNS } from "./constants";
 
 function ExpiringLicenses({ companyName }: { companyName: string }) {
   const { today, oneDay, threeDays, fiveDays, isLoading } =
     useVehicleDocumentsAboutToExpire(companyName);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<DashboardModalSortState>({ key: null, dir: null });
-
-  const { response, isLoading: isListLoading } = useExpiringVehicleDocumentsList({
-    companyName,
+  const {
+    isOpen,
+    setIsOpen,
     page,
-    size: PAGE_SIZE,
+    setPage,
     search,
-    sortKey: sort.key,
-    sortDir: sort.dir,
-  });
+    sort,
+    handleSearch,
+    handleSort,
+    handleClose,
+  } = useModalState();
 
-  function handleSearch(value: string) {
-    setSearch(value);
-    setPage(1);
-  }
-  function handleSort(key: string) {
-    setSort((prev) => {
-      if (prev.key !== key) return { key, dir: "asc" };
-      if (prev.dir === "asc") return { key, dir: "desc" };
-      return { key: null, dir: null };
+  const { response, isLoading: isListLoading } =
+    useExpiringVehicleDocumentsList({
+      companyName,
+      page,
+      size: PAGE_SIZE,
+      search,
+      sortKey: sort.key,
+      sortDir: sort.dir,
     });
-    setPage(1);
-  }
-  function handleClose() {
-    setIsOpen(false);
-    setPage(1);
-    setSearch("");
-    setSort({ key: null, dir: null });
-  }
 
   return (
     <>

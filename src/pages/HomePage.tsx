@@ -8,6 +8,7 @@ import ExpiringLicenses from "@/components/dashboard/ExpiringLicenses/ExpiringLi
 import MonthlyPassesChart from "@/components/dashboard/MonthlyPasses/MonthlyPasses";
 import CompanyMap from "@/components/dashboard/CompanyMap/CompanyMap";
 import { useQuery } from "@tanstack/react-query";
+import { DEV_BYPASS_AUTH } from "@/constants/environments";
 import { validateCompany } from "@/services/validateCompany.api";
 import type { AxiosError } from "axios";
 import { UnauthorizedPage } from "./UnauthorizedPage";
@@ -20,7 +21,7 @@ export default function HomePage() {
     queryFn: () => {
       return validateCompany(pathParam as string);
     },
-    enabled: !!pathParam,
+    enabled: !!pathParam && !DEV_BYPASS_AUTH,
     retry: false,
   });
 

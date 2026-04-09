@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   useLaborStatus,
   usePeopleOnSite,
@@ -18,59 +17,14 @@ import "./styles.css";
 import Skeleton from "@/components/shared/Skeleton";
 import { useLocation } from "react-router-dom";
 import LiveOccupancyModal from "./LiveOccupancyModal";
-import DashboardModal, { type ColumnDef, type DashboardModalSortState } from "@/components/dashboard/shared/DashboardModal";
-import type { PersonOutOfShiftExit, PersonRepeatedDining, PersonNoShowFlight } from "@/interfaces/dashboard/listEntities.interface";
-
-const PAGE_SIZE = 10;
-
-function useModalState() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<DashboardModalSortState>({ key: null, dir: null });
-
-  function handleSearch(value: string) {
-    setSearch(value);
-    setPage(1);
-  }
-  function handleSort(key: string) {
-    setSort((prev) => {
-      if (prev.key !== key) return { key, dir: "asc" };
-      if (prev.dir === "asc") return { key, dir: "desc" };
-      return { key: null, dir: null };
-    });
-    setPage(1);
-  }
-  function handleClose() {
-    setIsOpen(false);
-    setPage(1);
-    setSearch("");
-    setSort({ key: null, dir: null });
-  }
-
-  return { isOpen, setIsOpen, page, setPage, search, sort, handleSearch, handleSort, handleClose };
-}
-
-const OUT_OF_SHIFT_COLUMNS: ColumnDef<PersonOutOfShiftExit>[] = [
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "name", label: "Nombre", sortable: true },
-  { key: "siteEntryDate", label: "Fecha de entrada a faena", sortable: true },
-  { key: "expectedExit", label: "Salida esperada", sortable: true },
-  { key: "currentStatus", label: "Estado actual", sortable: false },
-];
-
-const REPEATED_DINING_COLUMNS: ColumnDef<PersonRepeatedDining>[] = [
-  { key: "service", label: "Servicio", sortable: true },
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "name", label: "Nombre", sortable: true },
-  { key: "date", label: "Fecha", sortable: true },
-  { key: "consumptionCount", label: "Cantidad de consumos", sortable: true },
-];
-
-const NO_SHOW_FLIGHT_COLUMNS: ColumnDef<PersonNoShowFlight>[] = [
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "name", label: "Nombre", sortable: true },
-];
+import DashboardModal from "@/components/dashboard/shared/DashboardModal";
+import { useModalState } from "@/hooks/useModalState";
+import {
+  PAGE_SIZE,
+  OUT_OF_SHIFT_COLUMNS,
+  REPEATED_DINING_COLUMNS,
+  NO_SHOW_FLIGHT_COLUMNS,
+} from "./constants";
 
 function LiveOccupancy({ companyName }: { companyName: string }) {
   const location = useLocation();
@@ -109,15 +63,17 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
       sortDir: outOfShiftModal.sort.dir,
     });
 
-  const { response: repeatedDiningResponse, isLoading: isRepeatedDiningLoading } =
-    useRepeatedDiningHallList({
-      companyName,
-      page: repeatedDiningModal.page,
-      size: PAGE_SIZE,
-      search: repeatedDiningModal.search,
-      sortKey: repeatedDiningModal.sort.key,
-      sortDir: repeatedDiningModal.sort.dir,
-    });
+  const {
+    response: repeatedDiningResponse,
+    isLoading: isRepeatedDiningLoading,
+  } = useRepeatedDiningHallList({
+    companyName,
+    page: repeatedDiningModal.page,
+    size: PAGE_SIZE,
+    search: repeatedDiningModal.search,
+    sortKey: repeatedDiningModal.sort.key,
+    sortDir: repeatedDiningModal.sort.dir,
+  });
 
   const { response: noShowFlightResponse, isLoading: isNoShowFlightLoading } =
     useNoShowFlightList({

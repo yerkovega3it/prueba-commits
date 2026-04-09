@@ -1,11 +1,24 @@
+// ── Shared ──────────────────────────────────────────────────────────────────
+
+export interface StatusValue {
+  id: number;
+  name: string;
+}
+
 // ── LiveOccupancy StatCards ──────────────────────────────────────────────────
+
+export interface PersonOnSite {
+  rut: string;
+  name: string;
+  entryDate: string;
+}
 
 export interface PersonOutOfShiftExit {
   rut: string;
   name: string;
   siteEntryDate: string;
   expectedExit: string;
-  currentStatus: string;
+  currentStatus: StatusValue;
 }
 
 export interface PersonRepeatedDining {
@@ -60,7 +73,7 @@ export interface PersonOutOfShiftDailyConsumption {
   name: string;
   siteEntryDate: string;
   expectedExit: string;
-  currentStatus: string;
+  currentStatus: StatusValue;
 }
 
 export interface VisitorNotCheckedOut {

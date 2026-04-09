@@ -1,15 +1,8 @@
-import DashboardModal, {
-  type ColumnDef,
-  type DashboardModalSortState,
-} from "@/components/dashboard/shared/DashboardModal";
+import DashboardModal from "@/components/dashboard/shared/DashboardModal";
+import type { DashboardModalSortState } from "@/interfaces/dashboard/dashboardModal.interface";
 import type { PersonOnSite } from "@/constants/mockData";
 import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
-
-const COLUMNS: ColumnDef<PersonOnSite>[] = [
-  { key: "rut", label: "RUT", sortable: true },
-  { key: "name", label: "Nombre", sortable: true },
-  { key: "entryDate", label: "Fecha de entrada", sortable: true },
-];
+import { PEOPLE_ON_SITE_COLUMNS } from "./constants";
 
 interface LiveOccupancyModalProps {
   isOpen: boolean;
@@ -32,7 +25,7 @@ export default function LiveOccupancyModal({
       {...rest}
       title={`Personas en Faena (${response.meta.pagination.total})`}
       response={response}
-      columns={COLUMNS}
+      columns={PEOPLE_ON_SITE_COLUMNS}
       entityLabel="personas"
       searchPlaceholder="Buscar por nombre o RUT"
     />

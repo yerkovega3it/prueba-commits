@@ -1,6 +1,6 @@
 import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
-import type { PersonOnSite } from "@/constants/mockData";
-import { http } from "../http";
+import type { PersonOnSite } from "@/interfaces/dashboard/listEntities.interface";
+import { http } from "../../http";
 
 export interface PeopleOnSiteParams {
   companyName: string;
