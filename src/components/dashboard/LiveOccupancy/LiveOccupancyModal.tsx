@@ -27,7 +27,7 @@ export default function LiveOccupancyModal({
       response={response}
       columns={PEOPLE_ON_SITE_COLUMNS}
       entityLabel="personas"
-      searchPlaceholder="Buscar por nombre o RUT"
+      searchPlaceholder="Buscar por RUT"
     />
   );
 }

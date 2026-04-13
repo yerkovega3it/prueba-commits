@@ -93,11 +93,11 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
       <DashboardCard
         title="ESTADO EN FAENA"
         titleClassName="text-xl font-bold text-approved"
-        contentClassName="flex flex-col items-center gap-8 md:gap-12 lg:gap-16 xl:gap-24 mt-4 md:mt-8 lg:mt-12 xl:mt-16 h-full dashboard-card-content"
-        className="col-span-1 p-4 rounded-3xl bg-main h-full"
+        contentClassName="flex flex-col items-center justify-between gap-6 mt-4 md:mt-8 lg:mt-12 xl:mt-16 flex-1 min-h-0 dashboard-card-content"
+        className="col-span-1 p-4 rounded-3xl bg-main h-full flex flex-col"
       >
         <div
-          className="w-full mx-auto flex-none flex flex-col cursor-pointer hover:opacity-80 transition-opacity"
+          className="w-full mx-auto flex-none flex flex-col cursor-pointer hover:opacity-80 transition-opacity pt-4"
           onClick={() => !isLoading && peopleOnSiteModal.setIsOpen(true)}
           title="Ver detalle de personas en faena"
         >
@@ -161,7 +161,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
         isLoading={isOutOfShiftLoading}
         columns={OUT_OF_SHIFT_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por nombre o RUT"
+        searchPlaceholder="Buscar por RUT"
         search={outOfShiftModal.search}
         onSearch={outOfShiftModal.handleSearch}
         sort={outOfShiftModal.sort}
@@ -177,7 +177,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
         isLoading={isRepeatedDiningLoading}
         columns={REPEATED_DINING_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por nombre o RUT"
+        searchPlaceholder="Buscar por RUT"
         search={repeatedDiningModal.search}
         onSearch={repeatedDiningModal.handleSearch}
         sort={repeatedDiningModal.sort}
@@ -193,7 +193,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
         isLoading={isNoShowFlightLoading}
         columns={NO_SHOW_FLIGHT_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por nombre o RUT"
+        searchPlaceholder="Buscar por RUT"
         search={noShowFlightModal.search}
         onSearch={noShowFlightModal.handleSearch}
         sort={noShowFlightModal.sort}

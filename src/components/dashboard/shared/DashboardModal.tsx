@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
-  faSliders,
   faFileArrowDown,
   faChevronLeft,
   faChevronRight,
@@ -20,7 +19,7 @@ function DashboardModal<T extends object>({
   isLoading,
   columns,
   entityLabel = "registros",
-  searchPlaceholder = "Buscar...",
+  searchPlaceholder = "Buscar por RUT",
   search,
   onSearch,
   sort,
@@ -73,7 +72,7 @@ function DashboardModal<T extends object>({
 
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-6">
             <div className="flex items-center gap-2 md:gap-4 flex-1">
-              <div className="flex items-center gap-2 rounded-full px-2 py-2.5 border border-white flex-1">
+              <div className="flex items-center gap-2 rounded-full px-4 py-2.5 border border-white flex-1 max-w-sm">
                 <input
                   type="text"
                   placeholder={searchPlaceholder}
@@ -86,10 +85,6 @@ function DashboardModal<T extends object>({
                   className="text-white text-sm shrink-0"
                 />
               </div>
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-white text-sm text-white whitespace-nowrap hover:border-approved transition-colors cursor-pointer">
-                <FontAwesomeIcon icon={faSliders} className="text-white" />
-                Filtros
-              </button>
             </div>
             <button className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] border border-white text-sm text-white w-full md:w-auto hover:border-approved transition-colors cursor-pointer">
               <FontAwesomeIcon icon={faFileArrowDown} className="text-white" />

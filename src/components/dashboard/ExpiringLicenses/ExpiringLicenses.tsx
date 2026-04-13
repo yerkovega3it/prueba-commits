@@ -77,7 +77,7 @@ function ExpiringLicenses({ companyName }: { companyName: string }) {
         isLoading={isListLoading}
         columns={COLUMNS}
         entityLabel="vehículos"
-        searchPlaceholder="Buscar por patente o tipo de requisito"
+        searchPlaceholder="Buscar por RUT"
         search={search}
         onSearch={handleSearch}
         sort={sort}

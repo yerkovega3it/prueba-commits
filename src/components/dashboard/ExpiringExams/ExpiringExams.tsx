@@ -76,7 +76,7 @@ function ExpiringExams({ companyName }: { companyName: string }) {
         isLoading={isListLoading}
         columns={COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por RUT o tipo de requisito"
+        searchPlaceholder="Buscar por RUT"
         search={search}
         onSearch={handleSearch}
         sort={sort}

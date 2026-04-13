@@ -217,7 +217,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isExpiredExamsLoading}
         columns={EXPIRED_EXAMS_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por RUT o tipo de requisito"
+        searchPlaceholder="Buscar por RUT"
         search={expiredExamsModal.search}
         onSearch={expiredExamsModal.handleSearch}
         sort={expiredExamsModal.sort}
@@ -233,7 +233,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isExpiredVehiclesLoading}
         columns={EXPIRED_VEHICLES_COLUMNS}
         entityLabel="vehículos"
-        searchPlaceholder="Buscar por patente"
+        searchPlaceholder="Buscar por RUT"
         search={expiredVehiclesModal.search}
         onSearch={expiredVehiclesModal.handleSearch}
         sort={expiredVehiclesModal.sort}
@@ -249,7 +249,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isOutOfShiftConsumptionLoading}
         columns={OUT_OF_SHIFT_CONSUMPTION_COLUMNS}
         entityLabel="personas"
-        searchPlaceholder="Buscar por nombre o RUT"
+        searchPlaceholder="Buscar por RUT"
         search={outOfShiftConsumptionModal.search}
         onSearch={outOfShiftConsumptionModal.handleSearch}
         sort={outOfShiftConsumptionModal.sort}
@@ -265,7 +265,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
         isLoading={isVisitorsLoading}
         columns={VISITORS_NOT_CHECKED_OUT_COLUMNS}
         entityLabel="visitantes"
-        searchPlaceholder="Buscar por nombre, RUT o empresa"
+        searchPlaceholder="Buscar por RUT"
         search={visitorsModal.search}
         onSearch={visitorsModal.handleSearch}
         sort={visitorsModal.sort}
