@@ -64,7 +64,7 @@ export default function HomePage() {
             <div className="w-full md:w-1/2 xl:h-full min-h-[220px]">
               <LiveOccupancy companyName={pathParam as string} />
             </div>
-            <div className="flex flex-col gap-6 w-full md:w-1/2 xl:h-full overflow-hidden pb-1">
+            <div className="flex flex-col gap-6 w-full md:w-1/2 xl:h-full overflow-hidden pb-1 pr-3">
               <div className="flex-1 min-h-[160px] overflow-hidden">
                 <ExpiringExams companyName={pathParam as string} />
               </div>
@@ -73,7 +73,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="w-full overflow-hidden flex-shrink-0 min-h-[150px] xl:h-[30%]">
+          <div className="w-full overflow-hidden flex-shrink-0 min-h-[150px] xl:h-[30%] pr-3">
             <MonthlyPassesChart companyName={pathParam as string} />
           </div>
         </div>
