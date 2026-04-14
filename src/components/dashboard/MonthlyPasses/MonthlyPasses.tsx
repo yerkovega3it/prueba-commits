@@ -8,16 +8,13 @@ import {
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
-import {
-  useMonthlyApprovedPasses,
-  useVisitorPass,
-} from "@/hooks/useDashboardData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import FitText from "@/components/shared/FitText";
 import Skeleton from "@/components/shared/Skeleton";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { getChartValues, getChartData, getChartOptions } from "./utils";
+import type { MonthlyApprovedPasses } from "@/interfaces/dashboard/monthlyApprovedPasses.interface";
 
 ChartJS.register(
   CategoryScale,
@@ -28,18 +25,26 @@ ChartJS.register(
   ChartDataLabels,
 );
 
+interface MonthlyPassesChartProps {
+  monthlyData: MonthlyApprovedPasses & { isLoading: boolean };
+  visitorPass: {
+    approvedPassesToday: number | string;
+    peopleWithPlusOneApprovedNext5Days: number | string;
+    approvedPassesNext7Days: number | string;
+    isLoading: boolean;
+  };
+}
+
 export default function MonthlyPassesChart({
-  companyName,
-}: {
-  companyName: string;
-}) {
-  const monthlyData = useMonthlyApprovedPasses(companyName);
+  monthlyData,
+  visitorPass,
+}: MonthlyPassesChartProps) {
   const {
     approvedPassesToday,
     peopleWithPlusOneApprovedNext5Days,
     approvedPassesNext7Days,
     isLoading: isLoadingVisitor,
-  } = useVisitorPass(companyName);
+  } = visitorPass;
 
   const { isMd, isLg, isXl } = useBreakpoint();
   const labelFontSize = isXl ? 12 : isLg ? 11 : isMd ? 10 : 9;

@@ -5,7 +5,7 @@ import type {
   PersonOutOfShiftDailyConsumption,
   VisitorNotCheckedOut,
 } from "@/interfaces/dashboard/listEntities.interface";
-import { renderStatus } from "./utils.tsx";
+import { colorRenderStatus } from "@/utils/colorRenderStatus";
 
 export const PAGE_SIZE = 10;
 
@@ -34,7 +34,7 @@ export const OUT_OF_SHIFT_CONSUMPTION_COLUMNS: ColumnDef<PersonOutOfShiftDailyCo
       key: "currentStatus",
       label: "Estado actual",
       sortable: false,
-      render: (row) => renderStatus(row.currentStatus),
+      render: (row) => colorRenderStatus(row.currentStatus),
     },
   ];
 

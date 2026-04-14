@@ -5,7 +5,7 @@ import type {
   PersonNoShowFlight,
 } from "@/interfaces/dashboard/listEntities.interface";
 import type { PersonOnSite } from "@/constants/mockData";
-import { renderStatus } from "./utils.tsx";
+import { colorRenderStatus } from "@/utils/colorRenderStatus";
 
 export const PAGE_SIZE = 10;
 
@@ -24,7 +24,7 @@ export const OUT_OF_SHIFT_COLUMNS: ColumnDef<PersonOutOfShiftExit>[] = [
     key: "currentStatus",
     label: "Estado actual",
     sortable: false,
-    render: (row) => renderStatus(row.currentStatus),
+    render: (row) => colorRenderStatus(row.currentStatus),
   },
 ];
 

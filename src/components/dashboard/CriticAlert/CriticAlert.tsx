@@ -3,27 +3,57 @@ import {
   faExclamationTriangle,
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  useCriticalOperationalAlert,
-  useExpiredExamsList,
-  useExpiredVehicleAccreditationList,
-  useOutOfShiftDailyConsumptionList,
-  useVisitorsNotCheckedOutList,
-} from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
 import CompanyMap from "@/components/dashboard/CompanyMap/CompanyMap";
 import DashboardModal from "@/components/dashboard/shared/DashboardModal";
-import { useModalState } from "./useModalState";
 import {
-  PAGE_SIZE,
   EXPIRED_EXAMS_COLUMNS,
   EXPIRED_VEHICLES_COLUMNS,
   OUT_OF_SHIFT_CONSUMPTION_COLUMNS,
   VISITORS_NOT_CHECKED_OUT_COLUMNS,
 } from "./constants";
 import "./styles.css";
+import type { ReturnUseModalState } from "@/hooks/useModalState";
+import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
+import type {
+  PersonExpiredExam,
+  VehicleExpiredAccreditation,
+  PersonOutOfShiftDailyConsumption,
+  VisitorNotCheckedOut,
+} from "@/interfaces/dashboard/listEntities.interface";
 
-function CrtiticAlert({ companyName }: { companyName: string }) {
+interface ListWithModal<T> {
+  response: PaginatedResponse<T>;
+  isLoading: boolean;
+  modal: ReturnUseModalState;
+}
+
+interface AlertSummary {
+  peopleWithExpiredExams: number | string;
+  vehiclesWithExpiredAccreditation: number | string;
+  visitorsApprovedNotCheckedOut: number | string;
+  isCriticalOperationalAlertActive: boolean;
+  peopleOutOfShiftNotCheckedOutWithDailyConsumption: number | string;
+  isLoading: boolean;
+}
+
+interface CriticAlertProps {
+  companyName: string;
+  summary: AlertSummary;
+  expiredExams: ListWithModal<PersonExpiredExam>;
+  expiredVehicles: ListWithModal<VehicleExpiredAccreditation>;
+  outOfShiftConsumption: ListWithModal<PersonOutOfShiftDailyConsumption>;
+  visitors: ListWithModal<VisitorNotCheckedOut>;
+}
+
+function CrtiticAlert({
+  companyName,
+  summary,
+  expiredExams,
+  expiredVehicles,
+  outOfShiftConsumption,
+  visitors,
+}: CriticAlertProps) {
   const {
     peopleWithExpiredExams,
     vehiclesWithExpiredAccreditation,
@@ -31,56 +61,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
     isCriticalOperationalAlertActive,
     peopleOutOfShiftNotCheckedOutWithDailyConsumption,
     isLoading,
-  } = useCriticalOperationalAlert(companyName);
-
-  const expiredExamsModal = useModalState();
-  const expiredVehiclesModal = useModalState();
-  const outOfShiftConsumptionModal = useModalState();
-  const visitorsModal = useModalState();
-
-  const { response: expiredExamsResponse, isLoading: isExpiredExamsLoading } =
-    useExpiredExamsList({
-      companyName,
-      page: expiredExamsModal.page,
-      size: PAGE_SIZE,
-      search: expiredExamsModal.search,
-      sortKey: expiredExamsModal.sort.key,
-      sortDir: expiredExamsModal.sort.dir,
-    });
-
-  const {
-    response: expiredVehiclesResponse,
-    isLoading: isExpiredVehiclesLoading,
-  } = useExpiredVehicleAccreditationList({
-    companyName,
-    page: expiredVehiclesModal.page,
-    size: PAGE_SIZE,
-    search: expiredVehiclesModal.search,
-    sortKey: expiredVehiclesModal.sort.key,
-    sortDir: expiredVehiclesModal.sort.dir,
-  });
-
-  const {
-    response: outOfShiftConsumptionResponse,
-    isLoading: isOutOfShiftConsumptionLoading,
-  } = useOutOfShiftDailyConsumptionList({
-    companyName,
-    page: outOfShiftConsumptionModal.page,
-    size: PAGE_SIZE,
-    search: outOfShiftConsumptionModal.search,
-    sortKey: outOfShiftConsumptionModal.sort.key,
-    sortDir: outOfShiftConsumptionModal.sort.dir,
-  });
-
-  const { response: visitorsResponse, isLoading: isVisitorsLoading } =
-    useVisitorsNotCheckedOutList({
-      companyName,
-      page: visitorsModal.page,
-      size: PAGE_SIZE,
-      search: visitorsModal.search,
-      sortKey: visitorsModal.sort.key,
-      sortDir: visitorsModal.sort.dir,
-    });
+  } = summary;
 
   return (
     <>
@@ -131,7 +112,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
                   onClick={() =>
-                    !isLoading && expiredExamsModal.setIsOpen(true)
+                    !isLoading && expiredExams.modal.setIsOpen(true)
                   }
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
@@ -149,7 +130,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
                   onClick={() =>
-                    !isLoading && expiredVehiclesModal.setIsOpen(true)
+                    !isLoading && expiredVehicles.modal.setIsOpen(true)
                   }
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
@@ -167,7 +148,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
                   onClick={() =>
-                    !isLoading && outOfShiftConsumptionModal.setIsOpen(true)
+                    !isLoading && outOfShiftConsumption.modal.setIsOpen(true)
                   }
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
@@ -185,7 +166,7 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
 
                 <button
                   className="bg-critic-light rounded-lg flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 xl:px-[20px] xl:py-[14px] flex-1 text-left hover:opacity-80 transition-opacity w-full"
-                  onClick={() => !isLoading && visitorsModal.setIsOpen(true)}
+                  onClick={() => !isLoading && visitors.modal.setIsOpen(true)}
                 >
                   <span className="text-white text-3xl lg:text-4xl xl:text-5xl font-bold shrink-0 w-14 lg:w-16 xl:w-20 inline-flex items-center justify-center font-anta">
                     {isLoading ? (
@@ -210,67 +191,67 @@ function CrtiticAlert({ companyName }: { companyName: string }) {
       </div>
 
       <DashboardModal
-        isOpen={expiredExamsModal.isOpen}
-        onClose={expiredExamsModal.handleClose}
-        title={`Personas con exámenes vencidos (${expiredExamsResponse.meta.pagination.total})`}
-        response={expiredExamsResponse}
-        isLoading={isExpiredExamsLoading}
+        isOpen={expiredExams.modal.isOpen}
+        onClose={expiredExams.modal.handleClose}
+        title={`Personas con exámenes vencidos (${expiredExams.response.meta.pagination.total})`}
+        response={expiredExams.response}
+        isLoading={expiredExams.isLoading}
         columns={EXPIRED_EXAMS_COLUMNS}
         entityLabel="personas"
         searchPlaceholder="Buscar por RUT"
-        search={expiredExamsModal.search}
-        onSearch={expiredExamsModal.handleSearch}
-        sort={expiredExamsModal.sort}
-        onSort={expiredExamsModal.handleSort}
-        onPageChange={expiredExamsModal.setPage}
+        search={expiredExams.modal.search}
+        onSearch={expiredExams.modal.handleSearch}
+        sort={expiredExams.modal.sort}
+        onSort={expiredExams.modal.handleSort}
+        onPageChange={expiredExams.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={expiredVehiclesModal.isOpen}
-        onClose={expiredVehiclesModal.handleClose}
-        title={`Vehículos con acreditación vencida (${expiredVehiclesResponse.meta.pagination.total})`}
-        response={expiredVehiclesResponse}
-        isLoading={isExpiredVehiclesLoading}
+        isOpen={expiredVehicles.modal.isOpen}
+        onClose={expiredVehicles.modal.handleClose}
+        title={`Vehículos con acreditación vencida (${expiredVehicles.response.meta.pagination.total})`}
+        response={expiredVehicles.response}
+        isLoading={expiredVehicles.isLoading}
         columns={EXPIRED_VEHICLES_COLUMNS}
         entityLabel="vehículos"
         searchPlaceholder="Buscar por RUT"
-        search={expiredVehiclesModal.search}
-        onSearch={expiredVehiclesModal.handleSearch}
-        sort={expiredVehiclesModal.sort}
-        onSort={expiredVehiclesModal.handleSort}
-        onPageChange={expiredVehiclesModal.setPage}
+        search={expiredVehicles.modal.search}
+        onSearch={expiredVehicles.modal.handleSearch}
+        sort={expiredVehicles.modal.sort}
+        onSort={expiredVehicles.modal.handleSort}
+        onPageChange={expiredVehicles.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={outOfShiftConsumptionModal.isOpen}
-        onClose={outOfShiftConsumptionModal.handleClose}
-        title={`Personas fuera de turno con consumo diario (${outOfShiftConsumptionResponse.meta.pagination.total})`}
-        response={outOfShiftConsumptionResponse}
-        isLoading={isOutOfShiftConsumptionLoading}
+        isOpen={outOfShiftConsumption.modal.isOpen}
+        onClose={outOfShiftConsumption.modal.handleClose}
+        title={`Personas fuera de turno con consumo diario (${outOfShiftConsumption.response.meta.pagination.total})`}
+        response={outOfShiftConsumption.response}
+        isLoading={outOfShiftConsumption.isLoading}
         columns={OUT_OF_SHIFT_CONSUMPTION_COLUMNS}
         entityLabel="personas"
         searchPlaceholder="Buscar por RUT"
-        search={outOfShiftConsumptionModal.search}
-        onSearch={outOfShiftConsumptionModal.handleSearch}
-        sort={outOfShiftConsumptionModal.sort}
-        onSort={outOfShiftConsumptionModal.handleSort}
-        onPageChange={outOfShiftConsumptionModal.setPage}
+        search={outOfShiftConsumption.modal.search}
+        onSearch={outOfShiftConsumption.modal.handleSearch}
+        sort={outOfShiftConsumption.modal.sort}
+        onSort={outOfShiftConsumption.modal.handleSort}
+        onPageChange={outOfShiftConsumption.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={visitorsModal.isOpen}
-        onClose={visitorsModal.handleClose}
-        title={`Visitantes sin registrar salida (${visitorsResponse.meta.pagination.total})`}
-        response={visitorsResponse}
-        isLoading={isVisitorsLoading}
+        isOpen={visitors.modal.isOpen}
+        onClose={visitors.modal.handleClose}
+        title={`Visitantes sin registrar salida (${visitors.response.meta.pagination.total})`}
+        response={visitors.response}
+        isLoading={visitors.isLoading}
         columns={VISITORS_NOT_CHECKED_OUT_COLUMNS}
         entityLabel="visitantes"
         searchPlaceholder="Buscar por RUT"
-        search={visitorsModal.search}
-        onSearch={visitorsModal.handleSearch}
-        sort={visitorsModal.sort}
-        onSort={visitorsModal.handleSort}
-        onPageChange={visitorsModal.setPage}
+        search={visitors.modal.search}
+        onSearch={visitors.modal.handleSearch}
+        sort={visitors.modal.sort}
+        onSort={visitors.modal.handleSort}
+        onPageChange={visitors.modal.setPage}
       />
     </>
   );

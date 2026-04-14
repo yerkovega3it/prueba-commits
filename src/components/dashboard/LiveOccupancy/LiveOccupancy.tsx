@@ -1,10 +1,3 @@
-import {
-  useLaborStatus,
-  usePeopleOnSite,
-  useOutOfShiftExitList,
-  useRepeatedDiningHallList,
-  useNoShowFlightList,
-} from "@/hooks/useDashboardData";
 import DashboardCard from "../shared/DashboardCard";
 import StatCard from "../shared/StatCard";
 import {
@@ -15,78 +8,60 @@ import {
 import "./styles.css";
 
 import Skeleton from "@/components/shared/Skeleton";
-import { useLocation } from "react-router-dom";
 import LiveOccupancyModal from "./LiveOccupancyModal";
 import DashboardModal from "@/components/dashboard/shared/DashboardModal";
-import { useModalState } from "@/hooks/useModalState";
 import {
-  PAGE_SIZE,
   OUT_OF_SHIFT_COLUMNS,
   REPEATED_DINING_COLUMNS,
   NO_SHOW_FLIGHT_COLUMNS,
 } from "./constants";
+import type { ReturnUseModalState } from "@/hooks/useModalState";
+import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
+import type {
+  PersonOutOfShiftExit,
+  PersonRepeatedDining,
+  PersonNoShowFlight,
+} from "@/interfaces/dashboard/listEntities.interface";
+import type { PersonOnSite } from "@/constants/mockData";
 
-function LiveOccupancy({ companyName }: { companyName: string }) {
-  const location = useLocation();
-  const currentPath = location.pathname;
+interface ListWithModal<T> {
+  response: PaginatedResponse<T>;
+  isLoading: boolean;
+  modal: ReturnUseModalState;
+}
 
-  const peopleOnSiteModal = useModalState();
-  const outOfShiftModal = useModalState();
-  const repeatedDiningModal = useModalState();
-  const noShowFlightModal = useModalState();
+interface LaborSummary {
+  peopleOnSite: number | string;
+  peopleRepeatedSameDiningHallConsumption: number | string;
+  peopleDidNotShowUpForFlight: number | string;
+  peopleOutOfShiftAndNotRegisteredExit: number | string;
+  isLoading: boolean;
+}
 
+interface LiveOccupancyProps {
+  summary: LaborSummary;
+  showNoShowStat: boolean;
+  peopleOnSite: ListWithModal<PersonOnSite>;
+  outOfShift: ListWithModal<PersonOutOfShiftExit>;
+  repeatedDining: ListWithModal<PersonRepeatedDining>;
+  noShowFlight: ListWithModal<PersonNoShowFlight>;
+}
+
+function LiveOccupancy({
+  summary,
+  showNoShowStat,
+  peopleOnSite,
+  outOfShift,
+  repeatedDining,
+  noShowFlight,
+}: LiveOccupancyProps) {
   const {
-    peopleOnSite,
+    peopleOnSite: peopleOnSiteCount,
     peopleRepeatedSameDiningHallConsumption,
     peopleDidNotShowUpForFlight,
     peopleOutOfShiftAndNotRegisteredExit,
     isLoading,
-  } = useLaborStatus(companyName);
-
-  const { response: peopleOnSiteResponse, isLoading: isPeopleOnSiteLoading } =
-    usePeopleOnSite({
-      companyName,
-      page: peopleOnSiteModal.page,
-      size: PAGE_SIZE,
-      search: peopleOnSiteModal.search,
-      sortKey: peopleOnSiteModal.sort.key,
-      sortDir: peopleOnSiteModal.sort.dir,
-    });
-
-  const { response: outOfShiftResponse, isLoading: isOutOfShiftLoading } =
-    useOutOfShiftExitList({
-      companyName,
-      page: outOfShiftModal.page,
-      size: PAGE_SIZE,
-      search: outOfShiftModal.search,
-      sortKey: outOfShiftModal.sort.key,
-      sortDir: outOfShiftModal.sort.dir,
-    });
-
-  const {
-    response: repeatedDiningResponse,
-    isLoading: isRepeatedDiningLoading,
-  } = useRepeatedDiningHallList({
-    companyName,
-    page: repeatedDiningModal.page,
-    size: PAGE_SIZE,
-    search: repeatedDiningModal.search,
-    sortKey: repeatedDiningModal.sort.key,
-    sortDir: repeatedDiningModal.sort.dir,
-  });
-
-  const { response: noShowFlightResponse, isLoading: isNoShowFlightLoading } =
-    useNoShowFlightList({
-      companyName,
-      page: noShowFlightModal.page,
-      size: PAGE_SIZE,
-      search: noShowFlightModal.search,
-      sortKey: noShowFlightModal.sort.key,
-      sortDir: noShowFlightModal.sort.dir,
-    });
-
-  const normalizedPath = currentPath.toLowerCase();
-  const showNoShowStat = ["/mlp", "/all"].includes(normalizedPath);
+  } = summary;
 
   return (
     <>
@@ -98,7 +73,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
       >
         <div
           className="w-full mx-auto flex-none flex flex-col cursor-pointer hover:opacity-80 transition-opacity pt-4"
-          onClick={() => !isLoading && peopleOnSiteModal.setIsOpen(true)}
+          onClick={() => !isLoading && peopleOnSite.modal.setIsOpen(true)}
           title="Ver detalle de personas en faena"
         >
           <div className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[9rem] text-center text-approved font-anta leading-none people-onsite">
@@ -107,7 +82,7 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
                 <Skeleton width={120} height={80} className="mx-auto" />
               </span>
             ) : (
-              peopleOnSite
+              peopleOnSiteCount
             )}
           </div>
           <p className="text-base md:text-lg lg:text-xl xl:text-2xl text-white text-center mt-2 people-onsite-label">
@@ -120,14 +95,14 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
             value={peopleOutOfShiftAndNotRegisteredExit}
             label="Personas fuera de turno y no han marcado salida"
             loading={isLoading}
-            onClick={() => outOfShiftModal.setIsOpen(true)}
+            onClick={() => outOfShift.modal.setIsOpen(true)}
           />
           <StatCard
             icon={faUtensils}
             value={peopleRepeatedSameDiningHallConsumption}
             label="Personas han repetido un mismo consumo en casino"
             loading={isLoading}
-            onClick={() => repeatedDiningModal.setIsOpen(true)}
+            onClick={() => repeatedDining.modal.setIsOpen(true)}
           />
           {showNoShowStat ? (
             <StatCard
@@ -135,70 +110,70 @@ function LiveOccupancy({ companyName }: { companyName: string }) {
               value={peopleDidNotShowUpForFlight}
               label="Personas no se presentaron al vuelo"
               loading={isLoading}
-              onClick={() => noShowFlightModal.setIsOpen(true)}
+              onClick={() => noShowFlight.modal.setIsOpen(true)}
             />
           ) : null}
         </div>
       </DashboardCard>
 
       <LiveOccupancyModal
-        isOpen={peopleOnSiteModal.isOpen}
-        onClose={peopleOnSiteModal.handleClose}
-        response={peopleOnSiteResponse}
-        isLoading={isPeopleOnSiteLoading}
-        search={peopleOnSiteModal.search}
-        onSearch={peopleOnSiteModal.handleSearch}
-        sort={peopleOnSiteModal.sort}
-        onSort={peopleOnSiteModal.handleSort}
-        onPageChange={peopleOnSiteModal.setPage}
+        isOpen={peopleOnSite.modal.isOpen}
+        onClose={peopleOnSite.modal.handleClose}
+        response={peopleOnSite.response}
+        isLoading={peopleOnSite.isLoading}
+        search={peopleOnSite.modal.search}
+        onSearch={peopleOnSite.modal.handleSearch}
+        sort={peopleOnSite.modal.sort}
+        onSort={peopleOnSite.modal.handleSort}
+        onPageChange={peopleOnSite.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={outOfShiftModal.isOpen}
-        onClose={outOfShiftModal.handleClose}
-        title={`Personas fuera de turno sin marcar salida (${outOfShiftResponse.meta.pagination.total})`}
-        response={outOfShiftResponse}
-        isLoading={isOutOfShiftLoading}
+        isOpen={outOfShift.modal.isOpen}
+        onClose={outOfShift.modal.handleClose}
+        title={`Personas fuera de turno sin marcar salida (${outOfShift.response.meta.pagination.total})`}
+        response={outOfShift.response}
+        isLoading={outOfShift.isLoading}
         columns={OUT_OF_SHIFT_COLUMNS}
         entityLabel="personas"
         searchPlaceholder="Buscar por RUT"
-        search={outOfShiftModal.search}
-        onSearch={outOfShiftModal.handleSearch}
-        sort={outOfShiftModal.sort}
-        onSort={outOfShiftModal.handleSort}
-        onPageChange={outOfShiftModal.setPage}
+        search={outOfShift.modal.search}
+        onSearch={outOfShift.modal.handleSearch}
+        sort={outOfShift.modal.sort}
+        onSort={outOfShift.modal.handleSort}
+        onPageChange={outOfShift.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={repeatedDiningModal.isOpen}
-        onClose={repeatedDiningModal.handleClose}
-        title={`Personas con consumo repetido en casino (${repeatedDiningResponse.meta.pagination.total})`}
-        response={repeatedDiningResponse}
-        isLoading={isRepeatedDiningLoading}
+        isOpen={repeatedDining.modal.isOpen}
+        onClose={repeatedDining.modal.handleClose}
+        title={`Personas con consumo repetido en casino (${repeatedDining.response.meta.pagination.total})`}
+        response={repeatedDining.response}
+        isLoading={repeatedDining.isLoading}
         columns={REPEATED_DINING_COLUMNS}
         entityLabel="personas"
         searchPlaceholder="Buscar por RUT"
-        search={repeatedDiningModal.search}
-        onSearch={repeatedDiningModal.handleSearch}
-        sort={repeatedDiningModal.sort}
-        onSort={repeatedDiningModal.handleSort}
-        onPageChange={repeatedDiningModal.setPage}
+        search={repeatedDining.modal.search}
+        onSearch={repeatedDining.modal.handleSearch}
+        sort={repeatedDining.modal.sort}
+        onSort={repeatedDining.modal.handleSort}
+        onPageChange={repeatedDining.modal.setPage}
       />
 
       <DashboardModal
-        isOpen={noShowFlightModal.isOpen}
-        onClose={noShowFlightModal.handleClose}
-        title={`Personas que no se presentaron al vuelo (${noShowFlightResponse.meta.pagination.total})`}
-        response={noShowFlightResponse}
-        isLoading={isNoShowFlightLoading}
+        isOpen={noShowFlight.modal.isOpen}
+        onClose={noShowFlight.modal.handleClose}
+        title={`Personas que no se presentaron al vuelo (${noShowFlight.response.meta.pagination.total})`}
+        response={noShowFlight.response}
+        isLoading={noShowFlight.isLoading}
         columns={NO_SHOW_FLIGHT_COLUMNS}
         entityLabel="personas"
         searchPlaceholder="Buscar por RUT"
-        search={noShowFlightModal.search}
-        onSearch={noShowFlightModal.handleSearch}
-        sort={noShowFlightModal.sort}
-        onSort={noShowFlightModal.handleSort}
-        onPageChange={noShowFlightModal.setPage}
+        search={noShowFlight.modal.search}
+        onSearch={noShowFlight.modal.handleSearch}
+        sort={noShowFlight.modal.sort}
+        onSort={noShowFlight.modal.handleSort}
+        onPageChange={noShowFlight.modal.setPage}
       />
     </>
   );

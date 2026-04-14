@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { DashboardModalSortState } from "@/interfaces/dashboard/dashboardModal.interface";
 
+export type ReturnUseModalState = ReturnType<typeof useModalState>;
+
 export function useModalState() {
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);

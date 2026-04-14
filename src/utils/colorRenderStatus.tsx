@@ -1,6 +1,6 @@
 import type { StatusValue } from "@/interfaces/dashboard/listEntities.interface";
 
-export function renderStatus(status: StatusValue) {
+export function colorRenderStatus(status: StatusValue) {
   const color = status.id === 2 ? "text-success" : "text-critic";
   return (
     <span className={`flex items-center gap-1.5 ${color}`}>
