@@ -60,7 +60,7 @@ import type {
 export interface UsePaginatedParams {
   companyName: string;
   page: number;
-  size: number;
+  size?: number;
   search?: string;
   sortKey?: string | null;
   sortDir?: "asc" | "desc" | null;
@@ -70,41 +70,44 @@ function mockPaginate<T extends object>(
   allData: T[],
   { page, size, search, sortKey, sortDir }: UsePaginatedParams,
 ): PaginatedResponse<T> {
-  const q = search?.trim().toLowerCase() ?? "";
-  let filtered = q
+  const normalizedSearch = search?.trim().toLowerCase() ?? "";
+  const filteredItems = normalizedSearch
     ? allData.filter((item) =>
         Object.values(item).some(
-          (val) => typeof val === "string" && val.toLowerCase().includes(q),
+          (fieldValue) =>
+            typeof fieldValue === "string" &&
+            fieldValue.toLowerCase().includes(normalizedSearch),
         ),
       )
     : [...allData];
 
   if (sortKey && sortDir) {
-    filtered.sort((a, b) => {
-      const valA = String(
-        (a as Record<string, unknown>)[sortKey] ?? "",
+    filteredItems.sort((itemA, itemB) => {
+      const sortValueA = String(
+        (itemA as Record<string, unknown>)[sortKey] ?? "",
       ).toLowerCase();
-      const valB = String(
-        (b as Record<string, unknown>)[sortKey] ?? "",
+      const sortValueB = String(
+        (itemB as Record<string, unknown>)[sortKey] ?? "",
       ).toLowerCase();
-      const cmp = valA.localeCompare(valB, "es");
-      return sortDir === "asc" ? cmp : -cmp;
+      const comparison = sortValueA.localeCompare(sortValueB, "es");
+      return sortDir === "asc" ? comparison : -comparison;
     });
   }
 
-  const total = filtered.length;
-  const pageCount = Math.max(1, Math.ceil(total / size));
+  const pageSize = size ?? allData.length;
+  const totalItems = filteredItems.length;
+  const pageCount = Math.max(1, Math.ceil(totalItems / pageSize));
   const safePage = Math.min(Math.max(1, page), pageCount);
   return {
-    data: filtered.slice((safePage - 1) * size, safePage * size),
-    meta: { pagination: { page: safePage, size, total, pageCount } },
+    data: filteredItems.slice((safePage - 1) * pageSize, safePage * pageSize),
+    meta: { pagination: { page: safePage, size: pageSize, total: totalItems, pageCount } },
   };
 }
 
-function emptyResponse<T>(size: number): PaginatedResponse<T> {
+function emptyResponse<T>(): PaginatedResponse<T> {
   return {
     data: [],
-    meta: { pagination: { page: 1, size, total: 0, pageCount: 0 } },
+    meta: { pagination: { page: 1, size: 10, total: 0, pageCount: 0 } },
   };
 }
 
@@ -271,7 +274,7 @@ export function usePeopleOnSite(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonOnSite>(params.size),
+    response: data ?? emptyResponse<PersonOnSite>(),
     isLoading,
   };
 }
@@ -287,7 +290,7 @@ export function useOutOfShiftExitList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonOutOfShiftExit>(params.size),
+    response: data ?? emptyResponse<PersonOutOfShiftExit>(),
     isLoading,
   };
 }
@@ -303,7 +306,7 @@ export function useRepeatedDiningHallList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonRepeatedDining>(params.size),
+    response: data ?? emptyResponse<PersonRepeatedDining>(),
     isLoading,
   };
 }
@@ -319,7 +322,7 @@ export function useNoShowFlightList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonNoShowFlight>(params.size),
+    response: data ?? emptyResponse<PersonNoShowFlight>(),
     isLoading,
   };
 }
@@ -335,7 +338,7 @@ export function useExpiringExamsList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonExpiringExam>(params.size),
+    response: data ?? emptyResponse<PersonExpiringExam>(),
     isLoading,
   };
 }
@@ -351,7 +354,7 @@ export function useExpiringVehicleDocumentsList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<VehicleExpiringDocument>(params.size),
+    response: data ?? emptyResponse<VehicleExpiringDocument>(),
     isLoading,
   };
 }
@@ -367,7 +370,7 @@ export function useExpiredExamsList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<PersonExpiredExam>(params.size),
+    response: data ?? emptyResponse<PersonExpiredExam>(),
     isLoading,
   };
 }
@@ -385,7 +388,7 @@ export function useExpiredVehicleAccreditationList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<VehicleExpiredAccreditation>(params.size),
+    response: data ?? emptyResponse<VehicleExpiredAccreditation>(),
     isLoading,
   };
 }
@@ -403,8 +406,7 @@ export function useOutOfShiftDailyConsumptionList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response:
-      data ?? emptyResponse<PersonOutOfShiftDailyConsumption>(params.size),
+    response: data ?? emptyResponse<PersonOutOfShiftDailyConsumption>(),
     isLoading,
   };
 }
@@ -420,7 +422,7 @@ export function useVisitorsNotCheckedOutList(params: UsePaginatedParams) {
     retryDelay: RETRY_DELAY_MS,
   });
   return {
-    response: data ?? emptyResponse<VisitorNotCheckedOut>(params.size),
+    response: data ?? emptyResponse<VisitorNotCheckedOut>(),
     isLoading,
   };
 }

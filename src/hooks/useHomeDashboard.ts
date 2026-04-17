@@ -19,8 +19,6 @@ import {
 } from "@/hooks/useDashboardData";
 import { useModalState } from "@/hooks/useModalState";
 
-const PAGE_SIZE = 10;
-
 export function useHomeDashboard(companyName: string) {
   const dashboardInfo = useDashboardInfo(companyName);
   const laborStatus = useLaborStatus(companyName);
@@ -33,7 +31,7 @@ export function useHomeDashboard(companyName: string) {
     usePeopleOnSite({
       companyName,
       page: peopleOnSiteModal.page,
-      size: PAGE_SIZE,
+
       search: peopleOnSiteModal.search,
       sortKey: peopleOnSiteModal.sort.key,
       sortDir: peopleOnSiteModal.sort.dir,
@@ -43,7 +41,7 @@ export function useHomeDashboard(companyName: string) {
     useOutOfShiftExitList({
       companyName,
       page: outOfShiftModal.page,
-      size: PAGE_SIZE,
+
       search: outOfShiftModal.search,
       sortKey: outOfShiftModal.sort.key,
       sortDir: outOfShiftModal.sort.dir,
@@ -65,7 +63,7 @@ export function useHomeDashboard(companyName: string) {
     useNoShowFlightList({
       companyName,
       page: noShowFlightModal.page,
-      size: PAGE_SIZE,
+
       search: noShowFlightModal.search,
       sortKey: noShowFlightModal.sort.key,
       sortDir: noShowFlightModal.sort.dir,
@@ -84,7 +82,7 @@ export function useHomeDashboard(companyName: string) {
     useExpiredExamsList({
       companyName,
       page: expiredExamsModal.page,
-      size: PAGE_SIZE,
+
       search: expiredExamsModal.search,
       sortKey: expiredExamsModal.sort.key,
       sortDir: expiredExamsModal.sort.dir,
@@ -118,7 +116,7 @@ export function useHomeDashboard(companyName: string) {
     useVisitorsNotCheckedOutList({
       companyName,
       page: visitorsModal.page,
-      size: PAGE_SIZE,
+
       search: visitorsModal.search,
       sortKey: visitorsModal.sort.key,
       sortDir: visitorsModal.sort.dir,
@@ -131,7 +129,7 @@ export function useHomeDashboard(companyName: string) {
     useExpiringExamsList({
       companyName,
       page: examsModal.page,
-      size: PAGE_SIZE,
+
       search: examsModal.search,
       sortKey: examsModal.sort.key,
       sortDir: examsModal.sort.dir,
@@ -144,7 +142,7 @@ export function useHomeDashboard(companyName: string) {
     useExpiringVehicleDocumentsList({
       companyName,
       page: licensesModal.page,
-      size: PAGE_SIZE,
+
       search: licensesModal.search,
       sortKey: licensesModal.sort.key,
       sortDir: licensesModal.sort.dir,

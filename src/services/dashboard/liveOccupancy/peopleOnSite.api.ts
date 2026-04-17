@@ -5,7 +5,7 @@ import { http } from "../../http";
 export interface PeopleOnSiteParams {
   companyName: string;
   page: number;
-  size: number;
+  size?: number;
   search?: string;
   sortKey?: string | null;
   sortDir?: "asc" | "desc" | null;

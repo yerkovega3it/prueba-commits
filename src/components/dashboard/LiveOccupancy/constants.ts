@@ -7,8 +7,6 @@ import type {
 import type { PersonOnSite } from "@/constants/mockData";
 import { colorRenderStatus } from "@/utils/colorRenderStatus";
 
-export const PAGE_SIZE = 10;
-
 export const PEOPLE_ON_SITE_COLUMNS: ColumnDef<PersonOnSite>[] = [
   { key: "rut", label: "RUT", sortable: true },
   { key: "name", label: "Nombre", sortable: true },

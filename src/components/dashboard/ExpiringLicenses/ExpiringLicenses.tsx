@@ -8,7 +8,7 @@ import {
 } from "@/hooks/useDashboardData";
 import Skeleton from "@/components/shared/Skeleton";
 import { useModalState } from "@/hooks/useModalState";
-import { PAGE_SIZE, COLUMNS } from "./constants";
+import { COLUMNS } from "./constants";
 
 function ExpiringLicenses({ companyName }: { companyName: string }) {
   const { today, oneDay, threeDays, fiveDays, isLoading } =
@@ -30,7 +30,7 @@ function ExpiringLicenses({ companyName }: { companyName: string }) {
     useExpiringVehicleDocumentsList({
       companyName,
       page,
-      size: PAGE_SIZE,
+
       search,
       sortKey: sort.key,
       sortDir: sort.dir,

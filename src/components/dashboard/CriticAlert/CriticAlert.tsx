@@ -13,20 +13,13 @@ import {
   VISITORS_NOT_CHECKED_OUT_COLUMNS,
 } from "./constants";
 import "./styles.css";
-import type { ReturnUseModalState } from "@/hooks/useModalState";
-import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
 import type {
+  ListWithModal,
   PersonExpiredExam,
   VehicleExpiredAccreditation,
   PersonOutOfShiftDailyConsumption,
   VisitorNotCheckedOut,
-} from "@/interfaces/dashboard/listEntities.interface";
-
-interface ListWithModal<T> {
-  response: PaginatedResponse<T>;
-  isLoading: boolean;
-  modal: ReturnUseModalState;
-}
+} from "@/interfaces";
 
 interface AlertSummary {
   peopleWithExpiredExams: number | string;

@@ -7,8 +7,6 @@ import type {
 } from "@/interfaces/dashboard/listEntities.interface";
 import { colorRenderStatus } from "@/utils/colorRenderStatus";
 
-export const PAGE_SIZE = 10;
-
 export const EXPIRED_EXAMS_COLUMNS: ColumnDef<PersonExpiredExam>[] = [
   { key: "rut", label: "RUT", sortable: true },
   { key: "requirementType", label: "Tipo de requisito", sortable: true },

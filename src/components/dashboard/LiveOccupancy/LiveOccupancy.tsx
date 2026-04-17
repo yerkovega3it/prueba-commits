@@ -15,20 +15,13 @@ import {
   REPEATED_DINING_COLUMNS,
   NO_SHOW_FLIGHT_COLUMNS,
 } from "./constants";
-import type { ReturnUseModalState } from "@/hooks/useModalState";
-import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
 import type {
+  ListWithModal,
   PersonOutOfShiftExit,
   PersonRepeatedDining,
   PersonNoShowFlight,
-} from "@/interfaces/dashboard/listEntities.interface";
+} from "@/interfaces";
 import type { PersonOnSite } from "@/constants/mockData";
-
-interface ListWithModal<T> {
-  response: PaginatedResponse<T>;
-  isLoading: boolean;
-  modal: ReturnUseModalState;
-}
 
 interface LaborSummary {
   peopleOnSite: number | string;
