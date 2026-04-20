@@ -6,10 +6,11 @@ function StatCard({
   value,
   label,
   icon,
-  iconClassName = "text-approved text-2xl md:text-3xl lg:text-3xl",
-  valueClassName = "text-3xl md:text-4xl lg:text-5xl w-20",
-  labelClassName = "text-lg md:text-lg lg:text-lg",
+  iconClassName = "text-approved text-xl md:text-2xl lg:text-3xl",
+  valueClassName = "text-3xl lg:text-4xl xl:text-5xl w-14 lg:w-16 xl:w-20",
+  labelClassName = "text-sm md:text-base lg:text-lg",
   loading = false,
+  onClick,
 }: {
   value: number | string;
   label: string;
@@ -18,10 +19,14 @@ function StatCard({
   valueClassName?: string;
   labelClassName?: string;
   loading?: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-5">
-      <div className="flex items-center justify-center w-14 h-14 shrink-0">
+    <div
+      className={`flex items-center gap-5 ${onClick && !loading ? "cursor-pointer hover:opacity-80 transition-opacity" : ""}`}
+      onClick={!loading ? onClick : undefined}
+    >
+      <div className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 shrink-0">
         <FontAwesomeIcon icon={icon} className={iconClassName} />
       </div>
       <span
@@ -42,5 +47,6 @@ function StatCard({
     </div>
   );
 }
+
 
 export default StatCard;

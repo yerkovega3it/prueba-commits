@@ -1,20 +1,123 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardInformation } from "@/services/dashboard/dashboardInformation.api";
-import { getLaborStatus } from "@/services/dashboard/laborStatus.api";
-import { getMonthlyApprovedPasses } from "@/services/dashboard/monthlyApprovedPasses.api";
-import { getExamsAboutToExpire } from "@/services/dashboard/examsAboutToExpire.api";
-import { getVehicleDocumentsAboutToExpire } from "@/services/dashboard/documentsAboutToExpire.api";
-import { getVisitorPass } from "@/services/dashboard/visitorPass.api";
-import { getCriticalOperationalAlert } from "@/services/dashboard/criticalAlert.api";
+import { getLaborStatus } from "@/services/dashboard/liveOccupancy/laborStatus.api";
+import { getPeopleOnSite } from "@/services/dashboard/liveOccupancy/peopleOnSite.api";
+import { getOutOfShiftExitList } from "@/services/dashboard/liveOccupancy/outOfShiftExitList.api";
+import { getRepeatedDiningHallList } from "@/services/dashboard/liveOccupancy/repeatedDiningHallList.api";
+import { getNoShowFlightList } from "@/services/dashboard/liveOccupancy/noShowFlightList.api";
+import { getExamsAboutToExpire } from "@/services/dashboard/expiringExams/examsAboutToExpire.api";
+import { getExpiringExamsList } from "@/services/dashboard/expiringExams/expiringExamsList.api";
+import { getVehicleDocumentsAboutToExpire } from "@/services/dashboard/expiringLicenses/documentsAboutToExpire.api";
+import { getExpiringVehicleDocumentsList } from "@/services/dashboard/expiringLicenses/expiringVehicleDocumentsList.api";
+import { getCriticalOperationalAlert } from "@/services/dashboard/criticAlert/criticalAlert.api";
+import { getExpiredExamsList } from "@/services/dashboard/criticAlert/expiredExamsList.api";
+import { getExpiredVehicleAccreditationList } from "@/services/dashboard/criticAlert/expiredVehicleAccreditationList.api";
+import { getOutOfShiftDailyConsumptionList } from "@/services/dashboard/criticAlert/outOfShiftDailyConsumptionList.api";
+import { getVisitorsNotCheckedOutList } from "@/services/dashboard/criticAlert/visitorsNotCheckedOutList.api";
+import { getVisitorPass } from "@/services/dashboard/monthlyPasses/visitorPass.api";
+import { getMonthlyApprovedPasses } from "@/services/dashboard/monthlyPasses/monthlyApprovedPasses.api";
 import {
   DASHBOARD_REFETCH_INTERVAL_MS,
   DASHBOARD_STALE_TIME_MS,
   RETRY_DELAY_MS,
 } from "@/constants";
+import { DEV_BYPASS_DATA } from "@/constants/environments";
+import {
+  MOCK_DASHBOARD_INFO,
+  MOCK_LABOR_STATUS,
+  MOCK_MONTHLY_APPROVED_PASSES,
+  MOCK_EXAMS_ABOUT_TO_EXPIRE,
+  MOCK_VEHICLE_DOCUMENTS_ABOUT_TO_EXPIRE,
+  MOCK_VISITOR_PASS,
+  MOCK_CRITICAL_OPERATIONAL_ALERT,
+  MOCK_PEOPLE_ON_SITE,
+  MOCK_PEOPLE_OUT_OF_SHIFT_EXIT,
+  MOCK_PEOPLE_REPEATED_DINING,
+  MOCK_PEOPLE_NO_SHOW_FLIGHT,
+  MOCK_EXPIRING_EXAMS_LIST,
+  MOCK_EXPIRING_VEHICLE_DOCUMENTS,
+  MOCK_PEOPLE_EXPIRED_EXAMS,
+  MOCK_VEHICLES_EXPIRED_ACCREDITATION,
+  MOCK_PEOPLE_OUT_OF_SHIFT_DAILY_CONSUMPTION,
+  MOCK_VISITORS_NOT_CHECKED_OUT,
+} from "@/constants/mockData";
+import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
+import type {
+  PersonOnSite,
+  PersonOutOfShiftExit,
+  PersonRepeatedDining,
+  PersonNoShowFlight,
+  PersonExpiringExam,
+  VehicleExpiringDocument,
+  PersonExpiredExam,
+  VehicleExpiredAccreditation,
+  PersonOutOfShiftDailyConsumption,
+  VisitorNotCheckedOut,
+} from "@/interfaces/dashboard/listEntities.interface";
+
+// ── Shared paginated params ──────────────────────────────────────────────────
+
+export interface UsePaginatedParams {
+  companyName: string;
+  page: number;
+  size?: number;
+  search?: string;
+  sortKey?: string | null;
+  sortDir?: "asc" | "desc" | null;
+}
+
+function mockPaginate<T extends object>(
+  allData: T[],
+  { page, size, search, sortKey, sortDir }: UsePaginatedParams,
+): PaginatedResponse<T> {
+  const normalizedSearch = search?.trim().toLowerCase() ?? "";
+  const filteredItems = normalizedSearch
+    ? allData.filter((item) =>
+        Object.values(item).some(
+          (fieldValue) =>
+            typeof fieldValue === "string" &&
+            fieldValue.toLowerCase().includes(normalizedSearch),
+        ),
+      )
+    : [...allData];
+
+  if (sortKey && sortDir) {
+    filteredItems.sort((itemA, itemB) => {
+      const sortValueA = String(
+        (itemA as Record<string, unknown>)[sortKey] ?? "",
+      ).toLowerCase();
+      const sortValueB = String(
+        (itemB as Record<string, unknown>)[sortKey] ?? "",
+      ).toLowerCase();
+      const comparison = sortValueA.localeCompare(sortValueB, "es");
+      return sortDir === "asc" ? comparison : -comparison;
+    });
+  }
+
+  const pageSize = size ?? allData.length;
+  const totalItems = filteredItems.length;
+  const pageCount = Math.max(1, Math.ceil(totalItems / pageSize));
+  const safePage = Math.min(Math.max(1, page), pageCount);
+  return {
+    data: filteredItems.slice((safePage - 1) * pageSize, safePage * pageSize),
+    meta: { pagination: { page: safePage, size: pageSize, total: totalItems, pageCount } },
+  };
+}
+
+function emptyResponse<T>(): PaginatedResponse<T> {
+  return {
+    data: [],
+    meta: { pagination: { page: 1, size: 10, total: 0, pageCount: 0 } },
+  };
+}
+
 export function useDashboardInfo(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard-info", companyName],
-    queryFn: () => getDashboardInformation(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_DASHBOARD_INFO)
+        : getDashboardInformation(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -29,7 +132,10 @@ export function useDashboardInfo(companyName: string) {
 export function useLaborStatus(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["labor-status", companyName],
-    queryFn: () => getLaborStatus(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_LABOR_STATUS)
+        : getLaborStatus(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -48,7 +154,10 @@ export function useLaborStatus(companyName: string) {
 export function useMonthlyApprovedPasses(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["monthly-approved-passes", companyName],
-    queryFn: () => getMonthlyApprovedPasses(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_MONTHLY_APPROVED_PASSES)
+        : getMonthlyApprovedPasses(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -75,7 +184,10 @@ export function useMonthlyApprovedPasses(companyName: string) {
 export function useExamsAboutToExpire(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["exams-about-to-expire", companyName],
-    queryFn: () => getExamsAboutToExpire(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_EXAMS_ABOUT_TO_EXPIRE)
+        : getExamsAboutToExpire(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -89,7 +201,10 @@ export function useExamsAboutToExpire(companyName: string) {
 export function useVehicleDocumentsAboutToExpire(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["vehicle-documents-about-to-expire", companyName],
-    queryFn: () => getVehicleDocumentsAboutToExpire(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_VEHICLE_DOCUMENTS_ABOUT_TO_EXPIRE)
+        : getVehicleDocumentsAboutToExpire(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -103,7 +218,10 @@ export function useVehicleDocumentsAboutToExpire(companyName: string) {
 export function useVisitorPass(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["visitor-pass", companyName],
-    queryFn: () => getVisitorPass(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_VISITOR_PASS)
+        : getVisitorPass(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -117,10 +235,14 @@ export function useVisitorPass(companyName: string) {
     isLoading,
   };
 }
+
 export function useCriticalOperationalAlert(companyName: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["critical-operational-alert", companyName],
-    queryFn: () => getCriticalOperationalAlert(companyName),
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(MOCK_CRITICAL_OPERATIONAL_ALERT)
+        : getCriticalOperationalAlert(companyName),
     refetchInterval: DASHBOARD_REFETCH_INTERVAL_MS,
     staleTime: DASHBOARD_STALE_TIME_MS,
     retryDelay: RETRY_DELAY_MS,
@@ -135,6 +257,172 @@ export function useCriticalOperationalAlert(companyName: string) {
       isCriticalOperationalAlertActive: true,
       peopleOutOfShiftNotCheckedOutWithDailyConsumption: "-",
     }),
+    isLoading,
+  };
+}
+
+// ── Paginated list hooks ─────────────────────────────────────────────────────
+
+export function usePeopleOnSite(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["people-on-site", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_PEOPLE_ON_SITE, params))
+        : getPeopleOnSite(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonOnSite>(),
+    isLoading,
+  };
+}
+
+export function useOutOfShiftExitList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["out-of-shift-exit-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_PEOPLE_OUT_OF_SHIFT_EXIT, params))
+        : getOutOfShiftExitList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonOutOfShiftExit>(),
+    isLoading,
+  };
+}
+
+export function useRepeatedDiningHallList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["repeated-dining-hall-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_PEOPLE_REPEATED_DINING, params))
+        : getRepeatedDiningHallList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonRepeatedDining>(),
+    isLoading,
+  };
+}
+
+export function useNoShowFlightList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["no-show-flight-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_PEOPLE_NO_SHOW_FLIGHT, params))
+        : getNoShowFlightList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonNoShowFlight>(),
+    isLoading,
+  };
+}
+
+export function useExpiringExamsList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["expiring-exams-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_EXPIRING_EXAMS_LIST, params))
+        : getExpiringExamsList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonExpiringExam>(),
+    isLoading,
+  };
+}
+
+export function useExpiringVehicleDocumentsList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["expiring-vehicle-documents-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_EXPIRING_VEHICLE_DOCUMENTS, params))
+        : getExpiringVehicleDocumentsList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<VehicleExpiringDocument>(),
+    isLoading,
+  };
+}
+
+export function useExpiredExamsList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["expired-exams-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_PEOPLE_EXPIRED_EXAMS, params))
+        : getExpiredExamsList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonExpiredExam>(),
+    isLoading,
+  };
+}
+
+export function useExpiredVehicleAccreditationList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["expired-vehicle-accreditation-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(
+            mockPaginate(MOCK_VEHICLES_EXPIRED_ACCREDITATION, params),
+          )
+        : getExpiredVehicleAccreditationList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<VehicleExpiredAccreditation>(),
+    isLoading,
+  };
+}
+
+export function useOutOfShiftDailyConsumptionList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["out-of-shift-daily-consumption-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(
+            mockPaginate(MOCK_PEOPLE_OUT_OF_SHIFT_DAILY_CONSUMPTION, params),
+          )
+        : getOutOfShiftDailyConsumptionList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<PersonOutOfShiftDailyConsumption>(),
+    isLoading,
+  };
+}
+
+export function useVisitorsNotCheckedOutList(params: UsePaginatedParams) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["visitors-not-checked-out-list", ...Object.values(params)],
+    queryFn: () =>
+      DEV_BYPASS_DATA
+        ? Promise.resolve(mockPaginate(MOCK_VISITORS_NOT_CHECKED_OUT, params))
+        : getVisitorsNotCheckedOutList(params),
+    staleTime: DASHBOARD_STALE_TIME_MS,
+    retryDelay: RETRY_DELAY_MS,
+  });
+  return {
+    response: data ?? emptyResponse<VisitorNotCheckedOut>(),
     isLoading,
   };
 }

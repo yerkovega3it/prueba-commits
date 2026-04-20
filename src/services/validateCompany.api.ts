@@ -1,14 +1,14 @@
 import { API_URL } from "@/constants/environments";
-import { apiService } from "./api.service";
+import { http } from "./http";
 
 interface ValidateCompanyResponse {
   message: string;
 }
 export async function validateCompany(
-  companyName: string
+  companyName: string,
 ): Promise<ValidateCompanyResponse> {
-  const response = await apiService.get<ValidateCompanyResponse>({
-    endpoint: `${API_URL}/company/validate/${companyName}`,
-  });
-  return response;
+  const { data } = await http.get<ValidateCompanyResponse>(
+    `${API_URL}/company/validate/${companyName}`,
+  );
+  return data;
 }

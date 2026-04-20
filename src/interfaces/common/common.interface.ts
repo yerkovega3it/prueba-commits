@@ -1,30 +1,39 @@
+import type { PaginatedResponse } from "@/interfaces/dashboard/paginatedResponse.interface";
+import type { ReturnUseModalState } from "@/hooks/useModalState";
+
 export interface RecordStatus {
-  name: string
-  className: string
-  status: boolean
+  name: string;
+  className: string;
+  status: boolean;
 }
 
 export interface PhantomKey {
-  id: number
-  status: boolean
+  id: number;
+  status: boolean;
 }
 
 export interface MetaDataBase {
-  recordStatus: RecordStatus
-  phantomKey: PhantomKey
+  recordStatus: RecordStatus;
+  phantomKey: PhantomKey;
 }
 
 export interface IdentificationData {
-  identification: string
-  identificationTypeId: number
+  identification: string;
+  identificationTypeId: number;
 }
 
 export interface PersonalInfo {
-  email: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  loginViaSso?: boolean
-  createdAt?: string | null
-  lastLogin?: string | null
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  loginViaSso?: boolean;
+  createdAt?: string | null;
+  lastLogin?: string | null;
+}
+
+export interface ListWithModal<T> {
+  response: PaginatedResponse<T>;
+  isLoading: boolean;
+  modal: ReturnUseModalState;
 }

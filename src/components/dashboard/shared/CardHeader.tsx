@@ -18,7 +18,7 @@ function CardTitle({
   subtitleClassName?: string;
 }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
       {icon && (
         <FontAwesomeIcon
           icon={icon}
@@ -27,9 +27,13 @@ function CardTitle({
           }
         />
       )}
-      <FitText className="inline-block" maxFontSizePx={16} minFontSizePx={12}>
+      <FitText
+        className="block min-w-0 flex-1"
+        maxFontSizePx={16}
+        minFontSizePx={8}
+      >
         <h2
-          className={`text-lg md:text-xl font-bold flex items-center gap-2 whitespace-nowrap ${titleClassName}`}
+          className={`text-lg md:text-xl font-bold flex items-center gap-2 ${titleClassName}`}
         >
           {title}
         </h2>

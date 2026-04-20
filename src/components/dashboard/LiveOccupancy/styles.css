@@ -1,6 +1,6 @@
 @media (max-height: 719px) {
   .dashboard-card-content {
-    gap: 2.5rem;
+    gap: 1rem;
     margin-top: 0.5rem;
   }
   .people-onsite {
