@@ -53,7 +53,6 @@ export function useHomeDashboard(companyName: string) {
   } = useRepeatedDiningHallList({
     companyName,
     page: repeatedDiningModal.page,
-    size: PAGE_SIZE,
     search: repeatedDiningModal.search,
     sortKey: repeatedDiningModal.sort.key,
     sortDir: repeatedDiningModal.sort.dir,
@@ -94,7 +93,6 @@ export function useHomeDashboard(companyName: string) {
   } = useExpiredVehicleAccreditationList({
     companyName,
     page: expiredVehiclesModal.page,
-    size: PAGE_SIZE,
     search: expiredVehiclesModal.search,
     sortKey: expiredVehiclesModal.sort.key,
     sortDir: expiredVehiclesModal.sort.dir,
@@ -106,7 +104,6 @@ export function useHomeDashboard(companyName: string) {
   } = useOutOfShiftDailyConsumptionList({
     companyName,
     page: outOfShiftConsumptionModal.page,
-    size: PAGE_SIZE,
     search: outOfShiftConsumptionModal.search,
     sortKey: outOfShiftConsumptionModal.sort.key,
     sortDir: outOfShiftConsumptionModal.sort.dir,
